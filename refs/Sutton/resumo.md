@@ -53,6 +53,7 @@ __Bizu de projeto__: $p_2 = p_3$
 
 ## Velocidade de exaustão
 Das relações anteriores:
+
 $$
 c = v_2 + \frac{(p_2 - p_3)A_2}{\dot{m}}
 $$
@@ -143,6 +144,7 @@ $\frac{A_1}{A_t} > 4 \rightarrow v_1 \approx 0$
 
 ## Tubeira cônica
 Fator de correção:
+
 $$
 \lambda = \frac{1}{2} (1 + cos \alpha),
 $$
