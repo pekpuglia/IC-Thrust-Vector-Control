@@ -8,6 +8,7 @@ Este documento é um sumário das fórmulas, relações e bizus úteis para o tr
 $$
 I_t = \int_0^TFdt,
 $$
+
 onde:
 * F: força de empuxo instantânea
 * T: tempo total de queima
@@ -19,6 +20,7 @@ Impulso por peso de propelente médio:
 $$
 I_s = \frac{I_t}{g_0 \int \dot{m} dt},
 $$
+
 onde:
 * g_0: gravidade padrão ao nível do mar (9.81m/s²)
 * $\dot{m}$: fluxo mássico de propelente pelo motor 
@@ -39,6 +41,7 @@ Medida da ???
 $$
 F = \frac{dm}{dt}v_2 + (p_2 - p_3)A_2,
 $$
+
 onde:
 * $\frac{dm}{dt}$: vazão mássica de propelente
 * $v_2$: velocidade de exaustão do propelente relativa ao veículo
@@ -58,6 +61,7 @@ $$
 $$
 c^* = \frac{p_1A_t}{\dot{m}}
 $$
+
 * Independe da tubeira
 * mede eficiência da combustão $\rightarrow$ não usada para gás frio?
 
@@ -87,21 +91,27 @@ Hipóteses:
 $$
 T_0 = T \left(1 + \frac{\gamma - 1}{2}M²\right)
 $$
+
 $$
 p_0 = p \left(1 + \frac{\gamma - 1}{2}M² \right) ^ {\frac{\gamma}{\gamma-1}}
 $$
+
 $$
 \rho_0 = \rho \left(1 + \frac{\gamma - 1}{2}M² \right) ^ {\frac{1}{\gamma-1}}
 $$
+
 $$
 \frac{A_y}{A_x} = \frac{M_x}{M_y} \sqrt{\frac{1 + \frac{\gamma - 1}{2}M_y²}{1 + \frac{\gamma - 1}{2}M_x²}} ^ {\frac{\gamma+1}{\gamma-1}}
 $$
+
 $$
 v_y = \sqrt{\frac{2\gamma}{\gamma-1}RT_x \left[1 - \left(\frac{p_y}{p_x}\right)^{\frac{\gamma-1}{\gamma}}\right] + v_x²}
 $$
+
 $$
 \dot{m} = \rho v A
 $$
+
 * Para câmara larga: $v \approx 0$
 * $A_t$: deve ter $M = 1$
 * Para altitudes de até 10km: $\frac{A_2}{A_t}$ tipicamente entre 3 e 25
@@ -110,6 +120,7 @@ $$
 $$
 C_F = \frac{F}{p_1A_t}
 $$
+
 * Independe da T de câmara $T_1$
 * Para $\frac{p_1}{p_3}$ fixo, $C_F$ ótimo quando $p_2=p_3$
 * Mede a amplificação de empuxo obtida pela expansão do fluxo supersônico em relação ao empuxo que seria exercido pela pressão de câmara agindo sobre a área da garganta ($\therefore$ mede a qualidade da expansão)
@@ -118,6 +129,7 @@ $$
 $$
 c^* = \frac{p_1A_t}{\dot{m}} = \frac{c}{C_F}
 $$
+
 * função das características do propelente e câmara, independe da tubeira
 * $F = \dot{m}c^*C_F \rightarrow \dot{m} \times \text{f(câmara, propelente)}\text{f(tubeira)}$
 
@@ -134,6 +146,7 @@ Fator de correção:
 $$
 \lambda = \frac{1}{2} (1 + cos \alpha),
 $$
+
 onde:
 * $\alpha$: meio ângulo da tubeira
 * $\lambda = \frac{\text{QDM real}}{\text{QDM ideal}} \rightarrow$ reduz o empuxo de QDM (primeiro termo de F) (VERIFICAR SE É CALCULADO PARA CONE CILÍNDRICO)
