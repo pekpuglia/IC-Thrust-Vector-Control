@@ -71,7 +71,6 @@ function get_densities(nozzle_cond::NozzleConditions,
     )
 end
 
-#errado? M2 deveria depender de Pamb
 function get_exit_mach(nozzle_cond::NozzleConditions,
     exp_ratio::Float64)
     return nozzle_cond.cea_obj.get_MachNumber(
