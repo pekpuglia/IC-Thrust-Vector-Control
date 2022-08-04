@@ -1,7 +1,13 @@
 "Interface com o RocketCEA para tubeiras de gás frio"
 module CEAInterface
 using PyCall
-const CEA_OBJ = pyimport("rocketcea.cea_obj")
+const CEA_OBJ       = pyimport("rocketcea.cea_obj")
+const CEA_OBJ_UNITS = pyimport("rocketcea.cea_obj_w_units")
+const CEA_UNITS     = pyimport("rocketcea.units")
+
+#colocar unidades SI
+CEA_UNITS.add_user_units("millipoise", "Pa-s", 1e4)
+CEA_UNITS.add_user_units("mcal/cm-K-s", "W/m-degC", 4.184e-3*1e-2)
 
 #câmara infinita
 struct NozzleConditions
@@ -14,7 +20,20 @@ struct NozzleConditions
                 propellant::String
                 )
         new(Pc, Pamb, propellant, 
-            CEA_OBJ.CEA_Obj(propName=propellant))
+            CEA_OBJ_UNITS.CEA_Obj(
+                propName=propellant,
+                isp_units            = "sec",
+                cstar_units          = "m/sec",
+                pressure_units       = "kPa",
+                temperature_units    = "K",
+                sonic_velocity_units = "m/sec",
+                enthalpy_units       = "kJ/kg",
+                density_units        = "kg/m^3",
+                specific_heat_units  = "kJ/kg-K",
+                viscosity_units      = "Pa-s",
+                thermal_cond_units   = "W/m-degC"
+            )
+        )
     end
 end
 
