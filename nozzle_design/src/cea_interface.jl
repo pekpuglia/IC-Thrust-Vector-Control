@@ -102,13 +102,9 @@ function get_exp_ratio(nozzle_cond::NozzleConditions)
     )
 end
 
-function add_new_propellant(name::String,
-    elements::Vector{Char}, amounts::Vector{Int},
-    enthalpy_cal::Float64, temperature_K::Float64,
-    rho_grams_cm3::Float64)
+function add_new_gas_monoprop(name::String, temperature_K::Float64)
     card = "
-    name $name " * prod("$el $am " for (el, am) in zip(elements, amounts)) * "wt%=100.00
-    h,cal=$enthalpy_cal     t(k)=$temperature_K  rho.g/cc=$rho_grams_cm3
+    name $name  wt%=100.00  t(k)=$temperature_K
     "
     CEA_OBJ.add_new_propellant(name, card)
 end

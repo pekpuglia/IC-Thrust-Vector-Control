@@ -53,8 +53,7 @@ function test_get_exp_ratio()
 end
 
 function test_add_new_propellant()
-    CEAInterface.add_new_propellant("N2",
-    ['N'], [2], 0.0, 298.15, 1.132e-3)
+    CEAInterface.add_new_gas_monoprop("N2", 298.15)
     ret = false
     try
         nozzle_cond = CEAInterface.NozzleConditions(5.0, 1.0, "N2")
