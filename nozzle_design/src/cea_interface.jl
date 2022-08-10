@@ -9,17 +9,23 @@ const CEA_UNITS     = pyimport("rocketcea.units")
 CEA_UNITS.add_user_units("millipoise", "Pa-s", 1e4)
 CEA_UNITS.add_user_units("mcal/cm-K-s", "W/m-degC", 4.184e-3*1e-2)
 
+function add_new_gas_monoprop(name::String, temperature_K::Float64)
+    card = "
+    name $name  wt%=100.00  t(k)=$temperature_K
+    "
+    CEA_OBJ.add_new_propellant(name, card)
+end
+
 #câmara infinita
 struct NozzleConditions
     Pc::Float64
     Pamb::Float64
-    propellant::String
     cea_obj::PyObject
     function NozzleConditions(Pc::Real,
                 Pamb::Real,
                 propellant::String
                 )
-        new(Pc, Pamb, propellant, 
+        new(Pc, Pamb, 
             CEA_OBJ_UNITS.CEA_Obj(
                 propName=propellant,
                 isp_units            = "sec",
@@ -35,6 +41,16 @@ struct NozzleConditions
             )
         )
     end
+end
+
+function NozzleConditions(Pc::Real,
+    Pamb::Real,
+    propellant::String,
+    propellant_temperature::Real
+    )
+    add_new_gas_monoprop(propellant,
+            propellant_temperature)
+    NozzleConditions(Pc, Pamb, propellant)
 end
 
 #(Isp, condição::String)
@@ -100,13 +116,6 @@ function get_exp_ratio(nozzle_cond::NozzleConditions)
         Pc=nozzle_cond.Pc,
         PcOvPe=nozzle_cond.Pc/nozzle_cond.Pamb
     )
-end
-
-function add_new_gas_monoprop(name::String, temperature_K::Float64)
-    card = "
-    name $name  wt%=100.00  t(k)=$temperature_K
-    "
-    CEA_OBJ.add_new_propellant(name, card)
 end
 
 end

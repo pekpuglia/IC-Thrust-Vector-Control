@@ -64,6 +64,11 @@ function test_add_new_propellant()
     return ret
 end
 
+function test_nozzle_conditions()
+    nozzle_cond = CEAInterface.NozzleConditions(5.0, 1.0, "N2", 298.15)
+    return CEAInterface.get_ambient_Isp(nozzle_cond, 1.5) isa Tuple
+end
+#adicionar testes do NozzleConditions
 @testset "Test rocket cea" begin
     @test test_rocket_cea()
     @test test_get_ambient_Isp()
@@ -75,5 +80,6 @@ end
     @test test_get_temperatures()
     @test test_get_exp_ratio()
     @test test_add_new_propellant()
+    @test test_nozzle_conditions()
 end
 end
