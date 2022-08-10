@@ -17,11 +17,11 @@ function add_new_gas_monoprop(name::String, temperature_K::Float64)
 end
 
 #câmara infinita
-struct NozzleConditions
+struct OperatingCondition
     Pc::Float64
     Pamb::Float64
     cea_obj::PyObject
-    function NozzleConditions(Pc::Real,
+    function OperatingCondition(Pc::Real,
                 Pamb::Real,
                 propellant::String
                 )
@@ -43,18 +43,18 @@ struct NozzleConditions
     end
 end
 
-function NozzleConditions(Pc::Real,
+function OperatingCondition(Pc::Real,
     Pamb::Real,
     propellant::String,
     propellant_temperature::Real
     )
     add_new_gas_monoprop(propellant,
             propellant_temperature)
-    NozzleConditions(Pc, Pamb, propellant)
+    OperatingCondition(Pc, Pamb, propellant)
 end
 
 #(Isp, condição::String)
-function get_ambient_Isp(nozzle_cond::NozzleConditions,
+function get_ambient_Isp(nozzle_cond::OperatingCondition,
                                  exp_ratio::Float64) ::Tuple
     #considera λ?
     return nozzle_cond.cea_obj.estimate_Ambient_Isp(
@@ -64,7 +64,7 @@ function get_ambient_Isp(nozzle_cond::NozzleConditions,
 end
 
 # CFcea,CFfrozen, mode
-function get_ambient_Cf(nozzle_cond::NozzleConditions,
+function get_ambient_Cf(nozzle_cond::OperatingCondition,
                                 exp_ratio::Float64) ::Tuple
     return nozzle_cond.cea_obj.getFrozen_PambCf(
         Pamb=nozzle_cond.Pamb,
@@ -73,13 +73,13 @@ function get_ambient_Cf(nozzle_cond::NozzleConditions,
     )
 end
 
-function get_Cstar(nozzle_cond::NozzleConditions) :: Float64
+function get_Cstar(nozzle_cond::OperatingCondition) :: Float64
     return nozzle_cond.cea_obj.get_Cstar(
         Pc=nozzle_cond.Pc)
 end
 
 #vector chamber, throat, exit
-function get_densities(nozzle_cond::NozzleConditions,
+function get_densities(nozzle_cond::OperatingCondition,
     exp_ratio::Float64) :: Vector{Float64}
     return nozzle_cond.cea_obj.get_Densities(
         Pc=nozzle_cond.Pc,
@@ -87,7 +87,7 @@ function get_densities(nozzle_cond::NozzleConditions,
     )
 end
 
-function get_exit_mach(nozzle_cond::NozzleConditions,
+function get_exit_mach(nozzle_cond::OperatingCondition,
     exp_ratio::Float64) :: Float64
     return nozzle_cond.cea_obj.get_MachNumber(
         Pc=nozzle_cond.Pc,
@@ -95,7 +95,7 @@ function get_exit_mach(nozzle_cond::NozzleConditions,
     )
 end
 
-function get_sonic_speeds(nozzle_cond::NozzleConditions,
+function get_sonic_speeds(nozzle_cond::OperatingCondition,
     exp_ratio::Float64) ::Vector{Float64}
     return nozzle_cond.cea_obj.get_SonicVelocities(
         Pc=nozzle_cond.Pc,
@@ -103,7 +103,7 @@ function get_sonic_speeds(nozzle_cond::NozzleConditions,
     )
 end
 
-function get_temperatures(nozzle_cond::NozzleConditions,
+function get_temperatures(nozzle_cond::OperatingCondition,
     exp_ratio::Float64) :: Vector{Float64}
     return nozzle_cond.cea_obj.get_Temperatures(
         Pc=nozzle_cond.Pc,
@@ -111,7 +111,7 @@ function get_temperatures(nozzle_cond::NozzleConditions,
     )
 end
 
-function get_exp_ratio(nozzle_cond::NozzleConditions) :: Float64
+function get_exp_ratio(nozzle_cond::OperatingCondition) :: Float64
     return nozzle_cond.cea_obj.get_eps_at_PcOvPe(
         Pc=nozzle_cond.Pc,
         PcOvPe=nozzle_cond.Pc/nozzle_cond.Pamb

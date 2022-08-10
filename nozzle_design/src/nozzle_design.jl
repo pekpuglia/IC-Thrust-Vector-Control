@@ -6,14 +6,14 @@ struct CEACoeffs
     Cf::Float64
 end
 
-function CEACoeffs(ncond::CEAInterface.NozzleConditions)
+function CEACoeffs(ncond::CEAInterface.OperatingCondition)
     eps = CEAInterface.get_exp_ratio(ncond)
     Cstar = CEAInterface.get_Cstar(ncond)
     Cf = CEAInterface.get_ambient_Cf(ncond, eps)[2]
     return CEACoeffs(eps, Cstar, Cf)
 end
 
-function get_nozzle_mdot(F::Float64, ncond::CEAInterface.NozzleConditions)
+function get_nozzle_mdot(F::Float64, ncond::CEAInterface.OperatingCondition)
     coeffs = CEACoeffs(ncond)
     return F / (coeffs.Cf * coeffs.Cstar)
 end
@@ -24,7 +24,7 @@ struct NozzleAreas
     Aexit::Float64
 end
 
-function NozzleAreas(F::Float64, ncond::CEAInterface.NozzleConditions,
+function NozzleAreas(F::Float64, ncond::CEAInterface.OperatingCondition,
             contraction_ratio::Float64 = 10.0)
     coeffs = CEACoeffs(ncond)
     At = F / (ncond.Pc * coeffs.Cf)
