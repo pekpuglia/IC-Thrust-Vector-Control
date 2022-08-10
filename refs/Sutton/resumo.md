@@ -185,3 +185,37 @@ Definir condições:
 * Eixo de empuxo: eixo da seção de saída da tubeira
 * Irregularidades na geometria de câmara
 
+# Fluxograma de projeto
+* Vermelho: entradas
+* Azul: obtido do CEA
+* Verde: saídas
+```mermaid
+flowchart LR
+    Pc --> noz_cond[condição do motor]
+    style Pc fill:#f00
+    Pamb --> noz_cond
+    style Pamb fill:#f00
+    propelente --> noz_cond
+    style propelente fill:#f00
+    noz_cond --> eps
+    style eps fill:#00f
+    noz_cond --> Cf
+    style Cf fill:#00f
+    eps --> Cf
+    F[empuxo] --> At
+    style F fill:#f00
+    style At fill:#0a0
+    Pc --> At
+    Cf --> At
+    eps --> Ae
+    style Ae fill:#0a0
+    At --> Ae
+    At -- 10x maior --> Acamara
+    style Acamara fill:#0a0
+    noz_cond --> C*
+    style C* fill:#00f
+    F --> m_dot
+    style m_dot fill:#0a0
+    C* --> m_dot
+    Cf --> m_dot
+```
