@@ -55,7 +55,7 @@ end
 
 #(Isp, condição::String)
 function get_ambient_Isp(nozzle_cond::NozzleConditions,
-                                 exp_ratio::Float64)
+                                 exp_ratio::Float64) ::Tuple
     #considera λ?
     return nozzle_cond.cea_obj.estimate_Ambient_Isp(
         Pc=nozzle_cond.Pc, 
@@ -65,7 +65,7 @@ end
 
 # CFcea,CFfrozen, mode
 function get_ambient_Cf(nozzle_cond::NozzleConditions,
-                                exp_ratio::Float64)
+                                exp_ratio::Float64) ::Tuple
     return nozzle_cond.cea_obj.getFrozen_PambCf(
         Pamb=nozzle_cond.Pamb,
         Pc=nozzle_cond.Pc,
@@ -73,14 +73,14 @@ function get_ambient_Cf(nozzle_cond::NozzleConditions,
     )
 end
 
-function get_Cstar(nozzle_cond::NozzleConditions)
+function get_Cstar(nozzle_cond::NozzleConditions) :: Float64
     return nozzle_cond.cea_obj.get_Cstar(
         Pc=nozzle_cond.Pc)
 end
 
 #vector chamber, throat, exit
 function get_densities(nozzle_cond::NozzleConditions,
-    exp_ratio::Float64)
+    exp_ratio::Float64) :: Vector{Float64}
     return nozzle_cond.cea_obj.get_Densities(
         Pc=nozzle_cond.Pc,
         eps=exp_ratio
@@ -88,7 +88,7 @@ function get_densities(nozzle_cond::NozzleConditions,
 end
 
 function get_exit_mach(nozzle_cond::NozzleConditions,
-    exp_ratio::Float64)
+    exp_ratio::Float64) :: Float64
     return nozzle_cond.cea_obj.get_MachNumber(
         Pc=nozzle_cond.Pc,
         eps=exp_ratio
@@ -96,7 +96,7 @@ function get_exit_mach(nozzle_cond::NozzleConditions,
 end
 
 function get_sonic_speeds(nozzle_cond::NozzleConditions,
-    exp_ratio::Float64)
+    exp_ratio::Float64) ::Vector{Float64}
     return nozzle_cond.cea_obj.get_SonicVelocities(
         Pc=nozzle_cond.Pc,
         eps=exp_ratio
@@ -104,14 +104,14 @@ function get_sonic_speeds(nozzle_cond::NozzleConditions,
 end
 
 function get_temperatures(nozzle_cond::NozzleConditions,
-    exp_ratio::Float64)
+    exp_ratio::Float64) :: Vector{Float64}
     return nozzle_cond.cea_obj.get_Temperatures(
         Pc=nozzle_cond.Pc,
         eps=exp_ratio
     )
 end
 
-function get_exp_ratio(nozzle_cond::NozzleConditions)
+function get_exp_ratio(nozzle_cond::NozzleConditions) :: Float64
     return nozzle_cond.cea_obj.get_eps_at_PcOvPe(
         Pc=nozzle_cond.Pc,
         PcOvPe=nozzle_cond.Pc/nozzle_cond.Pamb
