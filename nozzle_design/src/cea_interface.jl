@@ -20,12 +20,13 @@ end
 struct OperatingCondition
     Pc::Float64
     Pamb::Float64
+    propellant::String
     cea_obj::PyObject
     function OperatingCondition(Pc::Real,
                 Pamb::Real,
                 propellant::String
                 )
-        new(Pc, Pamb, 
+        new(Pc, Pamb, propellant,
             CEA_OBJ_UNITS.CEA_Obj(
                 propName=propellant,
                 isp_units            = "sec",
@@ -52,6 +53,12 @@ function OperatingCondition(Pc::Real,
             propellant_temperature)
     OperatingCondition(Pc, Pamb, propellant)
 end
+import Base.show
+
+Base.show(io::IO, mime::MIME"text/plain", opcond::OperatingCondition) = begin
+    print(io, "$(opcond.propellant) " * "Pchamber = $(opcond.Pc), Pambient = $(opcond.Pamb)")
+end
+
 
 #(Isp, condição::String)
 function get_ambient_Isp(nozzle_cond::OperatingCondition,
