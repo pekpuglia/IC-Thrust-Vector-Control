@@ -26,11 +26,13 @@ onde:
 * $\dot{m}$: fluxo mássico de propelente pelo motor 
 
 Impulso específico instantâneo ou para fluxo de massa e empuxo constantes: 
+
 $$
 I_s = \frac{F}{g_0\dot{m}}
 $$
 
 Velocidade de exaustão efetiva:
+
 $$
 c = I_s g_0 = \frac{F}{\dot{m}}
 $$
