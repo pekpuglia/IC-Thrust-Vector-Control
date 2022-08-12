@@ -25,7 +25,7 @@ struct NozzleAreas
     Aexit::Float64
 end
 
-function NozzleAreas(F::Float64, ncond::OperatingCondition,
+function NozzleAreas(F::Float64, ncond::OperatingCondition;
     contraction_ratio::Float64 = 10.0,
     min_chamber_radius_mm::Float64 = 0.0)
 
@@ -36,8 +36,8 @@ function NozzleAreas(F::Float64, ncond::OperatingCondition,
     return NozzleAreas(Ac, At, Ae)
 end
 
+export get_radii, get_radius
 get_radius(A::Float64) = √(A/π)
-export get_radii
 get_radii(noz::NozzleAreas)= get_radius(noz.Achamber),
                                 get_radius(noz.Athroat),
                                 get_radius(noz.Aexit)
