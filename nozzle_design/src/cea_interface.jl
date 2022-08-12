@@ -17,6 +17,7 @@ function add_new_gas_monoprop(name::String, temperature_K::Float64)
 end
 
 #câmara infinita
+export OperatingCondition
 struct OperatingCondition
     Pc::Float64
     Pamb::Float64
