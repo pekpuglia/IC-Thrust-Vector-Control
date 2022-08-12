@@ -51,7 +51,7 @@ struct NozzleGeometry
 end
 
 get_radii(noz::NozzleGeometry) = get_radii(noz.areas)
-
+export generate_flow_wall
 function generate_flow_wall(noz::NozzleGeometry)
     rchamber, rthroat, rexit = get_radii(noz)
 
