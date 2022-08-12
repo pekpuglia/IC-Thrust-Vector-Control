@@ -22,13 +22,13 @@ end
 function add_connector_hole(solid, noz::NozzleGeometry, d::Float64)
     return solid \ ([0,0, -noz.thickness] + cylinder(noz.thickness, d/2))
 end
-
+#não gera um stl válido!!!
 function add_stagnator(solid, noz::NozzleGeometry, radius_fraction::Float64, chamber_length_fraction::Float64)
     rc = get_radius(noz.areas.Achamber)
     union(solid,
         [0,0,noz.chamber_length*chamber_length_fraction] 
         + linear_extrude(noz.thickness) 
-        * (square(2*rc, 2*radius_fraction*rc, center=true) ∩ circle(rc))
+        * (square(2*rc+eps(), 2*radius_fraction*rc, center=true) ∩ circle(2*rc+eps()))
     )
 end
 
