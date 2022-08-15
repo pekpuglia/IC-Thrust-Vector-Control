@@ -28,12 +28,12 @@ function add_stagnator(solid, noz::NozzleGeometry, radius_fraction::Float64, cha
     union(solid,
         [0,0,noz.chamber_length*chamber_length_fraction] 
         + linear_extrude(noz.thickness) 
-        * (square(2*rc+eps(), 2*radius_fraction*rc, center=true) ∩ circle(2*rc+eps()))
+        * square(2*rc+eps(), 2*radius_fraction*rc, center=true)
     )
 end
 
-function export_stl(file::String, solid)
-    ConstructiveGeometry.stl(file, solid, rtol=1e-6, atol=1e-6)
+function export_stl(file::String, solid; rtol=1e-3, atol=1e-3)
+    ConstructiveGeometry.stl(file, solid, rtol=rtol, atol=atol)
 end
 
 end
