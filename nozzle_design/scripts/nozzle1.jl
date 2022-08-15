@@ -25,4 +25,4 @@ connected = NozzleDraw.add_connector_hole(base, nozzle_geom, min_diam)
 stagnator = NozzleDraw.add_stagnator(connected, nozzle_geom, 0.2, 0.5)
 ##
 NozzleDraw.export_stl("base.stl", base)
-NozzleDraw.export_stl("connected.stl", connected)
+NozzleDraw.export_stl("connected.stl", connected, rtol=1e-3, atol=1e-3)
