@@ -1,29 +1,72 @@
 module NozzleDraw
 using ..NozzleProject
+using ..Unitful
 using ConstructiveGeometry
-function generate_nozzle_contour(nozzlegeom::NozzleGeometry)
-    flow_wall= generate_flow_wall(nozzlegeom)
+
+mm(l::Quantity) = ustrip(Float64, u"mm", l)
+
+get_radius(A) = √(A/π)
+get_radii(noz::NozzleAreas)= get_radius(noz.Achamber),
+                                get_radius(noz.Athroat),
+                                get_radius(noz.Aexit)
+export RoundNozzle
+struct RoundNozzle
+    areas::NozzleAreas
+    exit_half_angle::Quantity
+    conv_half_angle::Quantity
+    chamber_length::Quantity
+    thickness::Quantity
+end
+
+get_radii(noz::RoundNozzle) = get_radii(noz.areas)
+
+export flow_wall
+function flow_wall(noz::RoundNozzle)
+    rchamber, rthroat, rexit = get_radii(noz)
+
+    return cat.([
+        rchamber
+        rchamber
+        rthroat
+        rexit
+    ],
+        accumulate(+, [
+            0u"mm"
+            noz.chamber_length
+            (rchamber - rthroat) / tan(noz.conv_half_angle)
+            (rexit - rthroat) / tan(noz.exit_half_angle) 
+        ]), dims=1)
+end
+
+function generate_nozzle_contour(flow_wall::Vector, noz::RoundNozzle)
     #fazer parede externa cilíndrica
     max_radius = maximum(first.(flow_wall))
     return [
         flow_wall...,
-        [max_radius+nozzlegeom.thickness, flow_wall[end][2]],
-        [max_radius+nozzlegeom.thickness, -nozzlegeom.thickness],
-        [0, -nozzlegeom.thickness]
+        [flow_wall[end][1]+noz.thickness, flow_wall[end][2]],
+        [max_radius+noz.thickness, noz.chamber_length],
+        [max_radius+noz.thickness, -noz.thickness],
+        [0u"mm", -noz.thickness]
     ]
 end
 
-profile_svg(noz::NozzleGeometry) = ConstructiveGeometry.svg("nozzle.svg", polygon(1000*generate_nozzle_contour(noz)))
-
 function generate_solid(contour::Vector)
-    return rotate_extrude() * ConstructiveGeometry.polygon(contour)
+    float_contour = [
+        mm.(point)
+        for point in contour
+    ]
+    return rotate_extrude() * ConstructiveGeometry.polygon(float_contour)
 end
 
-function add_connector_hole(solid, noz::NozzleGeometry, d::Float64)
-    return solid \ ([0,0, -noz.thickness] + cylinder(noz.thickness, d/2))
+function build_nozzle(noz::RoundNozzle)
+    noz |> flow_wall |> fw-> generate_nozzle_contour(fw, noz) |> generate_solid
 end
-#não gera um stl válido!!!
-function add_stagnator(solid, noz::NozzleGeometry, radius_fraction::Float64, chamber_length_fraction::Float64)
+
+function add_connector_hole(solid, noz::RoundNozzle, d::Quantity)
+    return solid \ ([0,0, -mm(noz.thickness)] + cylinder(mm(noz.thickness), mm(d/2)))
+end
+
+function add_stagnator(solid, noz::RoundNozzle, radius_fraction::Float64, chamber_length_fraction::Float64)
     rc = get_radius(noz.areas.Achamber)
     union(solid,
         [0,0,noz.chamber_length*chamber_length_fraction] 

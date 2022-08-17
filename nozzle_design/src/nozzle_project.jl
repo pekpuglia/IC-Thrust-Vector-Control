@@ -37,39 +37,6 @@ function NozzleAreas(F::Quantity, ncond::OperatingCondition;
     return NozzleAreas(Ac, At, Ae)
 end
 
-export get_radii, get_radius
-get_radius(A) = √(A/π)
-get_radii(noz::NozzleAreas)= get_radius(noz.Achamber),
-                                get_radius(noz.Athroat),
-                                get_radius(noz.Aexit)
-export NozzleGeometry
-struct NozzleGeometry
-    areas::NozzleAreas
-    exit_half_angle::Quantity
-    conv_half_angle::Quantity
-    chamber_length::Quantity
-    thickness::Quantity
-end
-
-get_radii(noz::NozzleGeometry) = get_radii(noz.areas)
-export round_flow_wall
-function round_flow_wall(noz::NozzleGeometry)
-    rchamber, rthroat, rexit = get_radii(noz)
-
-    return cat.([
-        rchamber
-        rchamber
-        rthroat
-        rexit
-    ],
-        accumulate(+, [
-            0
-            noz.chamber_length
-            (rchamber - rthroat) / tan(noz.conv_half_angle)
-            (rexit - rthroat) / tan(noz.exit_half_angle) 
-        ]), dims=1)
-end
-
 export pipe_speed
 function pipe_speed(mdot::Quantity, opcond::OperatingCondition, pipe_diam::Quantity)
     uconvert(u"m/s",

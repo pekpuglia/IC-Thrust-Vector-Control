@@ -11,21 +11,20 @@ opcond = CEAInterface.OperatingCondition(chamber_pressure,
                 100.0u"kPa", propellant)
 
 areas = NozzleProject.NozzleAreas(required_thrust, opcond, 
-                min_chamber_radius_mm=min_diam/2,
-                contraction_ratio=20.0)
-nozzle_geom = NozzleProject.NozzleGeometry(areas, 5.0,
-                        45.0, 50.0, 3.0)
+                min_chamber_radius=min_diam/2,
+                contraction_ratio=50.0)
 ##
 #verify speed in tube
 mdot = NozzleProject.get_mdot(required_thrust, opcond)
-MM = 28.0
-d = 1/4 * 0.0254
-v = mdot * 8.314 * prop_temperature/ (π * (d/2) ^ 2 * chamber_pressure * MM)
+NozzleProject.pipe_speed(mdot, opcond, 1/4 * u"inch")
 ##
 using GLMakie
 ##
-contour = NozzleDraw.generate_nozzle_contour(nozzle_geom)
-base = NozzleDraw.generate_solid(contour)
-connected = NozzleDraw.add_connector_hole(base, nozzle_geom, min_diam)
+nozzle_geom = NozzleDraw.RoundNozzle(areas, 5.0u"°",
+                        45.0u"°", 30.0u"mm", 3.0u"mm")
+nozzle = NozzleDraw.build_nozzle(nozzle_geom)
+connected = NozzleDraw.add_connector_hole(nozzle, nozzle_geom, min_diam)
+
 ##
-NozzleDraw.export_stl("connected.stl", connected, rtol=1e-3, atol=1e-3)
+NozzleDraw.export_stl("./nozzle_design/geometry/iter2/connected.stl",
+         connected, rtol=1e-3, atol=1e-3)
