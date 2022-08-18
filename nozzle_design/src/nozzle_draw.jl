@@ -75,6 +75,18 @@ function add_stagnator(solid, noz::RoundNozzle, radius_fraction::Float64, chambe
     )
 end
 
+hexagon(r::Float64) = [(r) .* reverse(sincospi((i))) for i in (0:5)/3]
+
+function add_hexagonal_base(solid, noz::RoundNozzle, height::Real)
+    t = mm(noz.thickness)
+    out_r = mm(get_radius(noz.areas.Achamber)) + t
+    return union(
+        solid,
+        [0,0,-t] + linear_extrude(height) *
+            (polygon(hexagon(out_r+t)) \ circle(out_r))
+    )
+end
+
 function export_stl(file::String, solid; rtol=1e-3, atol=1e-3)
     ConstructiveGeometry.stl(file, solid, rtol=rtol, atol=atol)
 end
