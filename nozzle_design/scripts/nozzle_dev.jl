@@ -19,12 +19,21 @@ mdot = NozzleProject.get_mdot(required_thrust, opcond)
 NozzleProject.pipe_speed(mdot, opcond, 1/4 * u"inch")
 ##
 using GLMakie
+using ConstructiveGeometry
 ##
 nozzle_geom = NozzleDraw.RoundNozzle(areas, 5.0u"°",
                         45.0u"°", 30.0u"mm", 3.0u"mm")
 nozzle = NozzleDraw.build_nozzle(nozzle_geom)
 connected = NozzleDraw.add_connector_hole(nozzle, nozzle_geom, min_diam)
-
+##
+out_r = ustrip(Float64, u"mm", NozzleDraw.get_radius(nozzle_geom.areas.Achamber) + nozzle_geom.thickness)
+t = ustrip(Float64, u"mm",nozzle_geom.thickness)
+hexagon_nozzle = union(
+    connected,
+    [0,0,-t] + linear_extrude(10) * (
+        polygon([(out_r+t) .* reverse(sincospi((i))) for i in (0:5)/3]) \ circle(out_r)
+    )
+)
 ##
 NozzleDraw.export_stl("./nozzle_design/geometry/iter2/connected.stl",
          connected, rtol=1e-3, atol=1e-3)
