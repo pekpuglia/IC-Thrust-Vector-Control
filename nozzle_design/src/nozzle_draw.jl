@@ -75,7 +75,7 @@ function add_stagnator(solid, noz::RoundNozzle, radius_fraction::Float64, chambe
     )
 end
 
-hexagon(r::Float64) = [(r) .* reverse(sincospi((i))) for i in (0:5)/3]
+hexagon(inner_r::Float64) = [(2*inner_r/sqrt(3)) .* reverse(sincospi((i))) for i in (0:5)/3]
 
 function add_hexagonal_base(solid, noz::RoundNozzle, height::Real)
     t = mm(noz.thickness)
