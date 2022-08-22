@@ -21,13 +21,25 @@ NozzleProject.pipe_speed(mdot, opcond, 1/4 * u"inch")
 using GLMakie
 using ConstructiveGeometry
 ##
-nozzle_geom = NozzleDraw.RoundNozzle(areas, 5.0u"°",
+using .NozzleDraw
+nozzle_geom = RoundNozzle(areas, 5.0u"°",
                         45.0u"°", 30.0u"mm", 3.0u"mm")
-nozzle = NozzleDraw.build_nozzle(nozzle_geom)
-connected = NozzleDraw.add_connector_hole(nozzle, nozzle_geom, min_diam)
-hexagon = NozzleDraw.add_hexagonal_base(connected, nozzle_geom, 10.0)
+connector_hole = ConnectorHole(
+    min_diam, 
+    nozzle_geom.thickness,
+    [0.0,0,0], 
+    [0.0,0,-1]
+)
+hex_base = HexBase(10.0u"mm", nozzle_geom.thickness)
+
+probe_hole = ProbeHole(
+    NozzleDraw.side_length(hex_base, nozzle_geom),
+    2.5 * min_diam,
+    nozzle_geom.thickness,
+    min_diam,
+    hex_base.height - nozzle_geom.thickness
+)
+
+feats = [connector_hole, hex_base, probe_hole]
 ##
-NozzleDraw.export_stl("./nozzle_design/geometry/iter2/connected.stl",
-         connected, rtol=1e-3, atol=1e-3)
-NozzleDraw.export_stl("./nozzle_design/geometry/iter2/hexagon.stl", hexagon, rtol=1e-3, atol=1e-3)
-#TODO: add probe opening
+probed = build_nozzle(nozzle_geom, feats)

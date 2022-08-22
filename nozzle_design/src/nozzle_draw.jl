@@ -2,6 +2,8 @@ module NozzleDraw
 using ..NozzleProject
 using ..Unitful
 using ConstructiveGeometry
+using LinearAlgebra: cross, dot
+using Rotations
 
 mm(l::Quantity) = ustrip(Float64, u"mm", l)
 
@@ -20,7 +22,6 @@ end
 
 get_radii(noz::RoundNozzle) = get_radii(noz.areas)
 
-export flow_wall
 function flow_wall(noz::RoundNozzle)
     rchamber, rthroat, rexit = get_radii(noz)
 
@@ -58,33 +59,95 @@ function generate_solid(contour::Vector)
     return rotate_extrude() * ConstructiveGeometry.polygon(float_contour)
 end
 
-function build_nozzle(noz::RoundNozzle)
+function (noz::RoundNozzle)()
     noz |> flow_wall |> fw-> generate_nozzle_contour(fw, noz) |> generate_solid
 end
 
-function add_connector_hole(solid, noz::RoundNozzle, d::Quantity)
-    return solid \ ([0,0, -mm(noz.thickness)] + cylinder(mm(noz.thickness), mm(d/2)))
+abstract type NozzleFeature end
+export ConnectorHole
+struct ConnectorHole <: NozzleFeature
+    diam::Quantity
+    depth::Quantity
+    center::Vector{Float64}
+    rotation::RotZYX
+    function ConnectorHole(d::Quantity, depth::Quantity,
+            center::Vector{Float64},
+            direction::Vector{Float64})
+        ndir = direction/√sum(direction.^2)
+        if ndir[1] ≈ 0 && ndir[2] ≈ 0
+            axis = [1.0, 0, 0]
+        else
+            axis = cross([0.0, 0, 1], ndir)
+        end
+        theta = acos(dot(ndir, [0.0,0,1]))
+        new(d, depth, center, RotZYX(AngleAxis(theta, axis...)))
+    end
 end
 
-function add_stagnator(solid, noz::RoundNozzle, radius_fraction::Float64, chamber_length_fraction::Float64)
-    rc = get_radius(noz.areas.Achamber)
-    union(solid,
-        [0,0,noz.chamber_length*chamber_length_fraction] 
-        + linear_extrude(noz.thickness) 
-        * square(2*rc+eps(), 2*radius_fraction*rc, center=true)
-    )
+function (ch::ConnectorHole)(solid, nozgeom::RoundNozzle)
+    solid \ (ch.center + rotate(rad2deg.(
+                (ch.rotation.theta1,
+                ch.rotation.theta2,
+                ch.rotation.theta3)
+                ))
+            * linear_extrude(mm(ch.depth)+√eps()) * circle(mm(ch.diam)/2))
+    # solid \ (ch.center+linear_extrude(mm(ch.depth)) * circle(mm(ch.diam)/2))
 end
+export HexBase
+struct HexBase <: NozzleFeature
+    height::Quantity
+    clearance::Quantity
+end
+hexagon(inner_r::Float64) = [(2*inner_r/sqrt(3)) .* reverse(sincospi((i+1/6))) for i in (0:5)/3]
 
-hexagon(inner_r::Float64) = [(2*inner_r/sqrt(3)) .* reverse(sincospi((i))) for i in (0:5)/3]
+side_length(hb::HexBase, ng::RoundNozzle) =  2/√3 *
+         (get_radius(ng.areas.Achamber) + ng.thickness + hb.clearance)
 
-function add_hexagonal_base(solid, noz::RoundNozzle, height::Real)
-    t = mm(noz.thickness)
-    out_r = mm(get_radius(noz.areas.Achamber)) + t
+function (hb::HexBase)(solid, nozgeom::RoundNozzle)
+    t = mm(nozgeom.thickness)
+    out_r = mm(get_radius(nozgeom.areas.Achamber)) + t
     return union(
         solid,
-        [0,0,-t] + linear_extrude(height) *
-            (polygon(hexagon(out_r+t)) \ circle(out_r))
+        [0,0,-t] + linear_extrude(mm(hb.height)) *
+            (polygon(hexagon(out_r+mm(hb.clearance))) \ circle(out_r))
     )
+end
+
+export ProbeHole
+struct ProbeHole <: NozzleFeature
+    width::Quantity
+    height::Quantity
+    pad_clearance::Quantity
+    diam::Quantity
+    z_offset::Quantity
+end
+
+function (ph::ProbeHole)(solid, nozgeom::RoundNozzle)
+    rchamQ = get_radius(nozgeom.areas.Achamber)
+    connhole = ConnectorHole(ph.diam, 
+        ph.pad_clearance+rchamQ+nozgeom.thickness,
+        [0,0,mm(ph.z_offset+ph.height/2)],
+        [1.0,0,0]
+    )
+
+    t = mm(nozgeom.thickness)
+    rcham = mm(rchamQ)
+    len = rcham + t + mm(ph.pad_clearance)
+    
+    pad_base = ([len/2, 0] + square(len,
+                    mm(ph.width),
+                    center=true)
+                ) \ circle(rcham+t)
+
+    connhole(union(
+        solid,
+        [0,0, mm(ph.z_offset)] 
+        + linear_extrude(mm(ph.height)) * pad_base
+    ), nozgeom)
+end
+export build_nozzle
+function build_nozzle(ng::RoundNozzle, features::Vector{NozzleFeature})
+    reduce((base, feat) -> feat(base, ng), features, init = ng())
 end
 
 function export_stl(file::String, solid; rtol=1e-3, atol=1e-3)
