@@ -93,6 +93,9 @@ function (ch::ConnectorHole)(solid, nozgeom::RoundNozzle)
             * linear_extrude(mm(ch.depth)+√eps()) * circle(mm(ch.diam)/2))
     # solid \ (ch.center+linear_extrude(mm(ch.depth)) * circle(mm(ch.diam)/2))
 end
+
+#sempre gera face virada p x
+#especificar side_length!
 export PolyBase
 struct PolyBase <: NozzleFeature
     height::Quantity
