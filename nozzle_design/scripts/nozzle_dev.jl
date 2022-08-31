@@ -26,8 +26,8 @@ nozzle_geom = RoundNozzle(areas, 5.0u"°",
 
 base_pads = [
     Pad(
-        1.8*conn_diam,
-        10u"mm",
+        2*conn_diam,
+        10u"mm"+2*conn_diam,
         nozzle_geom.thickness,
         -nozzle_geom.thickness,
         angle*u"°"
@@ -38,7 +38,7 @@ base_pads = [
 
 #controlar azimute, renomear
 probe_hole = SideHole(
-    1.8*conn_diam,
+    2*conn_diam,
     2*conn_diam,
     nozzle_geom.thickness,
     10u"mm" - nozzle_geom.thickness,
@@ -47,7 +47,7 @@ probe_hole = SideHole(
 )
 
 gas_hole = SideHole(
-    1.8*conn_diam,
+    2*conn_diam,
     2*conn_diam,
     nozzle_geom.thickness,
     10u"mm" - nozzle_geom.thickness,
@@ -58,22 +58,26 @@ gas_hole = SideHole(
 padded_side_holes = build_nozzle(nozzle_geom, base_pads..., probe_hole, gas_hole)
 plot(padded_side_holes)
 ##
-NozzleDraw.export_stl("./nozzle_design/geometry/iter3/padded_side_holes.stl", padded_side_holes)
+NozzleDraw.export_stl("./nozzle_design/geometry/iter3/padded_side_holes.stl", padded_side_holes, rtol=1e-2, atol=1e-2)
 ##
 #encaixe na bancada de empuxo
-support = linear_extrude(30) *
-        polygon(NozzleDraw.poly(41.7/2, 6)) \
-        (
-            [0,0,20+NozzleDraw.mm(nozzle_geom.thickness)] 
-            + union(padded_side_holes, 
-                [0,0,-NozzleDraw.mm(nozzle_geom.thickness)] +linear_extrude(10) 
-                * circle(
-                    NozzleDraw.mm(
-                        NozzleDraw.get_radius(nozzle_geom.areas.Achamber)
-                        + nozzle_geom.thickness
-                    ) + 1e-2
-                )
-            )
+filled_motor = union(padded_side_holes, 
+    [0,0,-mm(nozzle_geom.thickness)] 
+    + linear_extrude(10) 
+    * circle(
+        mm(
+            NozzleDraw.get_radius(nozzle_geom.areas.Achamber)
+            + nozzle_geom.thickness
+        ) + 1e-2
+    )
+)
+support = union(
+    linear_extrude(15) * polygon(NozzleDraw.poly(40.5/2, 6)),
+    [0,0,15] + linear_extrude(10) * polygon(
+        NozzleDraw.poly(mm(NozzleDraw.get_radius(nozzle_geom.areas.Achamber)
+            + 3nozzle_geom.thickness), 4
         )
+    )
+) \ ([0, 0, 15 + NozzleDraw.mm(nozzle_geom.thickness)] + filled_motor)
 ##
-NozzleDraw.export_stl("./nozzle_design/geometry/iter3/support.stl", support)
+NozzleDraw.export_stl("./nozzle_design/geometry/iter3/support.stl", support, rtol=1e-2, atol=1e-2)
