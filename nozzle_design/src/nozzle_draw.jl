@@ -26,12 +26,14 @@ function flow_wall(noz::RoundNozzle)
     rchamber, rthroat, rexit = get_radii(noz)
 
     return cat.([
+        0u"mm"
         rchamber
         rchamber
         rthroat
         rexit
     ],
         accumulate(+, [
+            0u"mm"
             0u"mm"
             noz.chamber_length
             (rchamber - rthroat) / tan(noz.conv_half_angle)
