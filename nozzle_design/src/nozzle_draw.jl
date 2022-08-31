@@ -4,7 +4,7 @@ using ..Unitful
 using ConstructiveGeometry
 using LinearAlgebra: cross, dot
 using Rotations
-
+export mm
 mm(l::Quantity) = ustrip(Float64, u"mm", l)
 
 get_radius(A) = √(A/π)
