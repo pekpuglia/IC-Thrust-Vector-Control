@@ -1,6 +1,8 @@
 #ifndef THERMOCOUPLE_HPP
 #define THERMOCOUPLE_HPP
 
+#include "Arduino.h"
+
 class Thermocouple
 {
 private:
