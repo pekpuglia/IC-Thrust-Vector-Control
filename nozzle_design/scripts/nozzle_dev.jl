@@ -71,13 +71,24 @@ filled_motor = union(padded_side_holes,
         ) + 1e-2
     )
 )
-support = union(
-    linear_extrude(15) * polygon(NozzleDraw.poly(40.5/2, 6)),
-    [0,0,15] + linear_extrude(10) * polygon(
-        NozzleDraw.poly(mm(NozzleDraw.get_radius(nozzle_geom.areas.Achamber)
-            + 3nozzle_geom.thickness), 4
-        )
+t = mm(nozzle_geom.thickness)
+nozzle_OD = mm(2*NozzleDraw.get_radius(nozzle_geom.areas.Achamber)) + 2t
+
+screw_support = [-30-nozzle_OD/2-2t, 0, 0] + 
+        linear_extrude(12) * (square(60, nozzle_OD+2t, center=true)
+        \ ([-22, 0] + union(circle(2.5), [11, 0] + circle(2.5)))
     )
-) \ ([0, 0, 15 + NozzleDraw.mm(nozzle_geom.thickness)] + filled_motor)
+
+
+nozzle_support = union(
+    #bloco quadrado
+    linear_extrude(20) * square(nozzle_OD + 4t, center=true),
+    #suporte dos p=arafusos [nozzle_OD/2+2t, 0, 0] + 
+    screw_support
+)
+
+#recesso do motor
+nozzle_support =  nozzle_support \ ([0, 0, 10 + NozzleDraw.mm(nozzle_geom.thickness)] + filled_motor)
+
 ##
-NozzleDraw.export_stl("./nozzle_design/geometry/iter3/support.stl", support, rtol=1e-2, atol=1e-2)
+NozzleDraw.export_stl("./nozzle_design/geometry/iter3/support.stl", nozzle_support, rtol=1e-2, atol=1e-2)
