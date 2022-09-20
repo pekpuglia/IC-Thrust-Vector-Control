@@ -1,19 +1,20 @@
-#include "Thermocouple.hpp"
+#include "LoadCell.hpp"
 
-
-Thermocouple test(8, 9, 10);
+LoadCell cell(A0, A3, 10);
 
 void setup() {
-    Serial.begin(9600);
+    Serial.begin(57600);
+    delay(1000);
+    cell.calibrateScale(1.0);
 }
 
 
 void loop() {
     static unsigned long lastTime = millis();
 
-    if (millis() - lastTime > 250) {
+    if (millis() - lastTime > 5) {
         lastTime = millis();
-        Serial.print("temperatura: ");
-        Serial.println(test.readCelsius());
+        Serial.print("carga: ");
+        Serial.println(cell.calibratedRead());
     }
 }
