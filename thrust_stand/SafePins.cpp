@@ -15,7 +15,7 @@ OutPin::OutPin(uint8_t pin)
 
 void OutPin::digitalWrite(bool val) {
     //escopo globa
-    ::digitalWrite(this->pin, val);
+    ::digitalWrite(this->pin, (val) ? HIGH : LOW);
 }
 
 void OutPin::analogWrite(uint8_t val) {
