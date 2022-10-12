@@ -19,48 +19,32 @@ enum MegaPins : uint8_t {
 };
 #endif
 
-//idealmente deveria estar especificado que é enum, mas tudo bem :/
-template<typename PinEnum>
+//idealmente deveria ter um template com um enum mas tudo bem :/
 class AbstractSafePin
 {
-private:
-    const PinEnum pin;
+protected:
+    const uint8_t pin;
 public:
-    AbstractSafePin(PinEnum pin) : pin{pin} {};
-    operator uint8_t() {
-        return static_cast<uint8_t>(pin);
-    };
+    AbstractSafePin(uint8_t pin);
+    operator uint8_t();
 };
 
-template<typename PinEnum>
-class OutPin : public AbstractSafePin<PinEnum>
+class OutPin : public AbstractSafePin
 {
 public:
-    OutPin<PinEnum>(PinEnum pin) : AbstractSafePin<PinEnum>(pin) {
-        pinMode(pin, OUTPUT);
-    };
+    OutPin(uint8_t pin);
 
-    void digitalWrite(bool val) {
-        //escopo global
-        ::digitalWrite(this->pin, val);
-    };
+    void digitalWrite(bool val);
 
-    void analogWrite(uint8_t val) {
-        ::analogWrite(this->pin, val);
-    };
+    void analogWrite(uint8_t val);
 };
 
-template<typename PinEnum>
-class InPin : public AbstractSafePin<PinEnum>
+class InPin : public AbstractSafePin
 {
 public:
-    InPin(PinEnum pin) : AbstractSafePin<PinEnum>(pin) {
-        pinMode(pin, INPUT);
-    };
+    InPin(uint8_t pin);
 
-    bool digitalRead() {
-        ::digitalRead(this->pin);
-    };
+    bool digitalRead();
 };
 //todo: analog pins
 
