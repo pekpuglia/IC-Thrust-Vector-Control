@@ -1,11 +1,12 @@
 include("../src/nozzle_design.jl")
 ##
 required_thrust = 5.0u"N" #N
+#deveria ser 600?
 chamber_pressure = 500.0u"kPa"  #kPa
 prop_temperature = 298.15u"K"
 conn_diam = 11u"mm"   #mm
 ##
-propellant = CEAInterface.Propellant("N2", 28u"g/mol", prop_temperature)
+propellant = CEAInterface.Propellant("Air", 28.9u"g/mol", prop_temperature)
 
 opcond = CEAInterface.OperatingCondition(chamber_pressure,
                 100.0u"kPa", propellant)
