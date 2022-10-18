@@ -1,20 +1,24 @@
-#include "LoadCell.hpp"
+#include "PressureTransducer.hpp"
 
-LoadCell cell(A0, A3, 10);
+/*
+    TODO:
+    - CLIComponent - interface p cada componente na CLI
+    - CLI a própria
+        * tara + calibração da balança
+        * ajuste da pressão
+        * tempo de medição
+    - migrar p SafePin
+    - fazer loadcell ser non blocking
+*/
+
+PressureTransducer p(A8);
 
 void setup() {
-    Serial.begin(57600);
-    delay(1000);
-    cell.calibrateScale(1.0);
+    Serial.begin(9600);
 }
 
 
 void loop() {
-    static unsigned long lastTime = millis();
-
-    if (millis() - lastTime > 5) {
-        lastTime = millis();
-        Serial.print("carga: ");
-        Serial.println(cell.calibratedRead());
-    }
+    Serial.println(p.readBar());
+    delay(250);
 }
