@@ -18,8 +18,6 @@ public:
     T unwrap_or_default(T def);
 };
 
-
-
 class LoadCell
 {
 private:

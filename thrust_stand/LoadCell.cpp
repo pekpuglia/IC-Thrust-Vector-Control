@@ -18,7 +18,6 @@ T ReadResult<T>::unwrap_or_default(T def) {
 template struct ReadResult<long>;
 template struct ReadResult<double>;
 
-
 LoadCell::LoadCell(MegaPins dout, MegaPins sck)
     : pd_sck{sck}, dout{dout}, gain{1}
 {}
