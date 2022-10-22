@@ -23,7 +23,7 @@ void OutPin::analogWrite(uint8_t val) {
 }
 
 InPin::InPin(uint8_t pin) : AbstractSafePin(pin) {
-    pinMode(pin, INPUT);
+    pinMode(pin, INPUT_PULLUP);
 }
 
 bool InPin::digitalRead() {

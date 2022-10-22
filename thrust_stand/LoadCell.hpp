@@ -3,27 +3,49 @@
 
 #include "Arduino.h"
 #include "_HX711.hpp"
+#include "SafePins.hpp"
+
+template<typename T>
+struct ReadResult
+{
+private:
+    T val;
+public:
+    const bool isValid;
+
+    ReadResult(T val);
+    ReadResult();
+    T unwrap_or_default(T def);
+};
+
+
 
 class LoadCell
 {
 private:
-    HX711 sensor;
-    
-    bool calibrated;
 
-    unsigned int repetitions;
+    OutPin pd_sck;
 
+    InPin dout;
+
+    const uint8_t gain;
+
+    long offset = 0;
+
+    double scale = 1;
+
+    ReadResult<long> rawRead();
 public:
     //assume ligação no canal A
-    LoadCell(byte dt, byte sck, unsigned int repetitions);
+    LoadCell(MegaPins dout, MegaPins sck);
 
-    void tare();
+    bool is_ready();
 
-    void calibrateScale(double realMass);
+    bool tare();
 
-    double rawRead();
-    //pode interromper o programa
-    double calibratedRead();
+    bool calibrateScale(double realMass);
+    
+    ReadResult<double> calibratedRead();
 };
 
 #endif
