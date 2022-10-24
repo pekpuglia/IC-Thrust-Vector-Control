@@ -57,9 +57,9 @@ gas_hole = SideHole(
 )
 ##
 padded_side_holes = build_nozzle(nozzle_geom, base_pads..., probe_hole, gas_hole)
-plot(padded_side_holes)
+# plot(padded_side_holes)
 ##
-NozzleDraw.export_stl("./nozzle_design/geometry/iter3/padded_side_holes.stl", padded_side_holes, rtol=1e-2, atol=1e-2)
+NozzleDraw.export_stl("./nozzle_design/geometry/iter3/air_motor.stl", padded_side_holes, rtol=1e-2, atol=1e-2)
 ##
 #encaixe na bancada de empuxo
 filled_motor = union(padded_side_holes, 
