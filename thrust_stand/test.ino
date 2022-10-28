@@ -1,5 +1,5 @@
-#include "LoadCell.hpp"
-
+#include "CommandInterface.hpp"
+#include "SafePins.hpp"
 /*
     TODO:
     - CLIComponent - interface p cada componente na CLI
@@ -9,17 +9,18 @@
         * executar teste - input do tempo de medição, envolve vários componentes
 */
 
-LoadCell cell(MegaPins::D39, MegaPins::D38);
-
 void setup() {
-    //trocar por wait_ready_time_out
-    delay(500);
     Serial.begin(9600);
-    cell.tare();
 }
 
+TestStand teststand(LoadCell(MegaPins::D39, MegaPins::D38),
+            Thermocouple(MegaPins::D47, MegaPins::D49, MegaPins::D51),
+            PressureTransducer(A3),
+            NOValve(MegaPins::D30));
 
 void loop() {
-    Serial.println(cell.calibratedRead().unwrap_or_default(-INFINITY));
-    delay(200);
+    if (Serial.available() > 0) {
+        CommandData command = CommandData::receiveData();
+        teststand.executeCommand(command);
+    }
 }

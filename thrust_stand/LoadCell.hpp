@@ -46,4 +46,5 @@ public:
     ReadResult<double> calibratedRead();
 };
 
+
 #endif

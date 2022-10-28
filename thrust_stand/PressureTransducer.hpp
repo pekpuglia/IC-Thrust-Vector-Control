@@ -8,7 +8,7 @@ class PressureTransducer
 private:
     const uint8_t analogSignalPin;
 public:
-    PressureTransducer(uint8_t signalPin);
+    PressureTransducer(uint8_t analogSignalPin);
     double readBar();
 };
 

@@ -26,6 +26,6 @@ InPin::InPin(uint8_t pin) : AbstractSafePin(pin) {
     pinMode(pin, INPUT_PULLUP);
 }
 
-bool InPin::digitalRead() {
+const bool InPin::digitalRead() {
     return ::digitalRead(pin);
 }

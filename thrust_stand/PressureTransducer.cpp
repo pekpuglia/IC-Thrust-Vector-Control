@@ -3,6 +3,7 @@
 PressureTransducer::PressureTransducer(uint8_t analogSignalPin)
     : analogSignalPin{analogSignalPin}
 {
+    //talvez desnecessário
     pinMode(analogSignalPin, INPUT);
 }
 

@@ -1,13 +1,9 @@
 #include "Thermocouple.hpp"
 
-Thermocouple::Thermocouple(uint8_t sck, uint8_t cs, uint8_t so)
+Thermocouple::Thermocouple(MegaPins sck, MegaPins cs, MegaPins so)
     : sck{sck}, cs{cs}, so{so}
 {
-    pinMode(cs, OUTPUT);
-    pinMode(sck, OUTPUT);
-    pinMode(so, OUTPUT);
-
-    digitalWrite(cs, HIGH);
+    this->cs.digitalWrite(true);
 }
 
 const uint8_t Thermocouple::spiread(void) { 
@@ -16,33 +12,33 @@ const uint8_t Thermocouple::spiread(void) {
 
   for (i=7; i>=0; i--)
   {
-    digitalWrite(sck, LOW);
+    sck.digitalWrite(false);
     _delay_ms(1);
-    if (digitalRead(so)) {
+    if (so.digitalRead()) {
       //set the bit to 1 no matter what
       d |= (1 << i);
     }
 
-    digitalWrite(sck, HIGH);
+    sck.digitalWrite(true);
     _delay_ms(1);
   }
 
   return d;
 }
 
-
+//usar read result!
 const double Thermocouple::readCelsius(void) {
 
   uint16_t v;
 
-  digitalWrite(cs, LOW);
+  cs.digitalWrite(false);
   _delay_ms(1);
 
   v = spiread();
   v <<= 8;
   v |= spiread();
 
-  digitalWrite(cs, HIGH);
+  cs.digitalWrite(true);
 
   if (v & 0x4) {
     // uh oh, no thermocouple attached!

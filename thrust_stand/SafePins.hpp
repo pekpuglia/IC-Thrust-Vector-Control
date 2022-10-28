@@ -44,7 +44,7 @@ class InPin : public AbstractSafePin
 public:
     InPin(uint8_t pin);
 
-    bool digitalRead();
+    const bool digitalRead();
 };
 //todo: analog pins
 
