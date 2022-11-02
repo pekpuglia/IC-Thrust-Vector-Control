@@ -1,21 +1,12 @@
-#ifndef COMMAND_INTERFACE_HPP
-#define COMMAND_INTERFACE_HPP
-
-#include "Arduino.h"
+#ifndef TEST_STAND_HPP
+#define TEST_STAND_HPP
 
 //componentes
 #include "LoadCell.hpp"
 #include "Thermocouple.hpp"
 #include "PressureTransducer.hpp"
 #include "Valve.hpp"
-
-struct CommandData
-{
-    const uint8_t code;
-    const float data;
-    CommandData(byte serialInput[5]);
-    static CommandData receiveData();
-};
+#include "CommandData.hpp"
 
 class TestStand
 {
@@ -25,6 +16,8 @@ private:
     PressureTransducer pt;
     NOValve v;
     void CALIBRATE_SCALE(float data);
+    void SHOW_LOAD_CELL_READING();
+    void TARE_SCALE();
 public:
     TestStand(LoadCell loadcell, Thermocouple thermocouple, 
         PressureTransducer pressuretransducer, NOValve valve);
@@ -35,8 +28,9 @@ public:
 
 
 enum ActionCodes : uint8_t {
-    CALIBRATE_SCALE = 0
+    CALIBRATE_SCALE = 0,
+    SHOW_LOAD_CELL_READING = 20,
+    TARE_SCALE = 2
 };
-
 
 #endif

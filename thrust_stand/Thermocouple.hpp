@@ -15,7 +15,7 @@ private:
 
 public:
     Thermocouple(MegaPins sck, MegaPins cs, MegaPins so);
-    const double readCelsius();
+    const float readCelsius();
 };
 
 

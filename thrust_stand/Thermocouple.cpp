@@ -27,7 +27,7 @@ const uint8_t Thermocouple::spiread(void) {
 }
 
 //usar read result!
-const double Thermocouple::readCelsius(void) {
+const float Thermocouple::readCelsius(void) {
 
   uint16_t v;
 

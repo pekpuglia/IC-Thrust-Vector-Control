@@ -30,7 +30,7 @@ private:
 
     long offset = 0;
 
-    double scale = 1;
+    float scale = 1;
 
     ReadResult<long> rawRead();
 public:
@@ -41,9 +41,9 @@ public:
 
     bool tare();
 
-    bool calibrateScale(double realMass);
+    bool calibrateScale(float realMass);
     
-    ReadResult<double> calibratedRead();
+    ReadResult<float> calibratedRead();
 };
 
 

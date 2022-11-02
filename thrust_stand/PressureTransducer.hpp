@@ -9,7 +9,7 @@ private:
     const uint8_t analogSignalPin;
 public:
     PressureTransducer(uint8_t analogSignalPin);
-    double readBar();
+    float readBar();
 };
 
 #endif

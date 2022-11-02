@@ -16,7 +16,7 @@ T ReadResult<T>::unwrap_or_default(T def) {
 }
 
 template struct ReadResult<long>;
-template struct ReadResult<double>;
+template struct ReadResult<float>;
 
 LoadCell::LoadCell(MegaPins dout, MegaPins sck)
     : pd_sck{sck}, dout{dout}, gain{1}
@@ -91,7 +91,7 @@ bool LoadCell::tare() {
     return readRes.isValid;
 }
 
-bool LoadCell::calibrateScale(double realMass) {
+bool LoadCell::calibrateScale(float realMass) {
     if (realMass <= 0)
         return false;
 
@@ -103,11 +103,11 @@ bool LoadCell::calibrateScale(double realMass) {
     return readRes.isValid;
 }
 
-ReadResult<double> LoadCell::calibratedRead() {
+ReadResult<float> LoadCell::calibratedRead() {
     auto readRes = rawRead();
     if (!readRes.isValid)
-        return ReadResult<double>();
+        return ReadResult<float>();
     //nunca vai ser inválido aqui
     long res = readRes.unwrap_or_default(0);
-    return ReadResult<double>((double)(res - offset) / scale);
+    return ReadResult<float>((float)(res - offset) / scale);
 }
