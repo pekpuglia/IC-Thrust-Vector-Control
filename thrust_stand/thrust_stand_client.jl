@@ -81,9 +81,10 @@ end
 struct OutputMenu <: AbstractMenu
     code::UInt8
     title::String
-    data::Vector{Float32}
-    function OutputMenu(code::Integer, title::String, loop::Bool)
-        new(code, title, loop, [])
+    number_of_outputs::Int
+    data::Vector{Vector{Float32}}
+    function OutputMenu(code::Integer, title::String, number_of_outputs::Int)
+        new(code, title, number_of_outputs, [])
     end
 end
 title(om::OutputMenu) = om.title
@@ -114,7 +115,8 @@ function execute_menu(om::OutputMenu, sp::SerialPort)
         reading = readline(sp)
         println(reading)
         try
-            push!(om.data, parse(Float32, reading))
+
+            push!(om.data, parse.(Float32, split(reading)))
         catch e
             if e isa ArgumentError
                 continue
@@ -137,8 +139,11 @@ end
 #fazer Configurable OutputMenu
 #fstream Menu - salva saída em arquivo
 main_menu = ChoiceMenu([InputMenu(0, "Calibrar balança", "Insira uma massa:"),
-                        OutputMenu(20, "Exibir leitura da balança", true),
-                        CommandMenu(2, "Tarar a balança")], "ChoiceMenu")
+                        OutputMenu(1, "Exibir leitura da balança", 1),
+                        CommandMenu(2, "Tarar a balança"),
+                        OutputMenu(3, "Exibir leitura do termopar", 1),
+                        OutputMenu(4, "Balança e termopar", 2),
+    ], "ChoiceMenu")
 ##
 
 

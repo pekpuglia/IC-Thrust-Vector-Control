@@ -18,6 +18,8 @@ private:
     void CALIBRATE_SCALE(float data);
     void SHOW_LOAD_CELL_READING();
     void TARE_SCALE();
+    void SHOW_THERMOCOUPLE_READING();
+    void SHOW_SCALE_AND_THERMOCOUPLE();
 public:
     TestStand(LoadCell loadcell, Thermocouple thermocouple, 
         PressureTransducer pressuretransducer, NOValve valve);
@@ -29,8 +31,10 @@ public:
 
 enum ActionCodes : uint8_t {
     CALIBRATE_SCALE = 0,
-    SHOW_LOAD_CELL_READING = 20,
-    TARE_SCALE = 2
+    SHOW_LOAD_CELL_READING = 1,
+    TARE_SCALE = 2,
+    SHOW_THERMOCOUPLE_READING = 3,
+    SHOW_SCALE_AND_THERMOCOUPLE = 4
 };
 
 #endif

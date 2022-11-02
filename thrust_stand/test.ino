@@ -14,7 +14,7 @@ void setup() {
 }
 
 TestStand teststand(LoadCell(MegaPins::D39, MegaPins::D38),
-            Thermocouple(MegaPins::D47, MegaPins::D49, MegaPins::D51),
+            Thermocouple(MegaPins::D7, MegaPins::D6, MegaPins::D5),
             PressureTransducer(A3),
             NOValve(MegaPins::D30));
 
