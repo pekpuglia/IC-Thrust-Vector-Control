@@ -138,11 +138,14 @@ end
 ##################################################################################
 #fazer Configurable OutputMenu
 #fstream Menu - salva saída em arquivo
-main_menu = ChoiceMenu([InputMenu(0, "Calibrar balança", "Insira uma massa:"),
-                        OutputMenu(1, "Exibir leitura da balança", 1),
-                        CommandMenu(2, "Tarar a balança"),
-                        OutputMenu(3, "Exibir leitura do termopar", 1),
-                        OutputMenu(4, "Balança e termopar", 2),
+main_menu = ChoiceMenu([InputMenu(  0, "Calibrar balança", "Insira uma massa:"),
+                        CommandMenu(1, "Tarar a balança"),
+                        OutputMenu( 2, "Exibir leitura da balança", 1),
+                        OutputMenu( 3, "Exibir leitura do termopar", 1),
+                        OutputMenu( 4, "Exibir leitura do transdutor de pressão", 1),
+                        CommandMenu(5, "Abrir válvula"),
+                        CommandMenu(6, "Fechar válvula"),
+                        OutputMenu( 7, "Ensaio completo", 3)
     ], "ChoiceMenu")
 ##
 

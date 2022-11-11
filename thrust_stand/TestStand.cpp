@@ -18,10 +18,13 @@ void TestStand::executeCommand(CommandData data) {
     switch (data.code)
     {
     CASE_W_INPUT(CALIBRATE_SCALE, data.data)
-    CASE(SHOW_LOAD_CELL_READING)
     CASE(TARE_SCALE)
-    CASE(SHOW_THERMOCOUPLE_READING)
-    CASE(SHOW_SCALE_AND_THERMOCOUPLE)
+    CASE(SCALE_READING)
+    CASE(THERMOCOUPLE_READING)
+    CASE(TRANSDUCER_READING)
+    CASE(OPEN_VALVE)
+    CASE(CLOSE_VALVE)
+    CASE(FULL_TEST)
     default:
         break;
     }
@@ -32,25 +35,42 @@ void TestStand::CALIBRATE_SCALE(float data) {
     lc.calibrateScale(data);
 }
 
-void TestStand::SHOW_LOAD_CELL_READING() {
+void TestStand::TARE_SCALE() {
+    lc.tare();
+}
+
+void TestStand::SCALE_READING() {
     auto res = lc.calibratedRead();
     //mudar p write?
     Serial.println(res.unwrap_or_default(-1), 4);
 }
 
-void TestStand::TARE_SCALE() {
-    lc.tare();
-}
 //################################################################
-void TestStand::SHOW_THERMOCOUPLE_READING() {
+void TestStand::THERMOCOUPLE_READING() {
     float reading = tc.readCelsius();
     Serial.println(reading, 4);
 }
 
-void TestStand::SHOW_SCALE_AND_THERMOCOUPLE() {
-    float scale = lc.calibratedRead().unwrap_or_default(-1);
-    float t = tc.readCelsius();
-    Serial.print(scale, 4);
+void TestStand::TRANSDUCER_READING() {
+    float reading = pt.readBar();
+    Serial.println(reading, 4);
+}
+
+void TestStand::OPEN_VALVE() {
+    v.open();
+}
+
+void TestStand::CLOSE_VALVE() {
+    v.close();
+}
+
+void TestStand::FULL_TEST() {
+    float scale_reading = lc.calibratedRead().unwrap_or_default(-1);
+    float therm_reading = tc.readCelsius();
+    float trans_reading = pt.readBar();
+    Serial.print(scale_reading, 4);
     Serial.print(" ");
-    Serial.println(t, 4);
+    Serial.print(therm_reading, 4);
+    Serial.print(" ");
+    Serial.println(trans_reading, 4);
 }

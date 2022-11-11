@@ -16,7 +16,7 @@ void setup() {
 TestStand teststand(LoadCell(MegaPins::D39, MegaPins::D38),
             Thermocouple(MegaPins::D7, MegaPins::D6, MegaPins::D5),
             PressureTransducer(A3),
-            NOValve(MegaPins::D30));
+            NOValve(MegaPins::D22));
 
 OutPin led(LED_BUILTIN);
 
