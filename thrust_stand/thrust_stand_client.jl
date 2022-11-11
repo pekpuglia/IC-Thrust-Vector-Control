@@ -138,6 +138,8 @@ end
 ##################################################################################
 #fazer Configurable OutputMenu
 #fstream Menu - salva saída em arquivo
+#todo - generalizar ações e usar mais de uma em cada menu
+#representando como um enum em julia também 
 main_menu = ChoiceMenu([InputMenu(  0, "Calibrar balança", "Insira uma massa:"),
                         CommandMenu(1, "Tarar a balança"),
                         OutputMenu( 2, "Exibir leitura da balança", 1),
