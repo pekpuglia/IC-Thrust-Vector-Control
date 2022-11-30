@@ -3,7 +3,7 @@
 
 #include "Arduino.h"
 
-#ifdef ARDUINO_AVR_MEGA2560
+// #ifdef ARDUINO_AVR_MEGA2560
 enum MegaPins : uint8_t {
     D2 = 2,D3,D4,D5,D6,
     D7,D8,D9,D10,D11,
@@ -17,7 +17,7 @@ enum MegaPins : uint8_t {
     D47,D48,D49,D50,D51,
     D52, D53
 };
-#endif
+// #endif
 
 //idealmente deveria ter um template com um enum mas tudo bem :/
 class AbstractSafePin

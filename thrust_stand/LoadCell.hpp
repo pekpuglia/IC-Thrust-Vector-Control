@@ -35,7 +35,7 @@ private:
     ReadResult<long> rawRead();
 public:
     //assume ligação no canal A
-    LoadCell(MegaPins dout, MegaPins sck);
+    LoadCell(uint8_t dout, uint8_t sck);
 
     bool is_ready();
 

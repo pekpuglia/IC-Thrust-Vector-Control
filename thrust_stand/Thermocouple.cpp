@@ -1,6 +1,6 @@
 #include "Thermocouple.hpp"
 
-Thermocouple::Thermocouple(MegaPins sck, MegaPins cs, MegaPins so)
+Thermocouple::Thermocouple(uint8_t sck, uint8_t cs, uint8_t so)
     : sck{sck}, cs{cs}, so{so}
 {
     this->cs.digitalWrite(true);

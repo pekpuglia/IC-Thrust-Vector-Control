@@ -13,7 +13,7 @@ void setup() {
     Serial.begin(9600);
 }
 
-TestStand teststand(LoadCell(MegaPins::D39, MegaPins::D38),
+TestStand teststand(LoadCell(MegaPins::D2, MegaPins::D3),
             Thermocouple(MegaPins::D7, MegaPins::D6, MegaPins::D5),
             PressureTransducer(A3),
             NOValve(MegaPins::D22));

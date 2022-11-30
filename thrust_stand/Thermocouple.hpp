@@ -14,7 +14,7 @@ private:
     const uint8_t spiread(void);
 
 public:
-    Thermocouple(MegaPins sck, MegaPins cs, MegaPins so);
+    Thermocouple(uint8_t sck, uint8_t cs, uint8_t so);
     const float readCelsius();
 };
 
