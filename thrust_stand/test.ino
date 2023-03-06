@@ -13,10 +13,10 @@ void setup() {
     Serial.begin(9600);
 }
 
-TestStand teststand(LoadCell(MegaPins::D2, MegaPins::D3),
-            Thermocouple(MegaPins::D7, MegaPins::D6, MegaPins::D5),
-            PressureTransducer(A3),
-            NOValve(MegaPins::D22));
+TestStand teststand(LoadCell(MegaPins::D3, MegaPins::D4),
+            Thermocouple(MegaPins::D6, MegaPins::D8, MegaPins::D11),
+            PressureTransducer(A5),
+            NOValve(MegaPins::D5));
 
 OutPin led(LED_BUILTIN);
 
