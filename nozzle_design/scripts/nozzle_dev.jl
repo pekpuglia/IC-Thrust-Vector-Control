@@ -1,4 +1,9 @@
+using Revise
+using GLMakie
+using ConstructiveGeometry
+##
 include("../src/nozzle_design.jl")
+using .NozzleDraw
 ##
 required_thrust = 5.0u"N" #N
 #deveria ser 600?
@@ -18,51 +23,53 @@ areas = NozzleProject.NozzleAreas(required_thrust, opcond,
 mdot = NozzleProject.get_mdot(required_thrust, opcond)
 NozzleProject.pipe_speed(mdot, opcond, 1/4 * u"inch")
 ##
-using GLMakie
-using ConstructiveGeometry
-##
-using .NozzleDraw
-nozzle_geom = RoundNozzle(areas, 5.0u"°",
-                        45.0u"°", 30.0u"mm", 3.0u"mm")
 
-base_pads = [
-    Pad(
-        2*conn_diam,
-        10u"mm"+2*conn_diam,
-        nozzle_geom.thickness,
-        -nozzle_geom.thickness,
-        angle*u"°"
+function reduce_areas(areas::NozzleProject.NozzleAreas, diameter_reduction::Unitful.Length)
+    radii = NozzleDraw.get_radii(areas)
+    NozzleProject.NozzleAreas(
+        areas.Achamber,
+        (radii[2] - diameter_reduction/2)^2 * π,
+        (radii[3] - diameter_reduction/2)^2 * π,
     )
-    for angle in 0:90:270
-]
-# poly_base = PolyBase(10.0u"mm", 1.5nozzle_geom.thickness, 8)
+end
 
-#controlar azimute, renomear
-probe_hole = SideHole(
-    2*conn_diam,
-    2*conn_diam,
-    nozzle_geom.thickness,
-    10u"mm" - nozzle_geom.thickness,
-    0u"°",
-    conn_diam
-)
+function add_features(nozzle_geom)
+    base_pads = [
+        Pad(
+            2*conn_diam,
+            10u"mm"+2*conn_diam,
+            nozzle_geom.thickness,
+            -nozzle_geom.thickness,
+            angle*u"°"
+        )
+        for angle in 0:90:270
+    ]
+    
+    gas_hole = SideHole(
+        2*conn_diam,
+        2*conn_diam,
+        nozzle_geom.thickness,
+        10u"mm" - nozzle_geom.thickness,
+        90u"°",
+        conn_diam
+    )
+    build_nozzle(nozzle_geom, base_pads..., gas_hole)
+end
 
-gas_hole = SideHole(
-    2*conn_diam,
-    2*conn_diam,
-    nozzle_geom.thickness,
-    10u"mm" - nozzle_geom.thickness,
-    90u"°",
-    conn_diam
-)
+function nozzle_with_corrected_diameter(areas::NozzleProject.NozzleAreas, diameter_reduction::Unitful.Length)
+    true_areas = reduce_areas(areas, diameter_reduction)
+    nozzle_geom = RoundNozzle(true_areas, 5.0u"°", 45.0u"°", 30.0u"mm", 3.0u"mm")
+    add_features(nozzle_geom)
+end
+
 ##
-padded_side_holes = build_nozzle(nozzle_geom, base_pads..., probe_hole, gas_hole)
-# plot(padded_side_holes)
-##
-NozzleDraw.export_stl("./nozzle_design/geometry/iter3/air_motor.stl", padded_side_holes, rtol=1e-2, atol=1e-2)
+for diam_reduction in (0:0.1:0.4)u"mm"
+    corrected_nozzle = nozzle_with_corrected_diameter(areas, diam_reduction)
+    NozzleDraw.export_stl("./nozzle_design/geometry/iter4_fix_thrust/corrected_nozzle_$(diam_reduction).stl", corrected_nozzle, rtol=1e-2, atol=1e-2)
+end
 ##
 #encaixe na bancada de empuxo
-filled_motor = union(padded_side_holes, 
+filled_motor = union(air_motor, 
     [0,0,-mm(nozzle_geom.thickness)] 
     + linear_extrude(10) 
     * circle(
