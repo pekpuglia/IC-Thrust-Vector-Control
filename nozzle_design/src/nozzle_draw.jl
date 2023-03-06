@@ -136,7 +136,7 @@ function (p::Pad)(solid, nozgeom::RoundNozzle)
     len = rcham + t + mm(p.pad_clearance)
     pad_base = rotate(ustrip(Float64, u"°", p.x_angle)) *
             ([len/2, 0] + square(len, mm(p.width), center=true)
-        ) \ circle(rcham+t)
+        ) \ circle(rcham+t-1e-2)
 
     union(
         solid,
