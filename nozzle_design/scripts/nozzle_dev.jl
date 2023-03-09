@@ -5,68 +5,63 @@ using ConstructiveGeometry
 include("../src/nozzle_design.jl")
 using .NozzleDraw
 ##
-required_thrust = 5.0u"N" #N
+required_thrust = 2.0u"N" #N
 #deveria ser 600?
 chamber_pressure = 500.0u"kPa"  #kPa
 prop_temperature = 298.15u"K"
 conn_diam = 11u"mm"   #mm
 ##
-propellant = CEAInterface.Propellant("Air", 28.9u"g/mol", prop_temperature)
+propellant = CEAInterface.Propellant("N2", 28u"g/mol", prop_temperature)
 
 opcond = CEAInterface.OperatingCondition(chamber_pressure,
                 100.0u"kPa", propellant)
 
 areas = NozzleProject.NozzleAreas(required_thrust, opcond, 
-                contraction_ratio=50.0)
+                contraction_ratio=50.0, min_chamber_radius = 15u"mm")
+
+
+nozzle_geom = RoundNozzle(areas, 5.0u"°", 45.0u"°", 30.0u"mm", 3.0u"mm")
+                
 ##
 #verify speed in tube
 mdot = NozzleProject.get_mdot(required_thrust, opcond)
-NozzleProject.pipe_speed(mdot, opcond, 1/4 * u"inch")
+NozzleProject.pipe_speed(mdot, opcond, 10u"mm")
 ##
 
-function reduce_areas(areas::NozzleProject.NozzleAreas, diameter_reduction::Unitful.Length)
-    radii = NozzleDraw.get_radii(areas)
-    NozzleProject.NozzleAreas(
-        areas.Achamber,
-        (radii[2] - diameter_reduction/2)^2 * π,
-        (radii[3] - diameter_reduction/2)^2 * π,
-    )
-end
-
-function add_features(nozzle_geom)
-    base_pads = [
-        Pad(
-            2*conn_diam,
-            10u"mm"+2*conn_diam,
-            nozzle_geom.thickness,
-            -nozzle_geom.thickness,
-            angle*u"°"
-        )
-        for angle in 0:90:270
-    ]
-    
-    gas_hole = SideHole(
+base_pads = [
+    Pad(
         2*conn_diam,
-        2*conn_diam,
+        10u"mm"+2*conn_diam,
         nozzle_geom.thickness,
-        10u"mm" - nozzle_geom.thickness,
-        90u"°",
-        conn_diam
+        -nozzle_geom.thickness,
+        angle*u"°"
     )
-    build_nozzle(nozzle_geom, base_pads..., gas_hole)
-end
+    for angle in 0:90:270
+]
 
-function nozzle_with_corrected_diameter(areas::NozzleProject.NozzleAreas, diameter_reduction::Unitful.Length)
-    true_areas = reduce_areas(areas, diameter_reduction)
-    nozzle_geom = RoundNozzle(true_areas, 5.0u"°", 45.0u"°", 30.0u"mm", 3.0u"mm")
-    add_features(nozzle_geom)
-end
+gas_hole = SideHole(
+    2*conn_diam,
+    2*conn_diam,
+    nozzle_geom.thickness,
+    10u"mm" - nozzle_geom.thickness,
+    90u"°",
+    conn_diam
+)
 
+nozzle1 = build_nozzle(nozzle_geom, base_pads..., gas_hole)
+
+NozzleDraw.export_stl("./nozzle_design/geometry/iter5/nozzle_2N.stl", nozzle1, rtol=1e-3, atol=1e-3)
 ##
-for diam_reduction in (0:0.1:0.4)u"mm"
-    corrected_nozzle = nozzle_with_corrected_diameter(areas, diam_reduction)
-    NozzleDraw.export_stl("./nozzle_design/geometry/iter4_fix_thrust/corrected_nozzle_$(diam_reduction).stl", corrected_nozzle, rtol=1e-2, atol=1e-2)
-end
+probed_nozzle = build_nozzle(nozzle_geom, base_pads..., gas_hole, 
+                SideHole(2*conn_diam, 
+                        2*conn_diam, 
+                        nozzle_geom.thickness,
+                        10u"mm" - nozzle_geom.thickness,
+                        0u"°",
+                        conn_diam))
+
+NozzleDraw.export_stl("./nozzle_design/geometry/iter5/nozzle_2N_probed.stl", probed_nozzle, rtol=1e-3, atol=1e-3)
+
 ##
 #encaixe na bancada de empuxo
 filled_motor = union(air_motor, 
