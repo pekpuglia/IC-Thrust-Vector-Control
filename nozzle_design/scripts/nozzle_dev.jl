@@ -11,7 +11,7 @@ chamber_pressure = 500.0u"kPa"  #kPa
 prop_temperature = 298.15u"K"
 conn_diam = 11u"mm"   #mm
 ##
-propellant = CEAInterface.Propellant("N2", 28u"g/mol", prop_temperature)
+propellant = CEAInterface.Propellant("Air", 29.8u"g/mol", prop_temperature)
 
 opcond = CEAInterface.OperatingCondition(chamber_pressure,
                 100.0u"kPa", propellant)
@@ -64,7 +64,7 @@ NozzleDraw.export_stl("./nozzle_design/geometry/iter5/nozzle_2N_probed.stl", pro
 
 ##
 #encaixe na bancada de empuxo
-filled_motor = union(air_motor, 
+filled_motor = union(nozzle1, 
     [0,0,-mm(nozzle_geom.thickness)] 
     + linear_extrude(10) 
     * circle(
@@ -77,21 +77,12 @@ filled_motor = union(air_motor,
 t = mm(nozzle_geom.thickness)
 nozzle_OD = mm(2*NozzleDraw.get_radius(nozzle_geom.areas.Achamber)) + 2t
 
-screw_support = [-30-nozzle_OD/2-2t, 0, 0] + 
-        linear_extrude(12) * (square(60, nozzle_OD+2t, center=true)
-        \ ([-22, 0] + union(circle(2.5), [11, 0] + circle(2.5)))
-    )
-
-
-nozzle_support = union(
-    #bloco quadrado
-    linear_extrude(20) * square(nozzle_OD + 4t, center=true),
-    #suporte dos p=arafusos [nozzle_OD/2+2t, 0, 0] + 
-    screw_support
-)
-
 #recesso do motor
-nozzle_support =  nozzle_support \ ([0, 0, 10 + NozzleDraw.mm(nozzle_geom.thickness)] + filled_motor)
+nozzle_support = union(linear_extrude(15) * square(nozzle_OD + 4t, center=true) \
+             ([0, 0, 5 + NozzleDraw.mm(nozzle_geom.thickness)] + filled_motor),
+             [0, 0, -20] + linear_extrude(20) * polygon(NozzleDraw.poly(20, 6))
+)
+             
 
 ##
-NozzleDraw.export_stl("./nozzle_design/geometry/iter3/support.stl", nozzle_support, rtol=1e-2, atol=1e-2)
+NozzleDraw.export_stl("./nozzle_design/geometry/iter5/support.stl", nozzle_support, rtol=1e-2, atol=1e-2)
