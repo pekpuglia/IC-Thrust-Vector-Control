@@ -20,7 +20,7 @@ areas = NozzleProject.NozzleAreas(required_thrust, opcond,
                 contraction_ratio=50.0, min_chamber_radius = 15u"mm")
 
 
-nozzle_geom = RoundNozzle(areas, 5.0u"°", 45.0u"°", 30.0u"mm", 3.0u"mm")
+nozzle_geom = RoundNozzle(areas, 5.0u"°", 30.0u"°", 30.0u"mm", 3.0u"mm")
                 
 ##
 #verify speed in tube
@@ -49,8 +49,8 @@ gas_hole = SideHole(
 )
 
 nozzle1 = build_nozzle(nozzle_geom, base_pads..., gas_hole)
-
-NozzleDraw.export_stl("./nozzle_design/geometry/iter5/nozzle_2N.stl", nozzle1, rtol=1e-3, atol=1e-3)
+##
+NozzleDraw.export_stl("./nozzle_design/geometry/iter5/nozzle_2N_elongated.stl", nozzle1, rtol=1e-3, atol=1e-3)
 ##
 probed_nozzle = build_nozzle(nozzle_geom, base_pads..., gas_hole, 
                 SideHole(2*conn_diam, 
