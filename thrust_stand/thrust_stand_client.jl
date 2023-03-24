@@ -76,8 +76,6 @@ function execute_menu(im::InputMenu, sp::SerialPort)
     end
 end
 ################################################################################
-#adicionar armazenamento em vetor
-#leitura de mais de uma variável/linha
 struct OutputMenu <: AbstractMenu
     code::UInt8
     title::String
