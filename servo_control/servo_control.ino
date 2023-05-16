@@ -27,7 +27,7 @@ void loop() {
     }
     //espera resto da mensagem chegar
     delay(5);
-    int command = serialLittleEndianInt();
+    int command = serialASCIIInt();
     Serial.println(command);
     if (command < 0 || command > 180) {
         return;
