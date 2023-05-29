@@ -71,11 +71,16 @@ p = scatter(Ft.(raw_thrustFxFy), label="", xlabel="Medida", ylabel="Força (g)",
 vline!(p, findall(x -> x > 0, diff(raw_thrustFxFy.label)), line = :dash, label = "")
 png(p, joinpath(@__DIR__, "output/", "empuxo_sem_aleta.png"))
 ##
-exp7AFD = load_AFD("exp7_5bar_70_a_110.txt")
+input_file = "exp8_5bar_110_a_70"
+expAFD = load_AFD(input_file*".txt")
 ##
-exp7FxFyM = FxFyM(exp7AFD, coefs)
+expFxFyM = FxFyM(expAFD, coefs)
+expFxFyM = FxFyM.(expFxFyM.label, expFxFyM.Fy, expFxFyM.Fx .- expFxFyM[11].Fx, expFxFyM.M)
 ##
-p = plot(exp7FxFyM.label, Ft.(exp7FxFyM), label="Força total", title="Forças em função da deflexão", xlabel="Ângulo do servo", ylabel="Força (g)")
-plot!(p, exp7FxFyM.label, exp7FxFyM.Fx, label="Força lateral")
-plot!(p, exp7FxFyM.label, exp7FxFyM.Fy, label="Empuxo")
-png(p, joinpath(@__DIR__, "output/", "forças_exp7"))
+p = plot(expFxFyM.label, Ft.(expFxFyM), label="Força total", title="Forças em função da deflexão", xlabel="Ângulo do servo", ylabel="Força (g)")
+plot!(p, expFxFyM.label, expFxFyM.Fx, label="Força lateral")
+plot!(p, expFxFyM.label, expFxFyM.Fy, label="Empuxo")
+##
+png(p, joinpath(@__DIR__, "output/", input_file))
+##
+plot(expFxFyM.Fx, expFxFyM.Fy)
