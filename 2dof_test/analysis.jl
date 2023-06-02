@@ -1,4 +1,4 @@
-using Plots, Unitful, CSV
+using Plots, Unitful, CSV, LinearAlgebra
 ##
 function bA(datafile)
     data = CSV.File(joinpath(@__DIR__, "data/", datafile), header = false)
@@ -20,13 +20,29 @@ function load_AFD(filename)
     AFDDataPoint.(data.Column1, data.Column2, data.Column4, data.Column6)
 end
 
-function calibrate(Fy_series::Vector{AFDDataPoint}, Fx_series::Vector{AFDDataPoint})
+function calibrate(Fy_series::Vector{AFDDataPoint}, Fx_series::Vector{AFDDataPoint}, d)
     FA = getproperty.(Fy_series, :label)/2
     FF = getproperty.(Fy_series, :label)/2
     FD = getproperty.(Fx_series, :label)
 
-    
+    A = getproperty.(Fy_series, :A)
+    F = getproperty.(Fy_series, :F)
+    D = getproperty.(Fx_series, :D)
 
+    y_ones = ones(length(Fy_series))
+    x_ones = ones(length(Fx_series))
+
+    cA = [A y_ones] \ FA
+    cF = [F y_ones] \ FF
+    cD = [D x_ones] \ FD
+
+    [
+        1 1 0
+        0 0 1
+        d -d 0
+    ] * [
+        diagm(first.([cA, cF, cD])) last.([cA, cF, cD])
+    ]
 end
 ##
 struct FxFyM
@@ -86,3 +102,22 @@ png("Fy_scatter")
 ##
 scatter([Fy_output[:,1] Fy_seccol] * Acoefs - [Fy_output[:,2] Fy_seccol] * Fcoefs)
 png("M_scatter")
+##
+Fy_series = cat(load_AFD.([
+    "Cal_empuxo_Crescente.txt"
+    "Cal_empuxo_Decrescente.txt"])..., dims=1)
+Fx_series = cat(load_AFD.([
+    "Cal_força_Lateral_Crescente.txt"
+    "Cal_força_Lateral_Decrescente.txt"])..., dims=1)
+##
+calib_mat = calibrate(Fy_series, Fx_series, 16.5)
+##
+thrust_data = load_AFD("empuxo_sem_aleta.txt")
+n = length(thrust_data)
+thrust = calib_mat[:,1:3] * [
+    getproperty.(thrust_data, :A)'
+    getproperty.(thrust_data, :F)'
+    getproperty.(thrust_data, :D)'
+] .+ calib_mat[:,4]
+##
+plot(thrust')
