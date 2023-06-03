@@ -142,3 +142,22 @@ thrust = calib_mat[:,1:3] * [
 thrust = FxFyM(thrust_data, calib_mat)
 ##
 plot(ustrip.(u"g", getproperty.(thrust, :Fy)))
+##
+#plots
+files = readdir(joinpath(@__DIR__, "data/"))
+files = filter(fname -> fname[1:3] == "exp", files)
+exp_numbers = [parse(Int, fname[4:(2+findfirst(!isdigit, fname[4:end]))]) for fname in files]
+files = files[exp_numbers .>= 7]
+
+##
+for file in files
+    exp = load_AFD(file)
+    forces = FxFyM(exp, calib_mat)
+    plot(getproperty.(forces, :label), ustrip.(u"g", getproperty.(forces, :Fy)), label="Fy (g)", legend=:outertopright)
+    plot!(getproperty.(forces, :label), ustrip.(u"g", getproperty.(forces, :Fx)), label="Fx (g)", dpi=400)
+    plot!(getproperty.(forces, :label), ustrip.(u"g*cm", getproperty.(forces, :M)), label="M (g*cm)")
+    title!(file[1:(end-4)])
+    png(joinpath(@__DIR__, "output/"*file)[1:(end-4)])
+end
+##
+
