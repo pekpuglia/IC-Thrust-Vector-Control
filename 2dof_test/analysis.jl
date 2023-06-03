@@ -32,14 +32,14 @@ function calibrate(Fy_series::Vector{AFDDataPoint}, Fx_series::Vector{AFDDataPoi
     y_ones = ones(length(Fy_series))
     x_ones = ones(length(Fx_series))
 
-    cA = [A y_ones] \ FA
-    cF = [F y_ones] \ FF
-    cD = [D x_ones] \ FD
+    cA = ([A y_ones] \ FA)*u"g"
+    cF = ([F y_ones] \ FF)*u"g"
+    cD = ([D x_ones] \ FD)*u"g"
 
     [
         1 1 0
         0 0 1
-        d -d 0
+        d -d 0u"m"
     ] * [
         diagm(first.([cA, cF, cD])) last.([cA, cF, cD])
     ]
@@ -52,10 +52,29 @@ struct FxFyM
     M
 end
 
-function FxFyM(afd::AFDDataPoint, coefs::Matrix)
+function FxFyM(afd::AFDDataPoint, calib_mat::Matrix)
+    FxFyM(
+        afd.label,
+        (calib_mat[:,1:3] * [
+        afd.A
+        afd.F
+        afd.D
+    ] + calib_mat[:,4])...
+    )
 end
 
-function FxFyM(afds::Vector, coefs::Matrix)
+function FxFyM(afds::Vector{AFDDataPoint}, calib_mat::Matrix)
+    force_matrix = calib_mat[:,1:3] * [
+        getproperty.(afds, :A)'
+        getproperty.(afds, :F)'
+        getproperty.(afds, :D)'
+    ] .+ calib_mat[:,4]
+    FxFyM.(
+        getproperty.(afds, :label),
+        force_matrix[1,:],
+        force_matrix[2,:],
+        force_matrix[3,:]
+    )
 end
 
 Ft(f::FxFyM) = √(f.Fx^2+f.Fy^2)
@@ -110,7 +129,7 @@ Fx_series = cat(load_AFD.([
     "Cal_força_Lateral_Crescente.txt"
     "Cal_força_Lateral_Decrescente.txt"])..., dims=1)
 ##
-calib_mat = calibrate(Fy_series, Fx_series, 16.5)
+calib_mat = calibrate(Fy_series, Fx_series, 16.5u"mm")
 ##
 thrust_data = load_AFD("empuxo_sem_aleta.txt")
 n = length(thrust_data)
@@ -120,4 +139,6 @@ thrust = calib_mat[:,1:3] * [
     getproperty.(thrust_data, :D)'
 ] .+ calib_mat[:,4]
 ##
-plot(thrust')
+thrust = FxFyM(thrust_data, calib_mat)
+##
+plot(ustrip.(u"g", getproperty.(thrust, :Fy)))
