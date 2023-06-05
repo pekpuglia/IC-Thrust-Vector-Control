@@ -228,3 +228,7 @@ for (file, exp) in zip(files, exps)
     p = full_plot(offset_for, file)
     png(p, joinpath(@__DIR__, "output/offset_"*file[1:(end-4)]))
 end
+
+## TODO
+#find center of forces, correlate with metal sheet position
+#get control derivatives
