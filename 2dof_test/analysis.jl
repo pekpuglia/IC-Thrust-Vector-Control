@@ -78,6 +78,46 @@ function FxFyM(afds::Vector{AFDDataPoint}, calib_mat::Matrix)
 end
 
 Ft(f::FxFyM) = √(f.Fx^2+f.Fy^2)
+
+function align_axes_at_90(fxfym::Vector{FxFyM})
+    central = findfirst(x->x.label==90, fxfym)
+
+    force_vector = [
+        fxfym[central].Fx
+        fxfym[central].Fy
+    ]
+
+    force_direction = force_vector / norm(force_vector)
+
+    ##alinhar eixo y com direção da força
+    ##force_direction = rot_mat * [0;1]
+    rot_mat = [
+        [force_direction[2]; -force_direction[1]] force_direction
+    ]
+
+    ##p rotacionar os pontos, considera-se uma rotação no sentido contrário à rotação dos eixos
+    u = unit(fxfym[1].Fx)
+    old_fx_fy = ustrip.(u, [
+        getproperty.(fxfym, :Fx)'
+        getproperty.(fxfym, :Fy)'
+    ])
+
+    new_fx_fy = (rot_mat \ old_fx_fy)*u
+
+    acos(force_direction[2]), FxFyM.(getproperty.(fxfym, :label), new_fx_fy[2,:], new_fx_fy[1,:], getproperty.(fxfym, :M))
+
+end
+
+function force_offset_at_90(fxfym::Vector{FxFyM})
+    central = findfirst(x->x.label==90, fxfym)
+    Fx_offset = fxfym[central].Fx
+    M_offset = fxfym[central].M
+    d_offset = M_offset / Fx_offset |> u"cm"
+
+    d_offset, FxFyM.(getproperty.(fxfym, :label), getproperty.(fxfym, :Fy),
+        getproperty.(fxfym, :Fx) .- Fx_offset, getproperty.(fxfym, :M) .- M_offset)
+end
+
 ##
 FybA_tuples = bA.(
     [
@@ -148,16 +188,43 @@ files = readdir(joinpath(@__DIR__, "data/"))
 files = filter(fname -> fname[1:3] == "exp", files)
 exp_numbers = [parse(Int, fname[4:(2+findfirst(!isdigit, fname[4:end]))]) for fname in files]
 files = files[exp_numbers .>= 7]
-
 ##
-for file in files
-    exp = load_AFD(file)
-    forces = FxFyM(exp, calib_mat)
-    plot(getproperty.(forces, :label), ustrip.(u"g", getproperty.(forces, :Fy)), label="Fy (g)", legend=:outertopright)
-    plot!(getproperty.(forces, :label), ustrip.(u"g", getproperty.(forces, :Fx)), label="Fx (g)", dpi=400)
-    plot!(getproperty.(forces, :label), ustrip.(u"g*cm", getproperty.(forces, :M)), label="M (g*cm)")
-    title!(file[1:(end-4)])
-    png(joinpath(@__DIR__, "output/"*file)[1:(end-4)])
+exps = load_AFD.(files)
+##
+function full_plot(forces::Vector{FxFyM}, fname, f_unit = u"g", m_unit=u"g*cm")
+    p = scatter( getproperty.(forces, :label), ustrip.(f_unit,    getproperty.(forces, :Fy)), label="Fy (g)", legend=:outertopright)
+    scatter!(p, getproperty.(forces, :label), ustrip.(f_unit,    getproperty.(forces, :Fx)), label="Fx (g)", dpi=400)
+    scatter!(p, getproperty.(forces, :label), ustrip.(m_unit, getproperty.(forces, :M)), label="M (g*cm)")
+    title!(p, fname[1:(end-4)])
+    p
 end
 ##
+for (file, exp) in zip(files, exps)
+    forces = FxFyM(exp, calib_mat)
+    p = full_plot(forces, file)
+    png(p, joinpath(@__DIR__, "output/"*file)[1:(end-4)])
+end
+##
+#hipótese 1 - o aparato estava rotacionado de um ângulo theta (não explica momento != 0)
+#rotate correction
+thetas = []
+for (file, exp) in zip(files, exps)
+    forces = FxFyM(exp, calib_mat)
+    theta, rot_for = align_axes_at_90(forces)
+    push!(thetas, theta)
+    p = full_plot(rot_for, file)
+    plot!(p, getproperty.(rot_for, :label), ustrip.(u"g",Ft.(rot_for)), label = "total")
+    png(p, joinpath(@__DIR__, "output/rotated_"*file[1:(end-4)]))
+end
 
+##
+#hipótese 2 - o aparato estava alinhado, e havia um Fx causando momento
+#boa!!!
+arms = []
+for (file, exp) in zip(files, exps)
+    forces = FxFyM(exp, calib_mat)
+    d, offset_for = force_offset_at_90(forces)
+    push!(arms, d)
+    p = full_plot(offset_for, file)
+    png(p, joinpath(@__DIR__, "output/offset_"*file[1:(end-4)]))
+end
