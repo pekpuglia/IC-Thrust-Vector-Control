@@ -1,0 +1,31 @@
+
+O trabalho foi conduzido em três etapas: o projeto e manufatura do motor, o projeto do sistema de deflexão de fluxo, e a caracterização experimental do sistema. A seguir, descrever-se-ão cada uma destas etapas.
+
+\section{Projeto do motor}
+
+O projeto do motor foi feito de maneira programática e iterativa, assegurando fácil reprodução dos resultados obtidos e automação do fluxo de dados. Nesta seção, serão apresentados os dados referentes à última versão do motor. Para um histórico do desenvolvimento do motor, consultar o apêndice AAAAAAAAAAA. 
+
+A tabela~\ref{tab:requirements} mostra os requisitos propulsivos, codificados PRP-N, e geométricos, codificados GMT-N, levantados para o motor. Os requisitos PRP-1 e PRP-2 foram propostos com base nos sistemas de fornecimento de ar disponíveis e na escala desejada do motor. Já a temperatura do propelente, requisito PRP-2, é baseada na temperatura ambiente, e permite a utilização de \textit{jet vanes} feitas de materiais simples. Com base nestes requisitos, um sistema monopropelente a ar foi proposto. Os requisitos GMT-1 e GMT-2 foram especificados com base na necessidade de haver estagnação na câmara de empuxo (SUTTON, INTRO TEÓRICA) e na necessidade de fácil manipulação, manufatura e conexão. Já os requisitos GMT-3 e GMT-4 buscam propiciar um escoamento com alto paralelismo na região da tubeira.
+
+\begin{table}[]
+    \centering\begin{tabular}{cccc} \toprule
+        Código & Variável & Grandeza & Valor \\ \midrule
+        PRP-1 & \(P_C\) & Pressão de câmara & \(500kPa\) \\
+        PRP-2 & \(T\) & Empuxo & \(2N\) \\
+        PRP-3 &\(T_{prop}\) & Temperatura do propelente & \(298,15K\) \\
+        GMT-1 & \(r_{C,\text{min}}\) & Raio de câmara mínimo & \(15mm\) \\
+        GMT-2 & \(L_C\) & Comprimento de câmara & \(30mm\) \\
+        GMT-3 & \(\alpha_{\text{conv}}\) & Semi-ângulo do convergente & \(30^\circ \) \\
+        GMT-4 & \(\alpha_{\text{div}}\) & Semi-ângulo do divergente & \(5^\circ \) \\ \bottomrule 
+    \end{tabular}
+    \caption{Requisitos propulsivos e geométricos para o motor.}
+    \label{tab:requirements}
+\end{table}
+
+A partir destes requisitos, o software CEA NASA foi utilizado para calcular os parâmetros propulsivos (\(\varepsilon \), \(C^\ast \) e \(C_f\)) do sistema com pressão ambiente \(P_{amb} = 100kPa\). Com estes coeficientes, pode-se aplicar as relações INSERIR REFERENCIAS descritas na introdução para calcular as áreas de saída \(A_e\), de garganta \(A_t\). A área de câmara, \(A_C\), foi calculada diretamente a partir do requisito GMT-1.
+
+Os três coeficientes propulsivos calculados também foram utilizados para estimar o fluxo mássico de propelente \(\dot{m}\), e este, para estimar a velocidade do propelente na mangueira de alimentação, \(v_{\text{prop}}\). Estes parâmetros são relevantes para a verificação da perda de carga no sistema de alimentação, bem como para a escolha da fonte de ar. Como o propelente é pouco energético, altas vazões são necessárias mesmo para empuxos pequenos, de modo que conhecer a capacidade exigida da fonte foi fundamental. A partir de \(\dot{m}\), cujo cálculo foi descrito anteriormente, e assumindo que a  um diâmetro de tubo \(d\), massa molar do ar \(MM_{ar}\) e constante dos gases \(R\):
+\begin{equation}
+    v_{\text{prop}} = \frac{\dot{m} R T_{\text{prop}}}{\pi \left(\frac{d}{2}\right)^2 P_C MM_{ar}}
+\end{equation}
+
