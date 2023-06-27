@@ -39,4 +39,20 @@ No vácuo, força propulsiva, ou empuxo, é uma função do fluxo mássico do si
     F = \dot{m} v_2 + (p_2 - p_3) A_2
 \end{equation}
 
-onde \(F\) é a força propulsiva, \(\dot{m}\) é o fluxo mássico de propelente, \(v_2\) é a velocidade de exaustão do propelente, relativa ao veículo, \(p_2\) é a pressão local na saída da tubeira, \(A_2\) é a área de saída da tubeira e \(p_3\) é a pressão ambiente. Observa-se que 
+onde \(F\) é a força propulsiva, \(\dot{m}\) é o fluxo mássico de propelente, \(v_2\) é a velocidade de exaustão do propelente, relativa ao veículo, \(p_2\) é a pressão local na saída da tubeira, \(A_2\) é a área de saída da tubeira e \(p_3\) é a pressão ambiente. Observa-se que a equação~\ref{eq:thrust_basic} assume valores médios para a seção da tubeira. Também, ressalta-se que os índices 2 e 3 referem-se à saída da tubeira e ao ambiente, respectivamente. O índice 1 será usado para referências à câmara.
+
+Um parâmetro de desempenho usado para comparar a eficiência mássica do sistema propulsivo é o impulso específico. Ele mede o impulso imprimido ao veículo por peso de propelente ou, analogamente (supondo regime estacionário), a força gerada por vazão de peso de propelente:
+\begin{equation}
+    \label{eq:Isp}
+    I_{\text{sp}} = \frac{\int^T_0 F dt}{g_0 \int^T_0 \dot{m}dt} = \frac{F}{g_0 \dot{m}}
+\end{equation}
+
+onde \(g_0=9,81m/s^2\). Este fator \(g_0\), a gravidade padrão, foi introduzido para permitir que a unidade do impulso específico seja \(s\), permitindo a fácil comunicação de valores de impulso específico entre instituições que usam o sistema métrico e o sistema imperial. Assim, sistemas propulsivos muito energéticos terão, de modo geral, impulso específico alto, pois conseguem imprimir altas velocidades à massa de reação. Inversamente, sistemas pouco energéticos, como os de gás frio, terão impulsos específicos baixos.
+
+Outro parâmetro útil é o coeficiente de empuxo \(C_F\). Ele mede a amplificação de empuxo advinda da expansão do fluxo supersônico na tubeira do foguete. Ou seja, ele mede a razão entre o empuxo real do sistema e a força que seria obtida aplicando-se a pressão de câmara na área da garganta:
+\begin{equation}
+    \label{eq:C_F}
+    C_F = \frac{F}{p_1 A_t}
+\end{equation}
+
+Se o coeficiente de empuxo mede a eficiência da tubeira, a velocidade característica \(c^*\) mede a eficiência do conjunto câmara e propelente. 
