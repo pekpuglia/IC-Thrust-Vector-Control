@@ -86,3 +86,6 @@ nozzle_support = union(linear_extrude(15) * square(nozzle_OD + 4t, center=true) 
 
 ##
 NozzleDraw.export_stl("./nozzle_design/geometry/iter5/support.stl", nozzle_support, rtol=1e-2, atol=1e-2)
+##
+#export de figuras pro rela
+img_path = joinpath(pwd(), "report", "img")

@@ -31,4 +31,12 @@ Este trabalho buscou desenvolver motor foguete a gás frio de pequena escala (2-
 
 \section{Introdução Teórica}
 
-A propulsão de motores-foguete é baseada na força de reação gerada pela aceleração de uma massa em um sentido oposto ao sentido desejado da força propulsiva. Tecnologicamente, este conceito é implementado com o uso de escoamentos de fluidos compressíveis, acelerados por diferenças de pressão presentes no sistema. Do ponto de vista da engenharia aeroespacial, faz-se necessário conhecer algumas métricas de eficiência que possam ser aplicadas em um projeto. Assim, a propulsão é uma área de aplicação de mecânica, termodinâmica e engenharia.
+A propulsão de motores-foguete é baseada na força de reação gerada pela aceleração de uma massa em um sentido oposto ao sentido desejado da força propulsiva. Tecnologicamente, este conceito é implementado com o uso de escoamentos de fluidos compressíveis, acelerados por diferenças de pressão presentes no sistema. Do ponto de vista da engenharia aeroespacial, faz-se necessário conhecer algumas métricas de eficiência que possam ser aplicadas em um projeto. Assim, a propulsão é uma área derivada da mecânica, termodinâmica e engenharia.
+
+No vácuo, força propulsiva, ou empuxo, é uma função do fluxo mássico do sistema, da velocidade de ejeção de propelente (derivada diretamente da segunda lei de Newton). Para sistemas propulsivos em uma atmosfera, deve ser adicionado um termo corretivo referente à diferença de pressão entre a atmosfera e o escoamento ejetado. Assim, o empuxo pode ser dado, em primeira aproximação, por~\cite{Sutton}:
+\begin{equation}
+    \label{eq:thrust_basic}
+    F = \dot{m} v_2 + (p_2 - p_3) A_2
+\end{equation}
+
+onde \(F\) é a força propulsiva, \(\dot{m}\) é o fluxo mássico de propelente, \(v_2\) é a velocidade de exaustão do propelente, relativa ao veículo, \(p_2\) é a pressão local na saída da tubeira, \(A_2\) é a área de saída da tubeira e \(p_3\) é a pressão ambiente. Observa-se que 
