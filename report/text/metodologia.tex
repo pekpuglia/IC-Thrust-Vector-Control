@@ -1,11 +1,11 @@
 
-O trabalho foi conduzido em três etapas: o projeto e manufatura do motor, o projeto do sistema de deflexão de fluxo, e a caracterização experimental do sistema. A seguir, descrever-se-ão cada uma destas etapas.
+O trabalho foi iniciado com o projeto do motor a gás frio. A seguir, este motor foi validado experimentalmente em uma bancada de teste de empuxo. Com o sistema propulsivo pronto, projetou-se o sistema de \textit{jet vanes}. Por fim, este sistema foi aferido em uma balança de três componentes para medição do empuxo e força lateral gerada pelo sistema. 
 
 \section{Projeto do motor}
 
 O projeto do motor foi feito de maneira programática e iterativa, assegurando fácil reprodução dos resultados obtidos e automação do fluxo de dados. A linguagem de programação \textit{Julia} foi utilizada para o projeto. Nesta seção, serão apresentados os dados referentes à última versão do motor. Para um histórico do desenvolvimento do motor, consultar o apêndice AAAAAAAAAAA.  
 
-A tabela~\ref{tab:requirements} mostra os requisitos propulsivos, codificados PRP-N, e geométricos, codificados GMT-N, levantados para o motor. Os requisitos PRP-1 e PRP-2 foram propostos com base nos sistemas de fornecimento de ar disponíveis e na escala desejada do motor. Já a temperatura do propelente, requisito PRP-2, é baseada na temperatura ambiente, e permite a utilização de \textit{jet vanes} feitas de materiais simples. Com base nestes requisitos, um sistema monopropelente a ar foi proposto. Os requisitos GMT-1 e GMT-2 foram especificados com base na necessidade de haver estagnação na câmara de empuxo (SUTTON, INTRO TEÓRICA) e na necessidade de fácil manipulação, manufatura e conexão. Já os requisitos GMT-3 e GMT-4 buscam propiciar um escoamento com alto paralelismo na região da tubeira, assim como facilitar a manufatura.
+A tabela~\ref{tab:requirements} mostra os requisitos propulsivos, codificados PRP-N, e geométricos, codificados GMT-N, levantados para o motor. Os requisitos PRP-1 e PRP-2 foram propostos com base nos sistemas de fornecimento de ar disponíveis e na escala desejada do motor. Já a temperatura do propelente, requisito PRP-2, é baseada na temperatura ambiente, e permite a utilização de \textit{jet vanes} feitas de materiais simples. Com base nestes requisitos, um sistema monopropelente a ar foi proposto. Os requisitos GMT-1 e GMT-2 foram especificados com base na necessidade de haver estagnação na câmara de empuxo (seção~\ref{sec:intro}) e na necessidade de fácil manipulação, manufatura e conexão. Já os requisitos GMT-3 e GMT-4 buscam propiciar um escoamento com alto paralelismo na região da tubeira, assim como facilitar a manufatura.
 
 \begin{table}[]
     \centering\begin{tabular}{cccc} \toprule
@@ -22,13 +22,36 @@ A tabela~\ref{tab:requirements} mostra os requisitos propulsivos, codificados PR
     \label{tab:requirements}
 \end{table}
 
-A partir destes requisitos, o software CEA NASA foi utilizado para calcular os parâmetros propulsivos (\(\varepsilon \), \(C^\ast \) e \(C_f\)) do sistema com pressão ambiente \(P_{amb} = 100kPa\). Com estes coeficientes, pode-se aplicar as relações INSERIR REFERENCIAS descritas na introdução para calcular as áreas de saída \(A_e\), de garganta \(A_t\). A área de câmara, \(A_C\), foi calculada diretamente a partir do requisito GMT-1. Foi introduzida uma seção cilíndrica na garganta do motor, com área de seção transversal \(A_t\), para garantir a manufatura precisa dessa dimensão.
+A partir destes requisitos, o software CEA NASA foi utilizado para calcular os parâmetros propulsivos (\(\varepsilon \), \(C^\ast \) e \(C_f\)) do sistema com pressão ambiente \(P_{amb} = 100kPa\). Com estes coeficientes, pode-se aplicar as relações~\ref{eq:exp_ratio} e~\ref{eq:C_F} descritas na seção~\ref{sec:intro} para calcular as áreas de saída \(A_e\), de garganta \(A_t\). A área de câmara, \(A_C\), foi calculada diretamente a partir do requisito GMT-1. Foi introduzida uma seção cilíndrica na garganta do motor, com área de seção transversal \(A_t\), para garantir a manufatura precisa dessa dimensão.
 
 Os três coeficientes propulsivos calculados também foram utilizados para estimar o fluxo mássico de propelente \(\dot{m}\), e este, para estimar a velocidade do propelente na mangueira de alimentação, \(v_{\text{prop}}\). Estes parâmetros são relevantes para a verificação da perda de carga no sistema de alimentação, bem como para a escolha da fonte de ar. Como o propelente é pouco energético, altas vazões são necessárias mesmo para empuxos pequenos, de modo que conhecer a capacidade exigida da fonte foi fundamental. A partir de \(\dot{m}\), cujo cálculo foi descrito anteriormente, e assumindo que a  um diâmetro de tubo \(d\), massa molar do ar \(MM_{ar}\) e constante dos gases \(R\):
 \begin{equation}
     v_{\text{prop}} = \frac{\dot{m} R T_{\text{prop}}}{\pi \left(\frac{d}{2}\right)^2 P_C MM_{ar}}
 \end{equation}
 
-Com as áreas das seções transversais do motor calculadas, e em posse da especificação da geometria interna do motor, gerou-se o CAD do motor para impressão 3D. Em \textit{Julia}, utilizou-se a package \textit{ConstructiveGeometry}\footnote[1]{https://github.com/plut/ConstructiveGeometry.jl} para gerar a geometria tridimensional a partir do dados de geometria calculados. Ao produzir o CAD diretamente a partir do código de projeto, foi possível eliminar etapas manuais que podem introduzir erros e atrasos ao projeto. A impressão 3D foi escolhida como método de manufatura devido à baixa temperatura de operação do motor, e à sua geometria complexa, assim como pela velocidade de prototipagem propiciada por esta tecnologia.
+Com as áreas das seções transversais do motor calculadas, e em posse da especificação da geometria interna do motor, gerou-se o CAD do motor para impressão 3D. Em \textit{Julia}, utilizou-se a package \textit{ConstructiveGeometry}\footnote[1]{https://github.com/plut/ConstructiveGeometry.jl} para gerar a geometria tridimensional a partir do dados de geometria calculados. Ao produzir o CAD diretamente a partir do código de projeto, foi possível eliminar etapas manuais que podem introduzir erros e atrasos ao projeto. A impressão 3D foi escolhida como método de manufatura devido à baixa temperatura de operação do motor, e à sua geometria complexa, assim como pela velocidade de prototipagem propiciada por esta tecnologia. O material de impressão usado foi ABS.\@
 
-Teste de empuxo, pressão e temperatura!!!!!!!
+\section{Validação do projeto do motor}
+
+O motor projetado e impresso em 3D foi montado em uma bancada de testes e instrumentado com os sensores da tabela ref. Os sensores, bem como uma válvula de gás comandada eletronicamente, foram ligados a um Arduino Mega para leitura e controle do conjunto de testes. 
+
+%https://www.arduino.cc/reference/en/libraries/max6675/
+
+\begin{table}[htbp]
+    \centering\begin{tabular}{p{0.15\textwidth}p{0.5\textwidth}p{0.2\textwidth}} \toprule
+        Sensor & Montagem & Biblioteca usada \\ \midrule
+        Termopar & Inserido lateralmente na câmara de empuxo, selado com cola de ABS & MAX6675 \\
+        Célula de carga & Apoio para o motor, sentido de medida paralelo ao empuxo & HX711 \\
+        Transdutor de pressão & Acoplado à câmara de empuxo em furo lateral; ver CAD na seção RESULTADOS & Leitura analógica simples \\ \bottomrule
+    \end{tabular}
+    \caption{Descrição dos periféricos usados nos testes de validação do motor desenvolvido.}
+    \label{tab:validation_peripherals}
+\end{table}
+
+Para o controle da bancada foi desenvolvida uma \textit{command line interface} simples para permitir testes interativos. Assim, as funções de tara, calibração, abertura e fechamento de válvula e leitura de sensores podiam ser comandadas a partir de uma interface textual interativa que facilitou a iteração do teste.
+
+\section{Projeto do sistema de \textit{jet vanes}}
+
+Devido à disponibilidade de materiais, foi utilizada uma lâmina de aço de 0,7mm de espessura como \textit{jet vane}. Com este sistema, desejou-se a capacidade de posicionar a lâmina defletora com resolução de \(1^\circ \), com alcance de deflexão de \(\pm 20^\circ \). Também foi necessário projetar um suporte para o motor que permitisse a conexão da mangueira de alimentação de gás. Por fim, este sistema deveria ter um encaixe circular de \(12mm\) para um eixo de acoplamento com a balança de três componentes.
+
+\section{Caracterização do sistema em balança de três componentes}
