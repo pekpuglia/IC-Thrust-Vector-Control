@@ -108,3 +108,32 @@ coeffs = NozzleProject.CEACoeffs(opcond)
 cea_eps = latexify("ε = $(coeffs.eps)", fmt = "%.2f")
 cea_cstar = latexify(coeffs.Cstar)
 cea_cf = latexify("C_F = $(coeffs.Cf)", fmt="%.2f")
+rela_mdot = latexify(mdot |> u"g/s")
+##
+#validação
+using MAT, Statistics
+##
+data = matread(joinpath(pwd(), "1dof_test", "data", "iter5", "test2_callibrated.mat"))["mat"]
+F = first.(data)u"g" * 9.79u"m/s^2" .|> u"N" 
+P1 = last.(data)u"bar"
+##
+p = Plots.scatter(P1 .|> ustrip, F .|> ustrip,
+    label="",
+    xlabel="Pressão de câmara (bar)",
+    ylabel="Empuxo (N)",
+    dpi=400)
+png(p, joinpath(img_path, "thrust_vs_chamber_pressure.png"))
+##
+#parâmetros propulsivos
+CF_emp = F ./ (P1 * areas.Athroat) .|> NoUnits
+mean_CF_emp = mean(CF_emp)
+sigma_CF_emp = std(CF_emp)
+##
+true_mdots = NozzleProject.get_mdot.(F, CEAInterface.OperatingCondition.(P1, 100.0u"kPa", Ref(propellant)))
+##
+Cstar_emp = (P1 * areas.Athroat) ./ true_mdots .|> u"m/s"
+mean_Cstar_emp = mean(Cstar_emp)
+sigma_Cstar_emp = std(Cstar_emp)
+##
+Findex = findmin(x -> abs(x-2u"N"), F)[2]
+Isp_emp = F[Findex] ./ (9.80665u"m/s^2" * true_mdots[Findex]) |> u"s"

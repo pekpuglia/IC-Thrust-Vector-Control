@@ -31,7 +31,7 @@ Os três coeficientes propulsivos calculados também foram utilizados para estim
 
 Com as áreas das seções transversais do motor calculadas, e em posse da especificação da geometria interna do motor, gerou-se o CAD do motor para impressão 3D. Em \textit{Julia}, utilizou-se a package \textit{ConstructiveGeometry}\footnote[1]{https://github.com/plut/ConstructiveGeometry.jl} para gerar a geometria tridimensional a partir do dados de geometria calculados. Ao produzir o CAD diretamente a partir do código de projeto, foi possível eliminar etapas manuais que podem introduzir erros e atrasos ao projeto. A impressão 3D foi escolhida como método de manufatura devido à baixa temperatura de operação do motor, e à sua geometria complexa, assim como pela velocidade de prototipagem propiciada por esta tecnologia. O material de impressão usado foi ABS.\@
 
-\section{Validação do projeto do motor}
+\section{Validação do projeto do motor}\label{sec:method_validation}
 
 O motor projetado e impresso em 3D foi montado em uma bancada de testes e instrumentado com os sensores da tabela ref. Os sensores, bem como uma válvula de gás comandada eletronicamente, foram ligados a um Arduino Mega para leitura e controle do conjunto de testes. 
 
