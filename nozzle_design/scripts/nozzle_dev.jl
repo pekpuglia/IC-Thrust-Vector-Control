@@ -1,6 +1,7 @@
 using Revise
 using GLMakie
 using ConstructiveGeometry
+using Plots
 ##
 include("../src/nozzle_design.jl")
 using .NozzleDraw
@@ -89,3 +90,21 @@ NozzleDraw.export_stl("./nozzle_design/geometry/iter5/support.stl", nozzle_suppo
 ##
 #export de figuras pro rela
 img_path = joinpath(pwd(), "report", "img")
+##
+#perfil
+wall = NozzleDraw.flow_wall(nozzle_geom)
+p = Plots.plot(wall .|> first .|> ustrip, wall .|> last .|> ustrip,
+    aspect_ratio=:equal,
+    label="",
+    xlabel="Raio (mm)",
+    ylabel="Comprimento (mm)",
+    dpi=400)
+png(p, joinpath(img_path, "internal_profile.png"))
+##
+using Latexify, UnitfulLatexify
+##
+#parâmetros propulsivos
+coeffs = NozzleProject.CEACoeffs(opcond)
+cea_eps = latexify("ε = $(coeffs.eps)", fmt = "%.2f")
+cea_cstar = latexify(coeffs.Cstar)
+cea_cf = latexify("C_F = $(coeffs.Cf)", fmt="%.2f")
