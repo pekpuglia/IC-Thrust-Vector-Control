@@ -396,9 +396,9 @@
 	 \thispagestyle{empty}  %suprime o cabeçalho e numeração da página
    \noindent
 
-	 \begin{flushright}% Número de CDU
-   \MakeUppercase{\footnotesize CDU \cdunumber}
-	 \end{flushright}
+	%  \begin{flushright}% Número de CDU
+  %  \MakeUppercase{\footnotesize CDU \cdunumber}
+	%  \end{flushright}
 
    \center
 

@@ -3,7 +3,7 @@
 %http://heroicrelics.org/info/v-2/v-2-cut-away.html
 %https://v2rockethistory.com/?s=jet+vane
 
-A tecnologia de empuxo vetorial (ou TVC, do inglês \textit{thrust vector control}) é chave para o setor aeroespacial, pois permite aproveitar o empuxo gerado pelo motor-foguete para aplicar um comando de atitude ao veículo. É uma tecnologia desenvolvida desde os primórdios da tecnologia de foguetes, com o míssil V2 sendo um marco notável no histórico do empuxo vetorial e dos foguetes. Este sistema, exibido na figura~\ref{fig:tvc_systems_jet_vanes}, utilizava lâminas de grafite (\textit{jet vanes}) inseridas na exaustão do motor principal para direcionar o escoamento de gases e produzir uma força lateral capaz de direcionar o míssil.
+A tecnologia de controle de vetorização de empuxo (ou TVC, do inglês \textit{thrust vector control}) é chave para o setor aeroespacial, pois permite aproveitar o empuxo gerado pelo motor-foguete para aplicar um comando de atitude ao veículo. É uma tecnologia desenvolvida desde os primórdios da tecnologia de foguetes, com o míssil V2 sendo um marco notável no histórico do empuxo vetorial e dos foguetes. Este sistema, exibido na figura~\ref{fig:tvc_systems_jet_vanes}, utilizava lâminas de grafite (\textit{jet vanes}) inseridas na exaustão do motor principal para direcionar o escoamento de gases e produzir uma força lateral capaz de direcionar o míssil~\cite{V2jetvanes}.
 
 \begin{figure}
     \centering
@@ -21,9 +21,9 @@ A tecnologia de empuxo vetorial (ou TVC, do inglês \textit{thrust vector contro
     \caption{Exemplos de sistemas com empuxo vetorial.}
 \end{figure}
 
-Outros sistemas de empuxo vetorial foram desenvolvidos após a Segunda Guerra Mundial, tanto para aplicações militares como para lançadores de satélites, cada uma com seus \textit{trade-offs} de engenharia. Uma alternativa de alto desempenho e alta complexidade mecânica muito comum atualmente é a articulação esférica, ou \textit{gimbal}, da tubeira do motor. Um sistema \textit{gimbal}, do motor RS-25 desenvolvido para o ônibus espacial e reaproveitado para o programa Artemis, é exibido em ação na figura~\ref{fig:tvc_systems_gimbal}.
+Outros sistemas de vetorização de empuxo foram desenvolvidos após a Segunda Guerra Mundial, tanto para aplicações militares como para lançadores de satélites, cada uma com seus \textit{trade-offs} de engenharia. Uma alternativa de alto desempenho e alta complexidade mecânica muito comum atualmente é a articulação esférica, ou \textit{gimbal}, da tubeira do motor. Um sistema \textit{gimbal}, do motor RS-25 desenvolvido para o ônibus espacial e reaproveitado para o programa Artemis, é exibido em ação na figura~\ref{fig:tvc_systems_gimbal}.
 
-Os sistemas de empuxo vetorial são fundamentais para a estabilidade e para o seguimento de trajetória dos foguetes. Defeitos de manufatura podem introduzir desalinhamentos angulares e lineares de empuxo, que devem ser compensados pelo sistema de controle de empuxo vetorial. Também são fundamentais para o controle dos veículos em baixas velocidades, regime no qual aletas fornecem pouca ou nenhuma autoridade sobre o veículo, permitindo que se elimine a necessidade de trilhos de lançamento. Naturalmente, também funcionam no vácuo espacial. Este trabalho busca, portanto, iniciar uma linha de pesquisa brasileira sobre o assunto.
+Os sistemas de vetorização de empuxo são fundamentais para a estabilidade e para o seguimento de trajetória dos foguetes. Defeitos de manufatura podem introduzir desalinhamentos angulares e lineares de empuxo, que devem ser compensados pelo sistema de controle de empuxo vetorial. Também são fundamentais para o controle dos veículos em baixas velocidades, regime no qual aletas fornecem pouca ou nenhuma autoridade sobre o veículo, permitindo que se elimine a necessidade de trilhos de lançamento. Naturalmente, também funcionam no vácuo espacial. Este trabalho busca, portanto, iniciar uma linha de pesquisa brasileira sobre o assunto.
 
 \section{Objetivos}
 
@@ -37,7 +37,6 @@ No vácuo, força propulsiva, ou empuxo, é uma função do fluxo mássico do si
     \label{eq:thrust_basic}
     F = \dot{m} v_2 + (p_2 - p_3) A_2
 \end{equation}
-
 onde \(F\) é a força propulsiva, \(\dot{m}\) é o fluxo mássico de propelente, \(v_2\) é a velocidade de exaustão do propelente, relativa ao veículo, \(p_2\) é a pressão local na saída da tubeira, \(A_2\) é a área de saída da tubeira e \(p_3\) é a pressão ambiente. Observa-se que a equação~\ref{eq:thrust_basic} assume valores médios para a seção da tubeira. Também, ressalta-se que os índices 2 e 3 referem-se à saída da tubeira e ao ambiente, respectivamente. O índice 1 será usado para referências à câmara.
 
 A razão de expansão é um parâmetro geométrico de um sistema propulsivo, dado por
@@ -45,16 +44,14 @@ A razão de expansão é um parâmetro geométrico de um sistema propulsivo, dad
     \label{eq:exp_ratio}
     \varepsilon = \frac{A_e}{A_t}
 \end{equation}
-
-onde \(A_e\) é a área da saída da tubeira e \(A_t\) é a área da garganta. Após a garganta, o escoamento está supersônico, e deverá ser acelerado por um aumento da área da seção transversal da tubeira. Assim, a razão de expansão influencia diretamente a velocidade de saída do propelente, descrevendo quanta energia interna (pressão e temperatura) do propelente foi convertida em energia cinética. Razões de expansão maiores implicam em maiores velocidades de saída \(v_2\). No entanto, para motores que operam em uma atmosfera, deve-se atentar também para o fato de que \(p_2\) depende da razão de expansão. Se a razão de expansão for grande demais, haverá uma grande perda de empuxo devido ao segundo termo da equação~\ref{eq:thrust_basic} e, em casos mais graves, descolamento do fluxo e vibrações estruturais intensas. Assim, busca-se otimizar a razão de expansão para uma condição específica.
+onde \(A_e\) é a área da saída da tubeira e \(A_t\) é a área da seção transversal da garganta. Após a garganta, o escoamento está supersônico, e deverá ser acelerado por um aumento da área da seção transversal da tubeira. Assim, a razão de expansão influencia diretamente a velocidade de saída do propelente, descrevendo quanta energia interna (pressão e temperatura) do propelente foi convertida em energia cinética. Razões de expansão maiores implicam em maiores velocidades de saída \(v_2\). No entanto, para motores que operam em uma atmosfera, deve-se atentar também para o fato de que \(p_2\) depende da razão de expansão. Se a razão de expansão for grande demais, haverá uma grande perda de empuxo devido ao segundo termo da equação~\ref{eq:thrust_basic} e, em casos mais graves, descolamento do fluxo e vibrações estruturais intensas. Assim, busca-se otimizar a razão de expansão para uma condição específica.
 
 Um parâmetro de desempenho usado para comparar a eficiência mássica do sistema propulsivo é o impulso específico. Ele mede o impulso imprimido ao veículo por peso de propelente ou, analogamente (supondo regime estacionário), a força gerada por vazão de peso de propelente~\cite{Sutton}:
 \begin{equation}
     \label{eq:Isp}
     I_{\text{sp}} = \frac{\int^T_0 F dt}{g_0 \int^T_0 \dot{m}dt} = \frac{F}{g_0 \dot{m}}
 \end{equation}
-
-onde \(g_0=9,81m/s^2\). Este fator \(g_0\), a gravidade padrão, foi introduzido para permitir que a unidade do impulso específico seja \(s\), permitindo a fácil comunicação de valores de impulso específico entre instituições que usam o sistema métrico e o sistema imperial. Assim, sistemas propulsivos muito energéticos terão, de modo geral, impulso específico alto, pois conseguem imprimir altas velocidades à massa de reação. Inversamente, sistemas pouco energéticos, como os de gás frio, terão impulsos específicos baixos.
+onde \(g_0=9,80665\;\mathrm{m}\,\mathrm{s}^{-2}\)~\cite{CGPM}. Este fator \(g_0\), a gravidade padrão, foi introduzido para permitir que a unidade do impulso específico seja \(s\), permitindo a fácil comunicação de valores de impulso específico entre instituições que usam o sistema métrico e o sistema imperial. Assim, sistemas propulsivos muito energéticos terão, de modo geral, impulso específico alto, pois conseguem imprimir altas velocidades à massa de reação. Inversamente, sistemas pouco energéticos, como os de gás frio, terão impulsos específicos baixos.
 
 Outro parâmetro útil é o coeficiente de empuxo \(C_F\). Ele mede a amplificação de empuxo advinda da expansão do fluxo supersônico na tubeira do foguete. Ou seja, ele mede a razão entre o empuxo real do sistema e a força que seria obtida aplicando-se a pressão de câmara na área da garganta~\cite{Sutton}:
 \begin{equation}
