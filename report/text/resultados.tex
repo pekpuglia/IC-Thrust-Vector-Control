@@ -30,8 +30,7 @@ O perfil da figura~\ref{fig:internal_profile} foi revolucionado para se obter um
         \includegraphics[width=\textwidth]{img/motor_stl.png}
         \caption{Motor impresso em 3D.}
     \end{subfigure}
-    \caption{Geometria tridimensional do motor projetado.}
-    \label{fig:3d_geom}
+    \caption{Geometria tridimensional do motor projetado.}\label{fig:3d_geom}
 \end{figure}
 
 \section{Validação do projeto do motor}\label{sec:result_validation}
@@ -41,8 +40,7 @@ A bancada de testes descrita na seção~\ref{sec:method_validation} gerou dados 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{img/thrust_vs_chamber_pressure.png}
-    \caption{Empuxo em função de pressão de câmara estática.}
-    \label{fig:thrust_versus_p1}
+    \caption{Empuxo em função de pressão de câmara estática.}\label{fig:thrust_versus_p1}
 \end{figure}
 
 A variação de pressão de câmara observada neste ensaio deve-se ao grande fluxo mássico exigido pelo motor, de modo que houve esvaziamento significativo do compressor de ar utilizado durante o teste. Também destaca-se que a pressão medida na câmara, entre \(4,2bar\) e \(4,6bar\), foi inferior à pressão regulada em válvula, de exatamente \(5bar\). No entanto, o fato do motor real atingir os \(2N\) de empuxo exigidos com pressão próxima de \(4,5bar\) permitiu que a pesquisa continuasse levando-se em consideração as diferenças entre o motor real e o motor projetado.
@@ -55,6 +53,29 @@ Parâmetros propulsivos reais podem ser obtidos dos dados apresentados na figura
 
 \section{Projeto do sistema de \textit{jet vanes}}
 
-A montagem projetada de acordo com o método descrito na seção~\ref{sec:method_jet_vanes} está exibida em fotografias de quatro vistas nas figuras.
+Foi projetada uma montagem de suporte para o motor foguete, para o servomotor e para o mecanismo da lâmina defletora. A figura~\ref{fig:jet_vanes_render1} mostra este mecanismo em posição neutra. À esquerda tem-se o servomotor, acoplado a um braço extensor, que se conecta mecanicamente com uma peça de suporte da lâmina defletora. A lâmina é suportada em ambas as extremidades para garantir rigidez estrutural à peça. O suporte da lâmina defletora pode girar ao redor de seu centro, com um mancal visível no canto superior direito da figura. Logo abaixo deste suporte, é possível observar o furo de conexão com o eixo da balança de três componentes, descrita anteriormente. A peça alta imediatamente à direita do servomotor é o suporte para o motor foguete, cuja tubeira fica próxima à lâmina defletora. O recesso semicircular no topo desta peça permite a conexão do motor com uma mangueira de alimentação de gás frio.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{img/tvc_assembly_render1.png}
+    \caption{Montagem do sistema de \textit{jet vanes} renderizada no CATIA.}\label{fig:jet_vanes_render1}
+\end{figure}
+
+A figura~\ref{fig:jet_vanes_render2} demonstra o funcionamento do mecanismo projetado em CAD\@. Foram impostos à montagem em CAD \textit{constraints} mecânicos que simulam o comportamento pretendido do sistema, de modo que os graus de liberdade das peças estejam adequadamente representados. O ângulo de rotação do servomotor é transmitido ao suporte da lâmina defletora através de uma haste longitudinal. Por projeto, os raios dos encaixes desta haste no servomotor e no suporte da lâmina defletora são iguais, de modo que os ângulos de deflexão são idênticos. O extensor do servomotor foi calibrado para que apresentasse posição perpendicular ao eixo longitudinal da montagem quando o servomotor recebesse um comando de \(90\mathrm{^\circ}\). O comprimento da haste foi estabelecido de modo que o suporte da lâmina defletora ficasse paralelo ao servomotor.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{img/tvc_assembly_render2.png}
+    \caption{Sistema de \textit{jet vanes} defletido de \(20\mathrm{^\circ}\).}\label{fig:jet_vanes_render2}
+\end{figure}
+
+As peças projetadas foram então impressas em 3D e montadas. A figura~\ref{fig:jet_vanes_assembly_side} mostra uma vista lateral do mecanismo. Destaca-se aqui o motor foguete montado em seu suporte, com um conector de mangueira de gás frio acoplado. Destaca-se também o eixo de metal à direita, usado para o encaixe na balança de três componentes utilizada.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{img/tvc_assembly_left.jpeg}
+    \caption{Vista lateral do sistema de \textit{jet vanes} impresso e montado.}\label{fig:jet_vanes_assembly_side}
+\end{figure}
+
 
 \section{Caracterização do sistema em balança de três componentes}
