@@ -3,11 +3,11 @@ O trabalho foi iniciado com o projeto do motor a gás frio. A seguir, este motor
 
 \section{Projeto do motor}\label{sec:motor_project}
 
-O projeto do motor foi feito de maneira programática e iterativa, assegurando fácil reprodução dos resultados obtidos e automação do fluxo de dados. A linguagem de programação Julia~\cite{Julia-2017} foi utilizada para o projeto. Nesta seção, serão apresentados os dados referentes à última versão do motor. Para um histórico do desenvolvimento do motor, consultar o apêndice AAAAAAAAAAA.  
+O projeto do motor foi feito de maneira programática e iterativa, assegurando fácil reprodução dos resultados obtidos e automação do fluxo de dados. A linguagem de programação Julia~\cite{Julia-2017} foi utilizada para o projeto. Nesta seção, serão apresentados os dados referentes à última versão do motor. Para um histórico do desenvolvimento do motor, consultar o apêndice AAAAAAAAAAA\@.  
 
 A tabela~\ref{tab:requirements} mostra os requisitos propulsivos, codificados PRP-N, e geométricos, codificados GMT-N, levantados para o motor. Os requisitos PRP-1 e PRP-2 foram propostos com base nos sistemas de fornecimento de ar disponíveis e na escala desejada do motor. Já a temperatura do propelente, requisito PRP-2, é baseada na temperatura ambiente, e permite a utilização de \textit{jet vanes} feitas de materiais simples. Com base nestes requisitos, um sistema monopropelente a ar foi proposto. Os requisitos GMT-1 e GMT-2 foram especificados com base na necessidade de haver estagnação na câmara de empuxo (seção~\ref{sec:intro}) e na necessidade de fácil manipulação, manufatura e conexão. Já os requisitos GMT-3 e GMT-4 buscam propiciar um escoamento com alto paralelismo na região da tubeira, assim como facilitar a manufatura.
 
-\begin{table}[]
+\begin{table}[htpb]
     \centering\begin{tabular}{cccc} \toprule
         Código & Variável & Grandeza & Valor \\ \midrule
         PRP-1 & \(P_C\) & Pressão de câmara & \(500\;\mathrm{kPa}\) \\
@@ -18,8 +18,7 @@ A tabela~\ref{tab:requirements} mostra os requisitos propulsivos, codificados PR
         GMT-3 & \(\alpha_{\text{conv}}\) & Semi-ângulo do convergente & \(30\mathrm{^\circ} \) \\
         GMT-4 & \(\alpha_{\text{div}}\) & Semi-ângulo do divergente & \(5\mathrm{^\circ} \) \\ \bottomrule 
     \end{tabular}
-    \caption{Requisitos propulsivos e geométricos para o motor.}
-    \label{tab:requirements}
+    \caption{Requisitos propulsivos e geométricos para o motor.}\label{tab:requirements}
 \end{table}
 
 A partir destes requisitos, o software CEA NASA foi utilizado para calcular os parâmetros propulsivos (\(\varepsilon \), \(C^\ast \) e \(C_f\)) do sistema com pressão ambiente \(P_{amb} = 100kPa\). Com estes coeficientes, pode-se aplicar as relações~\ref{eq:exp_ratio} e~\ref{eq:C_F} descritas na seção~\ref{sec:intro} para calcular as áreas de saída \(A_e\), de garganta \(A_t\). A área de câmara, \(A_C\), foi calculada diretamente a partir do requisito GMT-1. Foi introduzida uma seção cilíndrica na garganta do motor, com área de seção transversal \(A_t\), para garantir a manufatura precisa dessa dimensão.
@@ -44,14 +43,15 @@ O motor projetado e impresso em 3D foi montado em uma bancada de testes e instru
         Célula de carga & Apoio para o motor, sentido de medida paralelo ao empuxo & HX711 \\
         Transdutor de pressão & Acoplado à câmara de empuxo em furo lateral; ver CAD na seção RESULTADOS & Leitura analógica simples \\ \bottomrule
     \end{tabular}
-    \caption{Descrição dos periféricos usados nos testes de validação do motor desenvolvido.}
-    \label{tab:validation_peripherals}
+    \caption{Descrição dos periféricos usados nos testes de validação do motor desenvolvido.}\label{tab:validation_peripherals}
 \end{table}
 
 Para o controle da bancada foi desenvolvida uma \textit{command line interface} simples para permitir testes interativos. Assim, as funções de tara, calibração, abertura e fechamento de válvula e leitura de sensores podiam ser comandadas a partir de uma interface textual interativa que facilitou a iteração do teste.
 
-\section{Projeto do sistema de \textit{jet vanes}}
+\section{Projeto do sistema de \textit{jet vanes}}\label{sec:method_jet_vanes}
 
-Devido à disponibilidade de materiais, foi utilizada uma lâmina de aço de 0,7mm de espessura como \textit{jet vane}. Com este sistema, desejou-se a capacidade de posicionar a lâmina defletora com resolução de \(1^\circ \), com alcance de deflexão de \(\pm 20^\circ \). Também foi necessário projetar um suporte para o motor que permitisse a conexão da mangueira de alimentação de gás. Por fim, este sistema deveria ter um encaixe circular de \(12mm\) para um eixo de acoplamento com a balança de três componentes.
+Devido à disponibilidade de materiais, foi utilizada uma lâmina de aço de 0,7mm de espessura como \textit{jet vane}. Com este sistema, desejou-se a capacidade de posicionar a lâmina defletora com resolução de \(1^\circ \), com alcance de deflexão de \(\pm 20^\circ \). Também foi necessário projetar um suporte para o motor que permitisse a conexão da mangueira de alimentação de gás. Por fim, este sistema deveria ter um encaixe circular de \(12mm\) para um eixo de acoplamento com a balança de três componentes, conforme descrito na seção~\ref{sec:method_3axis_measurement}. Durante o projeto do sistema, levou-se em consideração a factibilidade de manufatura, bem como a necessidade de acesso ao servomotor e ao motor foguete para desmontagens e trocas.
 
-\section{Caracterização do sistema em balança de três componentes}
+Para o projeto mecânico do sistema, foi usado o sistema CATIA\@. Para a deflexão da lâmina defletora, escolheu-se um servomotor de aeromodelismo devido à acessibilidade deste componente bem como à sua resolução angular, que satisfaz o requisito exposto acima. As peças foram todas impressas em 3D com ABS\@.
+
+\section{Caracterização do sistema em balança de três componentes}\label{sec:method_3axis_measurement}
