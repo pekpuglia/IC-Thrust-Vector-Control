@@ -74,3 +74,29 @@ A balança apresenta uma zona morta, o que significa que para baixos carregament
     \caption{Configuração do pré-carregamento da balança de três componentes.}\label{fig:pre_loading}
 \end{figure}
 
+Dentro da seção de teste, o sistema de vetorização de empuxo foi montado como na figura~\ref{fig:montagem_interna}. Para uma explicação mais detalhada do sistema, ver seção~\ref{sec:result_jet_vanes}. O motor foi posicionado na vertical, com seu eixo de maior força coincidindo com o eixo de maior fundo de escala da balança. A tubeira do motor foi apontada para uma direção sem impedimentos para o fluxo, de modo a minimizar vibrações e interferências mecânicas no experimento. Na figura, é possível observar também os fios de controle do servomotor (cabeamento branco, preto e vermelho), bem como a mangueira de alimentação de gás do motor (parte inferior da imagem). O eixo que pode ser visto na figura~\ref{fig:montagem_interna} está encaixado no furo central da balança, facilmente visível na figura~\ref{fig:3axis_scale}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{img/montagem_interna.jpeg}
+    \caption{Montagem do sistema de vetorização de empuxo na balança de três componentes}\label{fig:montagem_interna}
+\end{figure}
+
+A balança possui três células de carga, conforme visto na figura~\ref{fig:scale_diagram}. Destas células de carga são obtidas as forças \(F_x\), \(F_y\) e o torque \(M\) gerado sobre o eixo através das relações~\cite{lab}:
+\begin{align}
+    F_A &= F_y + \frac{2M}{d} \\
+    F_F &= F_y - \frac{2M}{d} \\
+    F_D &= F_x
+\end{align}
+onde \(F_A\), \(F_F\) e \(F_D\) representam respectivamente as forças aplicadas sobre as células \textit{aft} (traseira), \textit{fore} (frontal) e \textit{drag} (de arrasto) e \(d\) é a distância entre as células de carga A e F. 
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{img/three_axis_scale_diagram.png}
+    \caption{Diagrama esquemático da balança de três componentes.}
+    \label{fig:scale_diagram}
+\end{figure}
+
+Para a calibração da balança, deve-se relacionar as forças sobre as células de carga com as tensões lidas pelo sistema de aquisição de dados. Para este experimento, a existência da mangueira de alimentação de gás apresentou um problema empírico devido à sua rigidez e forma natural. Portanto, a balança foi calibrada com pesos conhecidos (aplicando-se forças \(F_x\) e \(F_y\), que carregam as três células de carga) com o sistema conectado à mangueira, para evitar grandes fontes de erros sistemáticos. Observa-se que a pressurização da mangueira introduz mais rigidez e desloca o equilíbrio da balança, de modo que ainda existem erros sistemáticos na calibração feita. As forças foram aplicadas modificando os pesos colocados nos pratos da figura~\ref{fig:pre_loading}.
+
+Após a calibração, 
