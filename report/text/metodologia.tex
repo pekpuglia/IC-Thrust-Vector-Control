@@ -55,3 +55,22 @@ Devido à disponibilidade de materiais, foi utilizada uma lâmina de aço de 0,7
 Para o projeto mecânico do sistema, foi usado o sistema CATIA\@. Para a deflexão da lâmina defletora, escolheu-se um servomotor de aeromodelismo devido à acessibilidade deste componente bem como à sua resolução angular, que satisfaz o requisito exposto acima. As peças foram todas impressas em 3D com ABS\@.
 
 \section{Caracterização do sistema em balança de três componentes}\label{sec:method_3axis_measurement}
+
+Um sistema de vetorização de empuxo planar, como o desenvolvido neste trabalho, produz de modo geral uma força longitudinal, paralela ao empuxo do motor foguete, uma força transversal, gerada pela lâmina defletora, e um torque, causado pelas forças aerodinâmicas atuantes sobre a lâmina defletora, bem como pelo desalinhamento da força total gerada em relação a um ponto de medida. Sendo assim, é necessário que sejam medidas três grandezas para a caracterização do sistema, ou seja, uma força longitudinal, uma força transversal e um torque. Empiricamente, é possível também medir três forças e, através do cálculo de forças totais e binários, extrair as forças e momentos do sistema. Este tipo de medição é bastante comum em aerodinâmica, onde perfis de asas devem ser caracterizados quanto ao seu arrasto, sustentação e momento~\cite{anderson}.
+
+Sendo assim, o sistema desenvolvido foi acoplado à balança de três componentes disponível no Laboratório Feng, exibida na figura~\ref{fig:3axis_scale}. Apesar de montada a um túnel de vento, este não foi utilizado no experimento.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{img/eixocropped.jpg}
+    \caption{Balança aerodinâmica utilizada para o experimento.}\label{fig:3axis_scale}
+\end{figure}
+
+A balança apresenta uma zona morta, o que significa que para baixos carregamentos a leitura é quase nula. Por isso, e também devido às baixas forças envolvidas no experimento, a balança foi pré-carregada com pesos externos para garantir linearidade, com a configuração dos pesos mostrada na figura~\ref{fig:pre_loading}. Os pesos nos pratos azul (canto inferior esquerdo) e prata (ao lado da balança, entre os trilhos pretos verticais) foram escolhidos como metade do fundo de escala da balança. A calibração foi feita modificando os pesos aplicados nestes pratos, conforme discutido adiante.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{img/montagem_externa.jpeg}
+    \caption{Configuração do pré-carregamento da balança de três componentes.}\label{fig:pre_loading}
+\end{figure}
+
