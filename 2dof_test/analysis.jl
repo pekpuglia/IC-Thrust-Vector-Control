@@ -230,7 +230,7 @@ function full_plot(forces::Vector{FxFyM}, fname, f_unit = u"g", m_unit=u"g*cm")
     p = scatter( getproperty.(forces, :label), ustrip.(f_unit,    getproperty.(forces, :Fy)), label="Fy (g)", legend=:outertopright)
     scatter!(p,  getproperty.(forces, :label), ustrip.(f_unit,    getproperty.(forces, :Fx)), label="Fx (g)", dpi=400)
     scatter!(p,  getproperty.(forces, :label), ustrip.(m_unit,    getproperty.(forces, :M)), label="M (g*cm)")
-    title!(p, fname[1:(end-4)])
+    # title!(p, fname[1:(end-4)])
     xlabel!(p, "Posição do servomotor (°)")
     ylabel!(p, "Medida")
     p
@@ -240,6 +240,7 @@ for (file, exp) in zip(files, exps)
     forces = FxFyM(exp, calib_mat)
     p = full_plot(forces, file)
     png(p, joinpath(@__DIR__, "output/"*file)[1:(end-4)])
+    png(p, joinpath(img_path, file[1:(end-4)]))
 end
 ##
 #hipótese 1 - o aparato estava rotacionado de um ângulo theta (não explica momento != 0)
