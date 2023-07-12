@@ -79,3 +79,23 @@ As peças projetadas foram então impressas em 3D e montadas. A figura~\ref{fig:
 
 
 \section{Caracterização do sistema em balança de três componentes}\label{sec:result_characterization}
+
+As curvas de calibração dos componentes da balança estão exibidas na figura~\ref{fig:calibration_curves}. A curva vermelha tracejada indica a função identidade, ou seja, a igualdade exata entre a força calibrada e a força aplicada durante a calibração. Os pontos azuis indicam a força calculada através da calibração feita, usando a saída da balança para um dado carregamento. Nesta seção, todas as barras de erro referem-se ao erro quadrático médio obtido ao longo de \(1s\) de medida com amostragem de \(1000\mathrm{Hz}\). A calibração foi feita com dados de carregamento e descarregamento da balança para que a histerese dos componentes fosse observável, como na figura~\ref{fig:calibration_FF}. Destaca-se também que devido ao posicionamento do sistema, a força horizontal esperada era simétrica ao redor de zero, de modo que a componente \(F_D\) foi calibrada simetricamente ao redor de zero.
+
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}{\textwidth}\centering
+        \includegraphics[height=.29\textheight]{img/results/calibration_FA.png}
+        \caption{Componente \textit{aft}.}\label{fig:calibration_FA}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}\centering
+        \includegraphics[height=.29\textheight]{img/results/calibration_FF.png}
+        \caption{Componente \textit{fore}.}\label{fig:calibration_FF}
+    \end{subfigure}
+    \begin{subfigure}{\textwidth}\centering
+        \includegraphics[height=.29\textheight]{img/results/calibration_FD.png}
+        \caption{Componente \textit{drag}.}\label{fig:calibration_FD}
+    \end{subfigure}
+    \caption{Curvas de calibração dos componentes da balança.}\label{fig:calibration_curves}
+\end{figure}
+
