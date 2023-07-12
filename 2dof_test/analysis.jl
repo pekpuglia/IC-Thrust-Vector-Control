@@ -147,20 +147,39 @@ Fx_seccol = ones(length(Fx_input))
 ##
 Dcoefs = [Fx_output[:,3] Fx_seccol] \ Fx_input
 ##
-scatter(FA, [Fy_output[:,1] Fy_seccol] * Acoefs)
-png("FA_scatter")
+img_path = joinpath(pwd(), "report", "img", "results")
 ##
-scatter(FF, [Fy_output[:,2] Fy_seccol] * Fcoefs)
-png("FF_scatter")
+p_calib_FA = scatter(FA, [Fy_output[:,1] Fy_seccol] * Acoefs,
+    label="",
+    xlabel=raw"$F_{A}$ real (g)",
+    ylabel=raw"$F_A$ calibrada (g)",
+    dpi=400)
+
+plot!(p_calib_FA, sort(FA), sort(FA), linestyle=:dash, linecolor=:red, label="")
 ##
-scatter(Fx_input, [Fx_output[:,3] Fx_seccol] * Dcoefs)
-png("FD_scatter")
-## #####################################################3
-scatter(Fy_input, [Fy_output[:,1] Fy_seccol] * Acoefs + [Fy_output[:,2] Fy_seccol] * Fcoefs)
-png("Fy_scatter")
+png(p_calib_FA, joinpath(@__DIR__, "output/", "calibration_FA"))
+png(p_calib_FA, joinpath(img_path, "calibration_FA"))
 ##
-scatter([Fy_output[:,1] Fy_seccol] * Acoefs - [Fy_output[:,2] Fy_seccol] * Fcoefs)
-png("M_scatter")
+p_calib_FF = scatter(FF, [Fy_output[:,2] Fy_seccol] * Fcoefs,
+    label="",
+    xlabel=raw"$F_F$ real (g)",
+    ylabel=raw"$F_F$ calibrada (g)",
+    dpi=400)
+plot!(p_calib_FF, sort(FF), sort(FF), linestyle=:dash, linecolor=:red, label="")
+##
+png(p_calib_FF, joinpath(@__DIR__, "output/", "calibration_FF"))
+png(p_calib_FF, joinpath(img_path, "calibration_FF"))
+##
+p_calib_FD = scatter(Fx_input, [Fx_output[:,3] Fx_seccol] * Dcoefs,
+    label="",
+    xlabel=raw"$F_D$ real (g)",
+    ylabel=raw"$F_D$ calibrada (g)",
+    dpi=400)
+plot!(p_calib_FD, sort(Fx_input), sort(Fx_input), linestyle=:dash, linecolor=:red, label="")
+##
+png(p_calib_FD, joinpath(@__DIR__, "output/", "calibration_FD"))
+png(p_calib_FD, joinpath(img_path, "calibration_FD"))
+##
 ##
 Fy_series = cat(load_AFD.([
     "Cal_empuxo_Crescente.txt"
@@ -170,6 +189,9 @@ Fx_series = cat(load_AFD.([
     "Cal_força_Lateral_Decrescente.txt"])..., dims=1)
 ##
 calib_mat = calibrate(Fy_series, Fx_series, 16.5u"mm")
+##
+#report calibration plots?
+
 ##
 thrust_data = load_AFD("empuxo_sem_aleta.txt")
 n = length(thrust_data)
@@ -181,7 +203,19 @@ thrust = calib_mat[:,1:3] * [
 ##
 thrust = FxFyM(thrust_data, calib_mat)
 ##
-plot(ustrip.(u"g", getproperty.(thrust, :Fy)))
+p_no_deflector = scatter(ustrip.(u"g", getproperty.(thrust, :Fy)),
+    label="",
+    xlabel="Número da medida",
+    ylabel="Empuxo (g)",
+    dpi=400)
+
+vline!(p_no_deflector, 
+    findall(!iszero, diff(getproperty.(thrust, :label))),
+    label="",
+    linestyle=:dash,
+    linecolor=:red)
+##
+png(p_no_deflector, joinpath(img_path, "thrust_no_deflector"))
 ##
 #plots
 files = readdir(joinpath(@__DIR__, "data/"))
@@ -193,9 +227,11 @@ exps = load_AFD.(files)
 ##
 function full_plot(forces::Vector{FxFyM}, fname, f_unit = u"g", m_unit=u"g*cm")
     p = scatter( getproperty.(forces, :label), ustrip.(f_unit,    getproperty.(forces, :Fy)), label="Fy (g)", legend=:outertopright)
-    scatter!(p, getproperty.(forces, :label), ustrip.(f_unit,    getproperty.(forces, :Fx)), label="Fx (g)", dpi=400)
-    scatter!(p, getproperty.(forces, :label), ustrip.(m_unit, getproperty.(forces, :M)), label="M (g*cm)")
+    scatter!(p,  getproperty.(forces, :label), ustrip.(f_unit,    getproperty.(forces, :Fx)), label="Fx (g)", dpi=400)
+    scatter!(p,  getproperty.(forces, :label), ustrip.(m_unit,    getproperty.(forces, :M)), label="M (g*cm)")
     title!(p, fname[1:(end-4)])
+    xlabel!(p, "Posição do servomotor (°)")
+    ylabel!(p, "Medida")
     p
 end
 ##
