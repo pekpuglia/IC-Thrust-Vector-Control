@@ -202,6 +202,11 @@ thrust = calib_mat[:,1:3] * [
 ] .+ calib_mat[:,4]
 ##
 thrust = FxFyM(thrust_data, calib_mat)
+offset = thrust[1]
+thrust = [
+    FxFyM(t.label, t.Fy - thrust[1].Fy, t.Fx, t.M)
+    for t in thrust
+]
 ##
 p_no_deflector = scatter(ustrip.(u"g", getproperty.(thrust, :Fy)),
     label="",
