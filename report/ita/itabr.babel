@@ -145,7 +145,7 @@
 \gdef\bosscoursegendermfbabel{mf}                         					 % masc ou fem
 
 \gdef\finalpaperbabel{Iniciação científica}							 % Trabalho de Graduação
-\gdef\itatglevelbabel{Trabalho de Conclus{\~a}o de Curso (Gradua{\c{c}}{\~a}o)}
+\gdef\itatglevelbabel{Iniciação científica}
 																																		 % Trabalho de Conclusão de Curso (Graduação)
 
 %--------------------------------------------------------
