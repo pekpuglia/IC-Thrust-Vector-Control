@@ -1,10 +1,10 @@
-using Plots, Unitful, CSV, LinearAlgebra
+using Plots, Unitful, CSV, LinearAlgebra, Measurements
 ##
 function bA(datafile)
     data = CSV.File(joinpath(@__DIR__, "data/", datafile), header = false)
     n=length(data)
     b = data.Column1
-    A = [data.Column2 data.Column4 data.Column6]
+    A = [(data.Column2 .± data.Column3) (data.Column4 .± data.Column5) (data.Column6 .± data.Column7)]
     return b, A
 end
 ##
@@ -17,7 +17,7 @@ end
 
 function load_AFD(filename)
     data = CSV.File(joinpath(@__DIR__,"data/", filename), header=false)
-    AFDDataPoint.(data.Column1, data.Column2, data.Column4, data.Column6)
+    AFDDataPoint.(data.Column1, data.Column2 .± data.Column3, data.Column4 .± data.Column5, data.Column6 .± data.Column7)
 end
 
 function calibrate(Fy_series::Vector{AFDDataPoint}, Fx_series::Vector{AFDDataPoint}, d)
@@ -205,6 +205,7 @@ thrust = FxFyM(thrust_data, calib_mat)
 ##
 p_no_deflector = scatter(ustrip.(u"g", getproperty.(thrust, :Fy)),
     label="",
+    markersize=3,
     xlabel="Número da medida",
     ylabel="Empuxo (g)",
     dpi=400)
