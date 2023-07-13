@@ -32,9 +32,11 @@ function calibrate(Fy_series::Vector{AFDDataPoint}, Fx_series::Vector{AFDDataPoi
     y_ones = ones(length(Fy_series))
     x_ones = ones(length(Fx_series))
 
-    cA = ([A y_ones] \ FA)*u"g"
-    cF = ([F y_ones] \ FF)*u"g"
-    cD = ([D x_ones] \ FD)*u"g"
+    g = 9.79u"m/s^2"
+
+    cA = ([A y_ones] \ FA)*u"g" * g
+    cF = ([F y_ones] \ FF)*u"g" * g
+    cD = ([D x_ones] \ FD)*u"g" * g
 
     [
         1 1 0
@@ -211,13 +213,13 @@ using Statistics
 ##
 emp_Cf = 1.2281145841709489
 At = 3.6366362252473086u"mm^2"
-true_chamber_pressure = mean(getproperty.(thrust, :Fy))*9.79u"m/s^2" / (At*emp_Cf) |> u"bar"
+true_chamber_pressure = mean(getproperty.(thrust, :Fy)) / (At*emp_Cf) |> u"bar"
 ##
-p_no_deflector = scatter(ustrip.(u"g", getproperty.(thrust, :Fy)),
+p_no_deflector = scatter(ustrip.(u"N", getproperty.(thrust, :Fy)),
     label="",
     markersize=3,
     xlabel="Número da medida",
-    ylabel="Empuxo (g)",
+    ylabel="Empuxo (N)",
     dpi=400)
 
 vline!(p_no_deflector, 
@@ -236,7 +238,7 @@ files = files[exp_numbers .>= 7]
 ##
 exps = load_AFD.(files)
 ##
-function full_plot(forces::Vector{FxFyM}, fname, f_unit = u"g", m_unit=u"g*cm")
+function full_plot(forces::Vector{FxFyM}, fname, f_unit = u"N", m_unit=u"N*cm")
     p = scatter( getproperty.(forces, :label), ustrip.(f_unit,    getproperty.(forces, :Fy)), label="Fy (g)", legend=:bottom)
     scatter!(p,  getproperty.(forces, :label), ustrip.(f_unit,    getproperty.(forces, :Fx)), label="Fx (g)", dpi=400)
     scatter!(p,  getproperty.(forces, :label), ustrip.(m_unit,    getproperty.(forces, :M)), label="M (g*cm)")
@@ -280,4 +282,6 @@ end
 ## 
 #médias
 forces = cat(FxFyM.(exps, Ref(calib_mat))..., dims=1)
-mean_thrust = mean(getproperty.(forces, :Fy))
+##
+mean_thrust = mean(getproperty.(forces, :Fy)) |> u"N"
+##
