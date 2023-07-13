@@ -99,7 +99,7 @@ As curvas de calibração dos componentes da balança estão exibidas na figura~
     \caption{Curvas de calibração dos componentes da balança.}\label{fig:calibration_curves}
 \end{figure}
 
-Os resultados de empuxo sem lâmina defletora estão exibidos na figura~\ref{fig:thrust_no_deflector}. A primeira linha vermelha tracejada, à esquerda, indica o acionamento do compressor de ar. A segunda, indica seu desligamento, e por fim a terceira seu acionamento final. O compressor de ar usado aciona-se automaticamente quando a pressão do reservatório (400L) reduz-se abaixo de certo limite (8bar). Assim, esse experimento demonstra que as variações de pressão no reservatório pouco afetam o experimento, conectado ao reservatório de ar por uma válvula reguladora. A queda de empuxo ao final do experimento ocorreu após quase um minuto de coleta de dados, de modo que foi comprovada a capacidade de fornecimento de ar do compressor.
+Os resultados de empuxo sem lâmina defletora estão exibidos na figura~\ref{fig:thrust_no_deflector}. A primeira linha vermelha tracejada, à esquerda, indica o acionamento do compressor de ar. A segunda, indica seu desligamento, e por fim a terceira seu acionamento final. O compressor de ar usado aciona-se automaticamente quando a pressão do reservatório (400L) reduz-se abaixo de certo limite (8bar). Assim, esse experimento demonstra que as variações de pressão no reservatório pouco afetam o experimento, conectado ao reservatório de ar por uma válvula reguladora. A queda de empuxo ao final do experimento ocorreu após quase um minuto de coleta de dados, de modo que foi comprovada a capacidade de fornecimento de ar do compressor. Com estes dados, e também o valor do coeficiente de empuxo empírico, conclui-se que a pressão real de câmara obtida foi de \(5,60\pm 0,15\;\mathrm{bar}\). A diferença deste valor para os valores obtidos no gráfico~\ref{fig:thrust_versus_p1} deve-se à mudança do sistema de compressão de ar utilizado.
 
 \begin{figure}[htbp]
     \centering
@@ -107,6 +107,30 @@ Os resultados de empuxo sem lâmina defletora estão exibidos na figura~\ref{fig
     \caption{Medidas de empuxo sem lâmina defletora.}\label{fig:thrust_no_deflector}
 \end{figure}
 
-calcular pressão de câmara real p esse experimento (mencionar troca de reservatório de ar)
+Finalmente, apresentam-se os gráficos de forças e momento em função da deflexão do servomotor. Recorda-se aqui que a posição de \(90\mathrm{^{\circ}}\) do servomotor corresponde ao paralelismo da lâmina defletora com o escoamento da tubeira. Como mencionado na seção~\ref{sec:method_3axis_measurement}, foram feitas três repetições de varreduras crescentes e decrescentes de posição. Os gráficos de \(F_x\), \(F_y\) e \(M\) obtidos após conversão das saídas dos componentes para forças aplicadas (através da calibração e equações~\ref{eq:FA} a~\ref{eq:FD}) estão exibidos na figura~\ref{fig:deflection_forces}.
 
-aplicar offset em todos os dados Fy
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{img/results/exp7_5bar_70_a_110.png}
+    \end{subfigure}
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{img/results/exp8_5bar_110_a_70.png}
+    \end{subfigure}
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{img/results/exp9_5bar_70_a_110.png}
+    \end{subfigure}
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{img/results/exp10_5bar_110_a_70.png}
+    \end{subfigure}
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{img/results/exp11_5bar_70_a_110.png}
+    \end{subfigure}
+    \begin{subfigure}{0.49\textwidth}
+        \includegraphics[width=\textwidth]{img/results/exp12_5bar_110_a_70.png}
+    \end{subfigure}
+    \caption{Curvas de força longitudinal, força transversal e momento medidas para as varreduras de deflexão.}\label{fig:deflection_forces}
+\end{figure}
+
+Os gráficos à esquerda correspondem às varreduras no sentido \(70\mathrm{^{\circ}} \rightarrow 110\mathrm{^\circ}\) e os à direita, às varreduras no sentido contrário. Se houvesse folga mecânica nos componentes, seria esperado haver discordância entre os gráficos da esquerda e da direita, devido à mudança de sentido da força sofrida pelo sistema defletor ao passar pela posição \(90\mathrm{^{\circ}}\). Havendo, pelo contrário, forte semelhança entre os gráficos, é possível excluir imperfeições mecânicas como fonte de erros para o sistema. Observa-se aqui que o momento apresentado nos gráficos refere-se ao momento ao redor do eixo da balança (localizado nas figuras~\ref{fig:jet_vanes_assembly_side},~\ref{fig:jet_vanes_render1} e~\ref{fig:montagem_interna}).
+
