@@ -208,6 +208,12 @@ thrust = [
     for t in thrust[1:(end-1)]
 ]
 ##
+using Statistics
+##
+emp_Cf = 1.2281145841709489
+At = 3.6366362252473086u"mm^2"
+true_chamber_pressure = mean(getproperty.(thrust, :Fy))*9.79u"m/s^2" / (At*emp_Cf) |> u"bar"
+##
 p_no_deflector = scatter(ustrip.(u"g", getproperty.(thrust, :Fy)),
     label="",
     markersize=3,
