@@ -277,6 +277,7 @@ for (file, exp) in zip(files, exps)
     png(p, joinpath(@__DIR__, "output/offset_"*file[1:(end-4)]))
 end
 
-## TODO
-#find center of forces, correlate with metal sheet position
-#get control derivatives
+## 
+#médias
+forces = cat(FxFyM.(exps, Ref(calib_mat))..., dims=1)
+mean_thrust = mean(getproperty.(forces, :Fy))
