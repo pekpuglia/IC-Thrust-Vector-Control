@@ -37,16 +37,16 @@ A propulsão de motores-foguete é baseada na força de reação gerada pela ace
 No vácuo, força propulsiva, ou empuxo, é uma função do fluxo mássico do sistema, da velocidade de ejeção de propelente (derivada diretamente da segunda lei de Newton). Para sistemas propulsivos em uma atmosfera, deve ser adicionado um termo corretivo referente à diferença de pressão entre a atmosfera e o escoamento ejetado. Assim, o empuxo pode ser dado, em primeira aproximação, por~\cite{Sutton}:
 \begin{equation}
     \label{eq:thrust_basic}
-    F = \dot{m} v_2 + (p_2 - p_3) A_2
+    F = \dot{m} v_e + (p_e - p_{\mathrm{amb}}) A_e
 \end{equation}
-onde \(F\) é a força propulsiva, \(\dot{m}\) é o fluxo mássico de propelente, \(v_2\) é a velocidade de exaustão do propelente, relativa ao veículo, \(p_2\) é a pressão local na saída da tubeira, \(A_2\) é a área de saída da tubeira e \(p_3\) é a pressão ambiente. Observa-se que a equação~\ref{eq:thrust_basic} assume valores médios para a seção da tubeira. Também, ressalta-se que os índices 2 e 3 referem-se à saída da tubeira e ao ambiente, respectivamente. O índice 1 será usado para referências à câmara.
+onde \(F\) é a força propulsiva, \(\dot{m}\) é o fluxo mássico de propelente, \(v_e\) é a velocidade de exaustão do propelente, relativa ao veículo, \(p_e\) é a pressão local na saída da tubeira, \(A_e\) é a área de saída da tubeira e \(p_{\mathrm{amb}}\) é a pressão ambiente. Observa-se que a equação~\ref{eq:thrust_basic} assume valores médios para a seção da tubeira. Também, ressalta-se que os índices 2 e 3 referem-se à saída da tubeira e ao ambiente, respectivamente. O índice 1 será usado para referências à câmara.
 
 A razão de expansão é um parâmetro geométrico de um sistema propulsivo, dado por
 \begin{equation}
     \label{eq:exp_ratio}
     \varepsilon = \frac{A_e}{A_t}
 \end{equation}
-onde \(A_e\) é a área da saída da tubeira e \(A_t\) é a área da seção transversal da garganta. Após a garganta, o escoamento está supersônico, e deverá ser acelerado por um aumento da área da seção transversal da tubeira. Assim, a razão de expansão influencia diretamente a velocidade de saída do propelente, descrevendo quanta energia interna (pressão e temperatura) do propelente foi convertida em energia cinética. Razões de expansão maiores implicam em maiores velocidades de saída \(v_2\). No entanto, para motores que operam em uma atmosfera, deve-se atentar também para o fato de que \(p_2\) depende da razão de expansão. Se a razão de expansão for grande demais, haverá uma grande perda de empuxo devido ao segundo termo da equação~\ref{eq:thrust_basic} e, em casos mais graves, descolamento do fluxo e vibrações estruturais intensas. Assim, busca-se otimizar a razão de expansão para uma condição específica.
+onde \(A_e\) é a área da saída da tubeira e \(A_t\) é a área da seção transversal da garganta. Após a garganta, o escoamento está supersônico, e deverá ser acelerado por um aumento da área da seção transversal da tubeira. Assim, a razão de expansão influencia diretamente a velocidade de saída do propelente, descrevendo quanta energia interna (pressão e temperatura) do propelente foi convertida em energia cinética. Razões de expansão maiores implicam em maiores velocidades de saída \(v_e\). No entanto, para motores que operam em uma atmosfera, deve-se atentar também para o fato de que \(p_e\) depende da razão de expansão. Se a razão de expansão for grande demais, haverá uma grande perda de empuxo devido ao segundo termo da equação~\ref{eq:thrust_basic} e, em casos mais graves, descolamento do fluxo e vibrações estruturais intensas. Assim, busca-se otimizar a razão de expansão para uma condição específica.
 
 Um parâmetro de desempenho usado para comparar a eficiência mássica do sistema propulsivo é o impulso específico. Ele mede o impulso imprimido ao veículo por peso de propelente ou, analogamente (supondo regime estacionário), a força gerada por vazão de peso de propelente~\cite{Sutton}:
 \begin{equation}
@@ -58,26 +58,26 @@ onde \(g_0=9,80665\;\mathrm{m}\,\mathrm{s}^{-2}\)~\cite{CGPM}. Este fator \(g_0\
 Outro parâmetro útil é o coeficiente de empuxo \(C_F\). Ele mede a amplificação de empuxo advinda da expansão do escoamento supersônico na tubeira do foguete. Ou seja, ele mede a razão entre o empuxo real do sistema e a força que seria obtida aplicando-se a pressão de câmara na área da garganta~\cite{Sutton}:
 \begin{equation}
     \label{eq:C_F}
-    C_F = \frac{F}{p_1 A_t}
+    C_F = \frac{F}{p_c A_t}
 \end{equation}
 
-Se o coeficiente de empuxo mede a eficiência da tubeira, a velocidade característica \(c^*\) mede a eficiência do conjunto câmara e propelente. A velocidade característica é dada por~\cite{Sutton}:
+Se o coeficiente de empuxo mede a eficiência da tubeira, a velocidade característica \(C^*\) mede a eficiência do conjunto câmara e propelente. A velocidade característica é dada por~\cite{Sutton}:
 \begin{equation}
     \label{eq:cstar}
-    c^* = \frac{p_1 A_t}{\dot{m}}
+    C^* = \frac{p_c A_t}{\dot{m}}
 \end{equation}
 
 A partir das equações~\ref{eq:C_F} e~\ref{eq:cstar} é possível deduzir uma relação muito útil para projeto, que permite o cálculo fácil da vazão mássica necessária:
 \begin{equation}
     \label{eq:mdot}
-    \dot{m} = \frac{F}{c^* C_F}
+    \dot{m} = \frac{F}{C^* C_F}
 \end{equation}
 
 As relações dadas anteriormente assumem que o escoamento está estagnado na câmara de empuxo. Na prática, buscam-se razões \(\frac{A_c}{A_t} \gg 1\) para satisfazer esta hipótese. A literatura recomenda valores mínimos de 4 ou 6~\cite{Sutton}.
 
 %https://software.nasa.gov/software/LEW-17687-1
 %https://rocketcea.readthedocs.io/en/latest/
-A termodinâmica é capaz de fornecer expressões analíticas para todas as grandezas apresentadas aqui, supondo-se gás perfeito, ausência de reação química e escoamento quasi-unidimensional. No entanto, para uma análise química e termodinâmica mais precisa, busca-se o software CEA NASA \textcolor{red}{REFERENCIAR}, que calcula dos parâmetros propulsivos a partir de certas condições de operação e entradas termodinâmicas do propelente. Com este software, é possível calcular os valores de \(C_F\) e \(c^*\) para um sistema propulsivo com hipóteses menos rígidas que as exigidas pela termodinâmica supersônica. 
+A termodinâmica é capaz de fornecer expressões analíticas para todas as grandezas apresentadas aqui, supondo-se gás perfeito, ausência de reação química e escoamento quasi-unidimensional. No entanto, para uma análise química e termodinâmica mais precisa, busca-se o software CEA NASA \textcolor{red}{REFERENCIAR}, que calcula dos parâmetros propulsivos a partir de certas condições de operação e entradas termodinâmicas do propelente. Com este software, é possível calcular os valores de \(C_F\) e \(C^*\) para um sistema propulsivo com hipóteses menos rígidas que as exigidas pela termodinâmica supersônica. 
 
 O sistema de \textit{jet vanes} escolhido para este trabalho consiste na imersão de uma lâmina em escoamento supersônico, de modo que formar-se-ão ondas de choque próximas ao bordo de ataque da lâmina. Para escoamentos tridimensionais não uniformes e assimétricos, ou seja, o caso de uma lâmina defletora imersa na exaustão de uma tubeira de foguete, analisar as ondas de choque e expansão formadas torna-se extremamente complicado. No entanto, é possível apresentar alguns resultados obtidos da literatura para casos mais simples, mas ainda relevantes. 
 
@@ -94,7 +94,7 @@ Primeiramente, observa-se que a natureza das ondas de choque é bastante depende
     \caption{Tipos diferentes de ondas de choque que podem se estabelecer no bordo de ataque de um corpo imerso em escoamento supersônico: colado e descolado.}\label{fig:shock_waves}
 \end{figure}
 
-Para placas infinitamente planas em ângulos pequenos, imersas em escoamentos supersônicos uniformes e estacionários, situação ilustrada na figura~\ref{fig:supersonic_flat_plate}, é possível encontrar equações analíticas para a sustentação \(L\) (força perpendicular ao escoamento) e para o arrasto \(D\) (paralela ao escoamento)~\cite{anderson}:
+Para placas infinitamente planas em ângulos pequenos, imersas em escoamentos supersônicos uniformes e estacionários, situação ilustrada na figura~\ref{fig:supersonic_flat_plate}, é possível encontrar equações analíticas para a sustentação \(L\) (força perpendicular ao escoamento) e para o arrasto \(D\) (paralela ao escoamento), em função da área da superfície \(S\), do ângulo de ataque \(\alpha \) e da densidade, velocidade e número de Mach do escoamento não perturbado (\(\rho_\infty \), \(V_\infty \) e \(M_\infty \))~\cite{anderson}:
 \begin{align}
     L &= \frac{1}{2} \rho_\infty V_\infty^2 S \frac{4\alpha}{\sqrt{M_\infty^2-1}} \\
     D &= \frac{1}{2} \rho_\infty V_\infty^2 S \frac{4\alpha^2}{\sqrt{M_\infty^2-1}}
