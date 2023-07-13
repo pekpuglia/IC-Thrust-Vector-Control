@@ -239,9 +239,9 @@ files = files[exp_numbers .>= 7]
 exps = load_AFD.(files)
 ##
 function full_plot(forces::Vector{FxFyM}, fname, f_unit = u"N", m_unit=u"N*cm")
-    p = scatter( getproperty.(forces, :label), ustrip.(f_unit,    getproperty.(forces, :Fy)), label="Fy (g)", legend=:bottom)
-    scatter!(p,  getproperty.(forces, :label), ustrip.(f_unit,    getproperty.(forces, :Fx)), label="Fx (g)", dpi=400)
-    scatter!(p,  getproperty.(forces, :label), ustrip.(m_unit,    getproperty.(forces, :M)), label="M (g*cm)")
+    p = scatter( getproperty.(forces, :label), ustrip.(f_unit,    getproperty.(forces, :Fy)), label="Fy ($f_unit)", legend=:bottom)
+    scatter!(p,  getproperty.(forces, :label), ustrip.(f_unit,    getproperty.(forces, :Fx)), label="Fx ($f_unit)", dpi=400)
+    scatter!(p,  getproperty.(forces, :label), ustrip.(m_unit,    getproperty.(forces, :M)), label="M ($m_unit)")
     # title!(p, fname[1:(end-4)])
     xlabel!(p, "Posição do servomotor (°)")
     ylabel!(p, "Medida")
@@ -285,3 +285,9 @@ forces = cat(FxFyM.(exps, Ref(calib_mat))..., dims=1)
 ##
 mean_thrust = mean(getproperty.(forces, :Fy)) |> u"N"
 ##
+deflections = getproperty.(forces, :label)
+Fxs = ustrip.(u"N", getproperty.(forces, :Fx))
+Ms = ustrip.(u"N*cm", getproperty.(forces, :M))
+##
+Fxcoefs = hcat(deflections, fill!(similar(deflections), 1)) \ Fxs
+Mcoefs  = hcat(deflections, fill!(similar(deflections), 1)) \ Ms
