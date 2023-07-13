@@ -180,7 +180,6 @@ plot!(p_calib_FD, sort(Fx_input), sort(Fx_input), linestyle=:dash, linecolor=:re
 png(p_calib_FD, joinpath(@__DIR__, "output/", "calibration_FD"))
 png(p_calib_FD, joinpath(img_path, "calibration_FD"))
 ##
-##
 Fy_series = cat(load_AFD.([
     "Cal_empuxo_Crescente.txt"
     "Cal_empuxo_Decrescente.txt"])..., dims=1)
@@ -238,7 +237,7 @@ files = files[exp_numbers .>= 7]
 exps = load_AFD.(files)
 ##
 function full_plot(forces::Vector{FxFyM}, fname, f_unit = u"g", m_unit=u"g*cm")
-    p = scatter( getproperty.(forces, :label), ustrip.(f_unit,    getproperty.(forces, :Fy)), label="Fy (g)", legend=:outertopright)
+    p = scatter( getproperty.(forces, :label), ustrip.(f_unit,    getproperty.(forces, :Fy)), label="Fy (g)", legend=:bottom)
     scatter!(p,  getproperty.(forces, :label), ustrip.(f_unit,    getproperty.(forces, :Fx)), label="Fx (g)", dpi=400)
     scatter!(p,  getproperty.(forces, :label), ustrip.(m_unit,    getproperty.(forces, :M)), label="M (g*cm)")
     # title!(p, fname[1:(end-4)])
