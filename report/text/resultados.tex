@@ -18,7 +18,7 @@ Os parâmetros propulsivos calculados para o motor foram:
 
 Observa-se que o pequeno valor de razão de expansão é refletido na pequena tubeira exibida na figura~\ref{fig:internal_profile}. Foi obtido também um impulso específico de \(I_{sp} = 47,9s\) e um fluxo mássico de \(\dot{m} = 4,257\;\mathrm{g}\,\mathrm{s}^{-1}\). Devido à baixa energia do propelente, a velocidade característica do motor é bastante baixa, de modo que é necessário um fluxo mássico bastante elevado para a produção do empuxo requisitado. Isso é refletido no valor de impulso específico baixo. Ressalta-se também que o motor foi ajustado para operar à pressão ambiente, fator que limitou a razão de expansão e, portanto, o coeficiente de empuxo. 
 
-O perfil da figura~\ref{fig:internal_profile} foi revolucionado para se obter uma geometria tridimensional, com superfícies planas externas adicionadas para facilitar a manufatura e a conexão com mangueiras de gás. Na figura~\ref{fig:3d_geom}, à esquerda, observa-se a geometria STL gerada em código para o motor. Foi adicionado um furo lateral para conexão com uma mangueira de alimentação, bem como quatro superfícies planas laterais para facilitar o manuseio e o apoio em morsas e outros equipamentos. À direita, observa-se o motor real construído \textcolor{red}{COLOCAR}. 
+O perfil da figura~\ref{fig:internal_profile} foi revolucionado para se obter uma geometria tridimensional, com superfícies planas externas adicionadas para facilitar a manufatura e a conexão com mangueiras de gás. Na figura~\ref{fig:3d_geom}, à esquerda, observa-se a geometria STL gerada em código para o motor. Foi adicionado um furo lateral para conexão com uma mangueira de alimentação, bem como quatro superfícies planas laterais para facilitar o manuseio e o apoio em morsas e outros equipamentos. À direita, observa-se o motor real construído. Destacam-se aqui as ranhuras da rosca para conexão da mangueira de gás.
 
 \begin{figure}[htbp]
     \centering
@@ -27,7 +27,7 @@ O perfil da figura~\ref{fig:internal_profile} foi revolucionado para se obter um
         \caption{Geometria STL gerada para o motor.}
     \end{subfigure}
     \begin{subfigure}{0.49\textwidth}
-        \includegraphics[width=\textwidth]{img/motor_stl.png}
+        \includegraphics[width=\textwidth]{img/motor_real.png}
         \caption{Motor impresso em 3D.}
     \end{subfigure}
     \caption{Geometria tridimensional do motor projetado.}\label{fig:3d_geom}
@@ -136,7 +136,7 @@ Os gráficos à esquerda correspondem às varreduras no sentido \(70\mathrm{^{\c
 
 As curvas de força transversal e momento apresentam comportamento linear para pequenas deflexões. Observa-se, em todos os gráficos, uma mudança no coeficiente angular destas quantidades por volta dos \(115\mathrm{^{\circ}}\), o que corresponde ao término da região linear prevista pelas equações \textcolor{red}{ANDERSON INTRO TEÓRICA}. Nota-se no entanto que na posição \(90\mathrm{^\circ}\) há forças e momentos residuais, o que não condiz com a simetria esperada para a configuração. Esta assimetria pode ser atribuída a erros experimentais introduzidos pelo equipamento, como por exemplo a rigidez da mangueira de gás, alterada pelo escoamento a alta pressão em seu interior, como discutido na seção~\ref{sec:method_3axis_measurement}. Observa-se também que devido ao corte da lâmina defletora com tesouras de metal, seu perfil também é um pouco assimétrico. O fato destes valores serem semelhantes para todos os experimentos conduzidos corrobora a hipótese de que são fruto de erros experimentais sistemáticos e podem, portanto, ser desconsiderados.
 
-Quanto à curva de força longitudinal ou empuxo, \(F_y\), percebe-se que houve uma redução consistente de empuxo em relação ao empuxo sem lâmina defletora da figura~\ref{fig:thrust_no_deflector}. A introdução de uma lâmina de espessura não nula gera ondas de choque no escoamento supersônico~\cite{anderson}, que reduzem a velocidade do escoamento e portanto o empuxo do motor. Observa-se também um pico de empuxo próximo à deflexão de \(100\mathrm{^\circ}\), correlacionado com o momento durante o experimento quando o \textcolor{red}{COMPRESSOR FEZ ALGUMA COISA}\@. Assim, esta curva apresenta erros experimentais significativos, de modo que quaisquer variações reais de empuxo em função da deflexão da lâmina são indetermináveis.
+Quanto à curva de força longitudinal ou empuxo, \(F_y\), percebe-se que houve uma redução consistente de empuxo em relação ao empuxo sem lâmina defletora da figura~\ref{fig:thrust_no_deflector}. A introdução de uma lâmina de espessura não nula gera ondas de choque no escoamento supersônico mesmo a ângulo de ataque nulo~\cite{anderson}, que reduzem a velocidade do escoamento e portanto o empuxo do motor. Observa-se também um pico de empuxo próximo à deflexão de \(100\mathrm{^\circ}\), correlacionado com o momento durante o experimento quando o \textcolor{red}{COMPRESSOR FEZ ALGUMA COISA}\@. Assim, esta curva apresenta erros experimentais significativos, de modo que quaisquer variações reais de empuxo em função da deflexão da lâmina são indetermináveis.
 
 Tendo sido exibidos os gráficos diretamente obtidos dos dados experimentais, e tendo sido constatada sua semelhança, extrair-se-ão parâmetros médios para o sistema. O empuxo médio obtido foi 
 \begin{equation}
@@ -147,7 +147,7 @@ o que corresponde a uma redução de 41\% em relação ao empuxo sem lâmina def
     \frac{\mathrm{d}F_x}{\mathrm{d}\delta} &= (3,57 \pm 0,05)\times10^{-2} \mathrm{N} / \mathrm{^\circ} \\
     \frac{\mathrm{d}M}{\mathrm{d}\delta} &= (-2,29 \pm 0,02)\times10^{-2} \mathrm{N}\,\mathrm{cm} / \mathrm{^\circ}
 \end{align}
-onde \(\delta \) representa a deflexão da lâmina. O momento é dado em relação ao eixo da balança.
+onde \(\delta \) representa a deflexão da lâmina. O momento é dado em relação ao eixo da balança.\ 
 
 aplicar eqs anderson p calcular perda de empuxo/força lateral
 discutir problemas metodológicos e trabalhos futuros
