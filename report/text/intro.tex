@@ -96,7 +96,7 @@ Primeiramente, observa-se que a natureza das ondas de choque é bastante depende
 
 Para placas infinitamente planas em ângulos pequenos, imersas em escoamentos supersônicos uniformes e estacionários, situação ilustrada na figura~\ref{fig:supersonic_flat_plate}, é possível encontrar equações analíticas para a sustentação \(L\) (força perpendicular ao escoamento) e para o arrasto \(D\) (paralela ao escoamento), em função da área da superfície \(S\), do ângulo de ataque \(\alpha \) e da densidade, velocidade e número de Mach do escoamento não perturbado (\(\rho_\infty \), \(V_\infty \) e \(M_\infty \))~\cite{anderson}:
 \begin{align}
-    L &= \frac{1}{2} \rho_\infty V_\infty^2 S \frac{4\alpha}{\sqrt{M_\infty^2-1}} \\
+    L &= \frac{1}{2} \rho_\infty V_\infty^2 S \frac{4\alpha}{\sqrt{M_\infty^2-1}} \label{eq:sslift} \\
     D &= \frac{1}{2} \rho_\infty V_\infty^2 S \frac{4\alpha^2}{\sqrt{M_\infty^2-1}}
 \end{align}
 
@@ -108,4 +108,16 @@ Para placas infinitamente planas em ângulos pequenos, imersas em escoamentos su
 
 Dessa forma, na prática espera-se que a força lateral (análoga à sustentação) gerada pela lâmina defletora seja proporcional à sua deflexão, e que o arrasto da lâmina seja não nulo para deflexão nula (devido à espessura não nula) e que este aumente quadraticamente com a deflexão.
 
-\textcolor{red}{CONTROLE?}
+Para aplicações de controle, é comum modelar a dinâmica do sistema como um modelo de espaço de estados linear invariante no tempo~\cite{fbsys}:
+\begin{align}
+    \dot{\textbf{x}} &= A\textbf{x} + B\textbf{u} \\
+    \textbf{y} &= C\textbf{x} + D\textbf{u}
+\end{align}
+onde \(\textbf{x}\) é o vetor de estado do sistema, \(u\) é o vetor de entradas e \(\textbf{y}\) é o vetor de saídas. \(A\), \(B\), \(C\) e \(D\) são, respectivamente, as matrizes de dinâmica, controle, sensor e direta. A vetorização de empuxo pode ser aplicada a uma variedade de sistemas, de modo que ela constitui uma forma de entrada para o sistema aeroespacial. Sendo assim, é necessário caracterizar o vetor \(\textbf{u}\) e a matriz \(B\) para esta forma de controle.
+
+A vetorização de empuxo inclui no vetor de entradas de um sistema a posição de lâmina defletora \(\delta \), grandeza que pode ser utilizada para causar forças sobre o veículo aeroespacial em questão. Sua influência sobre o sistema, sob hipótese de linearidade, justificada pela equação~\ref{eq:sslift}, depende, dentre outros fatores específicos da aplicação, das \textit{derivadas de controle} de força lateral e momento:
+\begin{align}
+    F_{x\delta} &= \frac{\mathrm{d}F_x}{\delta} \\
+    M_{\delta} &= \frac{\mathrm{d}M}{\delta}
+\end{align}
+cuja caracterização é o objetivo principal deste trabalho.
