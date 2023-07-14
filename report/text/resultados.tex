@@ -159,4 +159,18 @@ No entanto, a baixa energia do propelente significa que uma alta vazão mássica
 
 Quanto à balança de três componentes usada, faz-se necessário encontrar alternativas para trabalhos futuros. A balança é montada a um túnel de vento, o que restringe a montagem do sistema propulsivo. Isto impediu, por exemplo, a montagem de um transdutor de pressão na câmara de empuxo nas medidas finais, já que essa montagem introduziria ainda mais erros devidos à rigidez da mangueira. Tendo sido adquirida para medir forças da escala de 5 a 20N~\cite{lab}, ela mostra-se inadequada para as forças permitidas pelos sistemas de fornecimento de ar comprimido disponíveis. Este aparato não é de simples fabricação, sendo necessária precisão micrométrica para alguns componentes. No entanto, parece ser um passo necessário para o desenvolvimento de sistemas de vetorização de empuxo no Brasil a fabricação de uma bancada de teste de empuxo com balança de três componentes (para sistemas com um grau de liberdade, que geram forças e momento em um plano) ou seis componentes (para medição completa de forças e momentos tridimensionais), específicas para o propósito.\
 
-Por fim, 
+Por fim, discutem-se questões relacionadas diretamente ao sistema de vetorização e à lâmina defletora. A tabela~\ref{tab:proj_params} apresenta uma relação de novos parâmetros de projeto introduzidos pela adição do sistema de vetorização a um sistema propulsivo, bem como os \textit{trade-offs} de engenharia que os acompanham.
+
+\begin{table}[htbp]
+    \centering\begin{tabular}{p{.3\linewidth}p{.3\linewidth}p{.3\linewidth}} \toprule
+        Parâmetro & \textit{Trade-off} associado & Critério de escolha para este trabalho \\[.3cm] \midrule
+        Espessura da lâmina & Perda de empuxo contra ganho de integridade estrutural & Disponibilidade de material e rigidez ao manuseio  \\[.3cm]
+        Distância da tubeira à lâmina & Perda de empuxo contra ganho de derivadas de controle & Espaço para montagem\\[.3cm]
+        Corda da lâmina & Ganho de derivadas de controle contra aumento do momento aerodinâmico sobre a lâmina & Escala próxima aos componentes já escolhidos\\[.3cm]
+        Posição do eixo em relação ao bordo de ataque da lâmina defletora & Exigência de torque do atuador contra integridade estrutural & Centro\\[.3cm]
+        Resolução e torque máximo do atuador & Capacidades contra custo & Disponibilidade, tamanho \\ \bottomrule
+    \end{tabular}
+    \caption{Parâmetros de projeto referentes ao sistema de vetorização de empuxo.}\label{tab:proj_params}
+\end{table}
+
+A grande perda de empuxo observada com a inserção da lâmina defletora pode ser atribuída ao fato de que a espessura da lâmina, \(0,7\,\mathrm{mm}\) é 58\% do diâmetro da tubeira, \(1,2\,\mathrm{mm}\). A influência da distância da tubeira à lâmina deve ser examinada em um trabalho futuro, pois esta grandeza foi constante neste trabalho (cerca de \(1\,\mathrm{cm}\)). A corda da lâmina também foi mantida constante em \(1,1\,\mathrm{cm}\). Posicionar o eixo na metade da corda da lâmina é uma decisão que se justifica pela previsão de que para placas infinitamente planas em escoamentos uniformes, como a situação da figura~\ref{fig:supersonic_flat_plate}, o ponto neutro situa-se neste ponto~\cite{anderson}. Destaca-se também que a lâmina está sujeita ao fenônemo de \textit{flutter} no bordo de ataque \textcolor{red}{REFERENCIAR}, o que pode ser mitigado pelo posicionamento do eixo mais próximo ao bordo de ataque, levando a um torque de equilíbrio não nulo. Por fim, foi introduzido um componente eletromecânico ao sistema propulsivo, o servomotor, que apresenta limites de resolução e torque máximo. Historicamente, o atuador foi geralmente eletro-hidráulico, mas há um interesse recente em realizar sistemas eletromecânicos de vetorização de empuxo~\cite{etvc}.
