@@ -71,16 +71,14 @@
 % ---
 
 % --- Informações de dados para CAPA e FOLHA DE ROSTO ---
-\titulo{Instruções para a formatação de trabalhos submetidos ao ENCITA}
+\titulo{Caracterização de sistema de propulsão a gás frio com vetorização de empuxo}
 \ifthenelse{\equal{\ABNTEXisarticle}{true}}{%
 \renewcommand{\maketitlehookb}{}
 }{}
 
-\autor{
-  Nome do primeiro autor\thanks{Nome da instituição, tipo de vínculo (bolsista PIBIC-CNPq,
-  bolsista ITI-CNPq, pesquisador voluntário, orientador, professor, etc.),
-  \href{mailto:fulano@ita.br}{fulano@ita.br}.},
-  Nome do segundo autor\thanks{Informações do segundo autor}}
+\autor{Pedro Kuntz Puglia\thanks{Instituto Tecnológico de Aeronáutica, pesquisador voluntário,
+  \href{mailto:pepuglia@gmail.com}{pepuglia@gmail.com}.},
+  Leonardo Gouvêa\thanks{Instituto Tecnológico de Aeronáutica, orientador}, Maurício Morales\thanks{Instituto Tecnológico de Aeronáutica, co-orientador}}
 
 \local{Instituto Tecnológico de Aeronáutica, São José dos Campos, SP, Brasil}
 \data{XXVII Encontro de Iniciação Científica do ITA -- XXVII ENCITA/2022}
@@ -94,8 +92,7 @@
 
 % informações do PDF
 \makeatletter
-\hypersetup{
-     	%pagebackref=true,
+\hypersetup{%pagebackref=true,
 		pdftitle={\@title},
 		pdfauthor={\@author},
 		colorlinks=true,       		% false: boxed links; true: colored links
@@ -158,21 +155,11 @@
 
 % resumo em português
 \begin{resumoumacoluna}
- Conforme a ABNT NBR 6022:2018, o resumo no idioma do documento é elemento obrigatório.
- Constituído de uma sequência de frases concisas e objetivas e não de uma
- simples enumeração de tópicos, não ultrapassando 250 palavras, seguido, logo
- abaixo, das palavras representativas do conteúdo do trabalho, isto é,
- palavras-chave e/ou descritores, conforme a NBR 6028. (\ldots) As
- palavras-chave devem figurar logo abaixo do resumo, antecedidas da expressão
- Palavras-chave:, separadas entre si por ponto e finalizadas também por ponto.
- O propósito deste ``template'' é servir como modelo de um trabalho a ser publicado nos
- anais do ENCITA. O resumo deve descrever os objetivos, a metodologia e as principais
- conclusões em não mais de 250 palavras. Ele não deve conter fórmulas nem deduções
- matemáticas. Figuras também não devem fazer parte do resumo.
+Este trabalho apresenta o processo de desenvolvimento e caracterização de um sistema de vetorização de empuxo com motor a gás frio. O motor tem como requisito empuxo de \(2\;\mathrm{N}\) e \(5\;\mathrm{bar}\) de pressão de câmara. O método de vetorização escolhido para teste foi o de \textit{jet vane}. O motor construído apresentou divergências pequenas com os requisitos, tendo um impulso específico de \(46,6\;\mathrm{s}\). Este motor foi montado em um mecanismo de controle da lâmina defletora e esta montagem foi acoplada a uma balança de três componentes para caracterização das forças e momentos gerados. Como resultado final, obtiveram-se as derivadas de controle de força lateral e momento. Por fim, apresentaram-se os problemas metodológicos encontrados e \textit{trade-offs} de engenharia identificados para o sistema.
  \vspace{\onelineskip}
 
  \noindent
- \textbf{Palavras-chave}: latex. abntex. editoração de texto.
+ \textbf{Palavras-chave}: propulsão, gás frio, vetorização de empuxo, controle.
 \end{resumoumacoluna}
 % ---
 
@@ -180,28 +167,34 @@
 % ELEMENTOS TEXTUAIS
 % ----------------------------------------------------------
 \textual
-
 % ----------------------------------------------------------
 % Introdução
 % ----------------------------------------------------------
 \section{Introdução}
 
-Para inscrever-se no ENCITA o aluno deverá entregar um artigo para a coordenação
-seguindo as instruções em \url{https://paic.ita.br/} em formato PDF.
+A tecnologia de controle de vetorização de empuxo (ou TVC, do inglês \textit{thrust vector control}) é fundamental para a estabilidade e para o seguimento de trajetória dos foguetes, pois utiliza o direcionamento do empuxo do motor para controlar o veículo. Este trabalho busca iniciar uma linha de pesquisa brasileira sobre o assunto.
 
-Os Anais do ENCITA serão publicados no site da biblioteca do ITA. Para ser publicado, o
-trabalho deve obedecer esta instrução, com respeito ao formato do texto e qualidade das
-figuras e tabelas.
+O desenvolvimento de sistemas propulsivos é baseado em coeficientes semi-empíricos que relacionam o empuxo propulsivo \(F\), a vazão mássica \(\dot{m}\) e as áreas da seção transversal da garganta \(A_t\) e da tubeira \(A_e\). O coeficientes de empuxo \(C_F\) e a velocidade característica \(C^*\) podem ser usados para calcular a vazão mássica do motor foguete com~\cite{Sutton}
+\begin{equation}
+  \label{eq:mass_flow}
+  \dot{m} = \frac{F}{C^* C_F}
+\end{equation}
+ao passo que as áreas das seções transversais da garganta e da tubeira podem ser relacionadas pela razão de expansão \(\varepsilon\), dada por
+\begin{equation}
+  \varepsilon = \frac{A_e}{A_t}\label{eq:exp_ratio}
+\end{equation} 
 
-Os manuscritos devem ser submetidos em Português. O trabalho é limitado a 2 (duas)
-páginas, incluindo tabelas, figuras, referências, etc.
+\textit{Jet vanes}, ou lâminas defletoras, consistem em placas imersas no escoamento supersônico à jusante da tubeira do motor foguete. Para pequenas deflexões, escoamento uniforme e espessura infinitesimal, é possível afirmar que a força lateral produzida pelo sistema é proporcional ao ângulo de deflexão~\cite{anderson}. 
 
-Os nomes dos autores e afiliações devem aparecer já na 1ª versão submetida para revisão.
-Caso o trabalho seja aceito sem modificações, os autores não precisarão enviar nova
-versão.
+A formulação mais usual de controle linear invariante no tempo define uma matriz de controle~\cite{fbsys}, cujas entradas são derivadas de controle, como por exemplo a derivada da força lateral em relação à deflexão da lâmina defletora \(\delta \), dada por
+\begin{equation}
+  F_{x\delta} = \frac{\mathrm{d} F_x}{\mathrm{d} \delta}\label{eq:control_derivative}
+\end{equation}
 
-Na introdução deve constar a justificativa do trabalho, contextualização e breve revisão
-da literatura. Os objetivos do trabalho também devem estar no final da introdução.
+Sendo assim, este trabalho tem por objetivo final caracterizar as derivadas de controle de um sistema de vetorização de empuxo com um motor foguete de gás frio de pequena escala (\(2\;\mathrm{N}\)), bem como caracterizar seus coeficientes propulsivos e \textit{trade-offs} de engenharia relacionado ao sistema de vetorização de empuxo.
+
+\section{Materiais e métodos}
+
 
 \section{Seções do artigo}
 
@@ -281,10 +274,6 @@ borda da tabela é livre. Exemplos são apresentados na Tab. \ref{tab:example} e
     \bottomrule
   \end{tabular}
 \end{table}
-
-A citação das referências no corpo do texto pode ser feita nos formatos:
-\citeonline{ibge1993,araujo2012} mostram que \dots, ou: Observa-se que \dots
-\cite{van86,guizzardi2005,masolo2010}.
 
 Referências aceitáveis incluem: artigos de periódicos, dissertações, teses, artigos
 publicados em anais de congressos, ``preprints'', livros e artigos submetidos e aceitos em
