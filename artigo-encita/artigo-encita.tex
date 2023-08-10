@@ -1,0 +1,303 @@
+%% abtex2-modelo-artigo.tex, v-1.9.7 laurocesar
+%% Copyright 2012-2018 by abnTeX2 group at http://www.abntex.net.br/
+%%
+%% This work may be distributed and/or modified under the
+%% conditions of the LaTeX Project Public License, either version 1.3
+%% of this license or (at your option) any later version.
+%% The latest version of this license is in
+%%   http://www.latex-project.org/lppl.txt
+%% and version 1.3 or later is part of all distributions of LaTeX
+%% version 2005/12/01 or later.
+%%
+%% This work has the LPPL maintenance status `maintained'.
+%%
+%% The Current Maintainer of this work is the abnTeX2 team, led
+%% by Lauro César Araujo. Further information are available on
+%% http://www.abntex.net.br/
+%%
+%% This work consists of the files abntex2-modelo-artigo.tex and
+%% abntex2-modelo-references.bib
+%%
+
+% -----
+% Versão adaptada para ENCITA
+% Autoria Filipe Verri <verri@ita.br>
+% Data 22/12/2021
+% -----
+
+% ------------------------------------------------------------------------
+% ------------------------------------------------------------------------
+% abnTeX2: Modelo de Artigo Acadêmico em conformidade com
+% ABNT NBR 6022:2018: Informação e documentação - Artigo em publicação
+% periódica científica - Apresentação
+% ------------------------------------------------------------------------
+% ------------------------------------------------------------------------
+
+\documentclass[
+	% -- opções da classe memoir --
+	article,			% indica que é um artigo acadêmico
+	10pt,				% tamanho da fonte
+	oneside,			% para impressão apenas no recto. Oposto a twoside
+	a4paper,			% tamanho do papel.
+  twocolumn,			% para coluna dupla
+	english,			% idioma adicional para hifenização
+	brazil,				% o último idioma é o principal do documento
+	sumario=tradicional,
+	]{abntex2}
+
+
+% ---
+% PACOTES
+% ---
+
+% ---
+% Pacotes fundamentais
+% ---
+\usepackage{lmodern}			% Usa a fonte Latin Modern
+\usepackage[T1]{fontenc}		% Selecao de codigos de fonte.
+\usepackage[utf8]{inputenc}		% Codificacao do documento (conversão automática dos acentos)
+\usepackage{indentfirst}		% Indenta o primeiro parágrafo de cada seção.
+\usepackage{nomencl} 			% Lista de simbolos
+\usepackage{color}				% Controle das cores
+\usepackage{graphicx}			% Inclusão de gráficos
+\usepackage{microtype} 			% para melhorias de justificação
+\usepackage{booktabs} % Tabelas
+% ---
+
+% ---
+% Pacotes de citações
+% ---
+\usepackage[alf]{abntex2cite}	% Citações padrão ABNT
+% ---
+
+% --- Informações de dados para CAPA e FOLHA DE ROSTO ---
+\titulo{Instruções para a formatação de trabalhos submetidos ao ENCITA}
+\ifthenelse{\equal{\ABNTEXisarticle}{true}}{%
+\renewcommand{\maketitlehookb}{}
+}{}
+
+\autor{
+  Nome do primeiro autor\thanks{Nome da instituição, tipo de vínculo (bolsista PIBIC-CNPq,
+  bolsista ITI-CNPq, pesquisador voluntário, orientador, professor, etc.),
+  \href{mailto:fulano@ita.br}{fulano@ita.br}.},
+  Nome do segundo autor\thanks{Informações do segundo autor}}
+
+\local{Instituto Tecnológico de Aeronáutica, São José dos Campos, SP, Brasil}
+\data{XXVII Encontro de Iniciação Científica do ITA -- XXVII ENCITA/2022}
+% ---
+
+% ---
+% Configurações de aparência do PDF final
+
+% alterando o aspecto da cor azul
+\definecolor{blue}{RGB}{41,5,195}
+
+% informações do PDF
+\makeatletter
+\hypersetup{
+     	%pagebackref=true,
+		pdftitle={\@title},
+		pdfauthor={\@author},
+		colorlinks=true,       		% false: boxed links; true: colored links
+    	linkcolor=blue,          	% color of internal links
+    	citecolor=blue,        		% color of links to bibliography
+    	filecolor=magenta,      		% color of file links
+		urlcolor=blue,
+		bookmarksdepth=4
+}
+\makeatother
+% ---
+
+% ---
+% compila o indice
+% ---
+\makeindex
+% ---
+
+% ---
+% Altera as margens padrões
+% ---
+\setlrmarginsandblock{2cm}{2cm}{*}
+\setulmarginsandblock{1.5cm}{2.5cm}{*}
+\checkandfixthelayout
+% ---
+
+% ---
+% Espaçamentos entre linhas e parágrafos
+% ---
+
+% O tamanho do parágrafo é dado por:
+\setlength{\parindent}{0.7cm}
+
+% Controle do espaçamento entre um parágrafo e outro:
+\setlength{\parskip}{0.1cm}
+
+% Espaçamento simples
+\SingleSpacing
+
+% Espaçamento após título das Referências
+\setlength\afterchapskip{\lineskip}
+
+% ----
+% Início do documento
+% ----
+\begin{document}
+
+% Seleciona o idioma do documento (conforme pacotes do babel)
+\selectlanguage{brazil}
+
+% Retira espaço extra obsoleto entre as frases.
+\frenchspacing
+
+% ----------------------------------------------------------
+% ELEMENTOS PRÉ-TEXTUAIS
+% ----------------------------------------------------------
+
+% página de titulo principal (obrigatório)
+\maketitle
+
+% resumo em português
+\begin{resumoumacoluna}
+ Conforme a ABNT NBR 6022:2018, o resumo no idioma do documento é elemento obrigatório.
+ Constituído de uma sequência de frases concisas e objetivas e não de uma
+ simples enumeração de tópicos, não ultrapassando 250 palavras, seguido, logo
+ abaixo, das palavras representativas do conteúdo do trabalho, isto é,
+ palavras-chave e/ou descritores, conforme a NBR 6028. (\ldots) As
+ palavras-chave devem figurar logo abaixo do resumo, antecedidas da expressão
+ Palavras-chave:, separadas entre si por ponto e finalizadas também por ponto.
+ O propósito deste ``template'' é servir como modelo de um trabalho a ser publicado nos
+ anais do ENCITA. O resumo deve descrever os objetivos, a metodologia e as principais
+ conclusões em não mais de 250 palavras. Ele não deve conter fórmulas nem deduções
+ matemáticas. Figuras também não devem fazer parte do resumo.
+ \vspace{\onelineskip}
+
+ \noindent
+ \textbf{Palavras-chave}: latex. abntex. editoração de texto.
+\end{resumoumacoluna}
+% ---
+
+% ----------------------------------------------------------
+% ELEMENTOS TEXTUAIS
+% ----------------------------------------------------------
+\textual
+
+% ----------------------------------------------------------
+% Introdução
+% ----------------------------------------------------------
+\section{Introdução}
+
+Para inscrever-se no ENCITA o aluno deverá entregar um artigo para a coordenação
+seguindo as instruções em \url{https://paic.ita.br/} em formato PDF.
+
+Os Anais do ENCITA serão publicados no site da biblioteca do ITA. Para ser publicado, o
+trabalho deve obedecer esta instrução, com respeito ao formato do texto e qualidade das
+figuras e tabelas.
+
+Os manuscritos devem ser submetidos em Português. O trabalho é limitado a 2 (duas)
+páginas, incluindo tabelas, figuras, referências, etc.
+
+Os nomes dos autores e afiliações devem aparecer já na 1ª versão submetida para revisão.
+Caso o trabalho seja aceito sem modificações, os autores não precisarão enviar nova
+versão.
+
+Na introdução deve constar a justificativa do trabalho, contextualização e breve revisão
+da literatura. Os objetivos do trabalho também devem estar no final da introdução.
+
+\section{Seções do artigo}
+
+O corpo de texto segue a mesma formatação da introdução. Sugere-se que as seções sejam: 1.
+Introdução; 2. Material e Métodos; 3. Resultados e Discussão; 4. Conclusões e
+Recomendações; 5. Agradecimentos; por fim, Referências.
+
+\subsection{Corpo do texto}
+
+As equações matemáticas devem ser citadas como Eq. \ref{eq:mass-energy} no meio da
+frase, ou por Equação \ref{eq:mass-energy} no início de uma frase.
+
+Os símbolos usados nas equações devem ser definidos imediatamente antes ou depois de sua
+primeira ocorrência no texto do trabalho: a equivalência massa-energia é dada por
+\begin{equation}
+  \label{eq:mass-energy}
+  E = m c^2\mbox{,}
+\end{equation}
+onde $E$ é energia, $m$ a massa e $c$ a velocidade da luz no vácuo.
+
+O tamanho da fonte usado nas equações deve ser compatível com o utilizado no texto. Todos
+os símbolos devem ter suas unidades expressas no S.I. (Sistema Internacional).
+
+As figuras devem ser centralizadas e referenciadas como Fig. \ref{fig:example} no meio da
+frase ou por Figura \ref{fig:example}, caso apareçam no início. As anotações e numerações
+devem ter tamanhos compatíveis com o da fonte usada no texto, e todas as unidades devem
+ser expressas no S.I. (Sistema Internacional). Cada figura deve ser colocada na posição
+mais próxima possível de sua primeira citação no texto. As legendas das figuras devem ser
+alinhadas à esquerda.
+
+\begin{figure}[h]
+  \begin{center}
+    \includegraphics[width=0.9\columnwidth]{example-image-a}
+  \end{center}
+  \caption{Exemplo de uma figura.}
+  \label{fig:example}
+\end{figure}
+
+Figuras coloridas e fotografias de alta qualidade podem ser incluídas no trabalho. É
+recomendável que qualquer figura inserida no trabalho tenha ao menos 90 DPI.
+
+\begin{table*}[t]
+  \caption{Resultados experimentais para as propriedades de flexão dos materiais MAT1 and
+  MAT2. Valores médios de obtidos em 20 ensaios.}
+  \label{tab:large}
+  \centering
+  \begin{tabular}{ccc}
+    \toprule
+    Propriedades do compósito & CFRC-TWILL & CFRC-4HS \\
+    \midrule
+    Resistência à Flexão (MPa) & $209\pm10$ & $180\pm15$ \\
+    Módulo de Flexão (GPa) & $57\pm3$ & $18\pm1$ \\
+    \bottomrule
+  \end{tabular}
+\end{table*}
+
+As tabelas devem ser centralizadas e referidas por Tab. \ref{tab:example} no meio da
+frase, ou por Tabela \ref{tab:example} no início de uma sentença. Os títulos das tabelas
+devem ser localizados imediatamente acima da tabela. Anotações e valores numéricos nela
+incluídos devem ter tamanhos compatíveis com o da fonte usada no texto do trabalho, e
+todas as unidades devem ser expressas no S.I. (Sistema Internacional). As unidades são
+incluídas apenas na primeira linha/coluna, conforme for apropriado. As tabelas devem ser
+colocadas tão perto, o quanto possível, de sua primeira citação no texto. O estilo de
+borda da tabela é livre. Exemplos são apresentados na Tab. \ref{tab:example} e na Tab.
+\ref{tab:large}.
+
+\begin{table}[h]
+  \caption{Propriedades após o processamento.}
+  \label{tab:example}
+  \centering
+  \begin{tabular}{ccc}
+    \toprule
+    Experimento & Prop. 1 (\%) & Prop. 2 (m)\\
+    \midrule
+    Ensaio 1 & $40.0$ & $22.7$ \\
+    Ensaio 2 & $48.4$ & $13.9$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+A citação das referências no corpo do texto pode ser feita nos formatos:
+\citeonline{ibge1993,araujo2012} mostram que \dots, ou: Observa-se que \dots
+\cite{van86,guizzardi2005,masolo2010}.
+
+Referências aceitáveis incluem: artigos de periódicos, dissertações, teses, artigos
+publicados em anais de congressos, ``preprints'', livros e artigos submetidos e aceitos em
+revistas (identificar a fonte). Não citar páginas web, material didáticos, artigos em
+blogs, vídeos ou similares.
+
+\section{Agradecimentos}
+
+Se bolsista, não esquecer de agradecimento à agência de fomento.
+
+% ----------------------------------------------------------
+% Referências bibliográficas
+% ----------------------------------------------------------
+\bibliography{artigo-encita}
+
+\end{document}
