@@ -155,7 +155,7 @@
 
 % resumo em português
 \begin{resumoumacoluna}
-Este trabalho apresenta o processo de desenvolvimento e caracterização de um sistema de vetorização de empuxo com motor a gás frio. O motor tem como requisito empuxo de \(2\;\mathrm{N}\) e \(5\;\mathrm{bar}\) de pressão de câmara. O método de vetorização escolhido para teste foi o de \textit{jet vane}. O motor construído apresentou divergências pequenas com os requisitos, tendo um impulso específico de \(46,6\;\mathrm{s}\). Este motor foi montado em um mecanismo de controle da lâmina defletora e esta montagem foi acoplada a uma balança de três componentes para caracterização das forças e momentos gerados. Como resultado final, obtiveram-se as derivadas de controle de força lateral e momento. Por fim, apresentaram-se os problemas metodológicos encontrados e \textit{trade-offs} de engenharia identificados para o sistema.
+Este trabalho apresenta o processo de desenvolvimento e caracterização de um sistema de vetorização de empuxo com motor a gás frio. O motor tem como requisito empuxo de \(2\;\mathrm{N}\) e \(5\;\mathrm{bar}\) de pressão de câmara. O método de vetorização escolhido para teste foi o de \textit{jet vane}. O motor construído apresentou um impulso específico de \(46,6\;\mathrm{s}\). O sistema foi caracterizado com uma balança de três componentes. Como resultado final, obtiveram-se as derivadas de controle de força lateral e momento. Por fim, apresentaram-se os problemas metodológicos encontrados e \textit{trade-offs} de engenharia identificados para o sistema.
  \vspace{\onelineskip}
 
  \noindent
@@ -174,12 +174,12 @@ Este trabalho apresenta o processo de desenvolvimento e caracterização de um s
 
 A tecnologia de controle de vetorização de empuxo (ou TVC, do inglês \textit{thrust vector control}) é fundamental para a estabilidade e para o seguimento de trajetória dos foguetes, pois utiliza o direcionamento do empuxo do motor para controlar o veículo. Este trabalho busca iniciar uma linha de pesquisa brasileira sobre o assunto.
 
-O desenvolvimento de sistemas propulsivos é baseado em coeficientes semi-empíricos que relacionam o empuxo propulsivo \(F\), a vazão mássica \(\dot{m}\) e as áreas da seção transversal da garganta \(A_t\) e da tubeira \(A_e\). O coeficientes de empuxo \(C_F\) e a velocidade característica \(C^*\) podem ser usados para calcular a vazão mássica do motor foguete com~\cite{Sutton}
+O desenvolvimento de sistemas propulsivos é baseado em coeficientes semi-empíricos. O coeficiente de empuxo \(C_F\) e a velocidade característica \(C^*\) podem ser usados para calcular a vazão mássica do motor foguete com~\cite{Sutton}
 \begin{equation}
   \label{eq:mass_flow}
   \dot{m} = \frac{F}{C^* C_F}
 \end{equation}
-ao passo que as áreas das seções transversais da garganta e da tubeira podem ser relacionadas pela razão de expansão \(\varepsilon\), dada por
+ao passo que as áreas das seções transversais da garganta \(A_t\) e da tubeira \(A_e\) podem ser relacionadas pela razão de expansão \(\varepsilon \), dada por
 \begin{equation}
   \varepsilon = \frac{A_e}{A_t}\label{eq:exp_ratio}
 \end{equation} 
@@ -195,107 +195,47 @@ Sendo assim, este trabalho tem por objetivo final caracterizar as derivadas de c
 
 \section{Materiais e métodos}
 
-O sistema propulsivo foi projetado de maneira programática com o auxílio do CEA NASA~\cite{ceanasa} e sua interface programática RocketCEA~\cite{rocketcea}. Foram levantados como requisitos empuxo \(F = 2\;\mathrm{N}\), pressão de câmara \(p_c = 500\;\mathrm{kPa}\), temperatura do propelente \(T_{\mathrm{prop}} = 298,15\;\mathrm{K}\). Estes dados foram inseridos no código desenvolvido para cálculo das áreas das seções transversais de garganta e tubeira. A área da seção transversal da câmara foi escolhida empiricamente.
+O sistema propulsivo foi projetado de maneira programática com o auxílio do CEA NASA~\cite{ceanasa} e sua interface programática RocketCEA~\cite{rocketcea}. Foram levantados como requisitos empuxo \(F = 2\;\mathrm{N}\), pressão de câmara \(p_c = 500\;\mathrm{kPa}\), temperatura do propelente \(T_{\mathrm{prop}} = 298,15\;\mathrm{K}\). Estes dados foram inseridos no CEA para cálculo áreas das seções transversais de garganta e tubeira. A área da seção transversal da câmara foi escolhida empiricamente.
 
-O motor a gás frio e o sistema de vetorização foram manufaturados em ABS por impressão 3D. Para as medidas de força em função da deflexão da lâmina, foi utilizada a balança de três componentes Plint \& Partners disponível no Laboratório de Engenharia Aeronáutica. Esta balança é capaz de medir \(F_x\), uma força horizontal, \(F_y\), uma força vertical, e \(M\), um momento, através da leitura de três extensômetros visíveis na Fig.~\ref{fig:diag_three_axis_scale}.
+O motor a gás frio e o sistema de vetorização foram manufaturados em ABS por impressão 3D. Para as medidas de força em função da deflexão da lâmina, foi utilizada a balança de três componentes Plint \& Partners disponível no Laboratório de Engenharia Aeronáutica. A saída da balança, as forças \(F_A\) (\textit{aft}), \(F_F\) (\textit{fore}) e \(F_D\) (\textit{drag}) em cada extensômetro, pode ser convertida nas forças horizontal \(F_x\), vertical \(F_y\) e no momento atuante \(M\) com o conhecimento da distância \(d\) entre as componentes \textit{aft} e \textit{fore}~\cite{lab}.
 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\linewidth]{../report/img/three_axis_scale_diagram.png}
-  \caption{Diagrama da balança de três componentes.}
-  \label{fig:diag_three_axis_scale}
+  \caption{Diagrama da balança de três componentes.}\label{fig:diag_three_axis_scale}
 \end{figure}
 
-A saída da balança, as forças \(F_A\) (\textit{aft}), \(F_F\) (\textit{fore}) e \(F_D\) (\textit{drag}) em cada extensômetro, podem ser convertidas nas forças horizontal, vertical e no momento atuante com o conhecimento da distância \(d\) entre as componentes \textit{aft} e \textit{fore}~\cite{lab}.
+\section{Resultados e Discussão}
 
-\section{Seções do artigo}
+Obtiveram-se empiricamente para o motor \(\varepsilon = 1,35\), \(C^* = (368,8 \pm 2,4)\;\mathrm{m}\;\mathrm{s}^{-1}\) e \(C_{F} = 1,228 \pm 0,005\), constituindo uma vazão mássica de \(\dot{m} = (4,42 \pm 0,03)\;\mathrm{g}\;\mathrm{s}^{-1}\). Obteve-se portanto um impulso específico de \(46,6\;\mathrm{s}\). A alta vazão mássica e o baixo impulso específico devem-se ao baixo conteúdo energético do ar comprimido usado no experimento. 
 
-O corpo de texto segue a mesma formatação da introdução. Sugere-se que as seções sejam: 1.
-Introdução; 2. Material e Métodos; 3. Resultados e Discussão; 4. Conclusões e
-Recomendações; 5. Agradecimentos; por fim, Referências.
+O motor desenvolvido, montado no sistema de vetorização de empuxo, pode ser visto na Fig.~\ref{fig:assembled_system}. A lâmina é movimentada pelo servomotor à direita da figura, podendo atingir deflexões de \(\pm 20\mathrm{^\circ}\). 
 
-\subsection{Corpo do texto}
-
-As equações matemáticas devem ser citadas como Eq. \ref{eq:mass-energy} no meio da
-frase, ou por Equação \ref{eq:mass-energy} no início de uma frase.
-
-Os símbolos usados nas equações devem ser definidos imediatamente antes ou depois de sua
-primeira ocorrência no texto do trabalho: a equivalência massa-energia é dada por
-\begin{equation}
-  \label{eq:mass-energy}
-  E = m c^2\mbox{,}
-\end{equation}
-onde $E$ é energia, $m$ a massa e $c$ a velocidade da luz no vácuo.
-
-O tamanho da fonte usado nas equações deve ser compatível com o utilizado no texto. Todos
-os símbolos devem ter suas unidades expressas no S.I. (Sistema Internacional).
-
-As figuras devem ser centralizadas e referenciadas como Fig. \ref{fig:example} no meio da
-frase ou por Figura \ref{fig:example}, caso apareçam no início. As anotações e numerações
-devem ter tamanhos compatíveis com o da fonte usada no texto, e todas as unidades devem
-ser expressas no S.I. (Sistema Internacional). Cada figura deve ser colocada na posição
-mais próxima possível de sua primeira citação no texto. As legendas das figuras devem ser
-alinhadas à esquerda.
-
-\begin{figure}[h]
-  \begin{center}
-    \includegraphics[width=0.9\columnwidth]{example-image-a}
-  \end{center}
-  \caption{Exemplo de uma figura.}
-  \label{fig:example}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=.7\linewidth]{../report/img/tvc_assembly_right_cropped.jpeg}
+  \caption{Montagem do sistema de vetorização de empuxo.}\label{fig:assembled_system}
 \end{figure}
 
-Figuras coloridas e fotografias de alta qualidade podem ser incluídas no trabalho. É
-recomendável que qualquer figura inserida no trabalho tenha ao menos 90 DPI.
+Na Figura~\ref{fig:data} observam-se as curvas de \(F_y\), paralela ao empuxo, \(F_x\), força lateral causada pelo sistema, e \(M\), momento em relação ao eixo da balança. Observa-se que a posição \(90\;\mathrm{^\circ}\) corresponde à lâmina não defletida. Devido à simetria da geometria, nesta posição seria esperado haver força lateral e momento nulos, o que não ocorreu empiricamente devido à presença da mangueira de alimentação de ar conectada ao motor. Observam-se também flutuações no valor do empuxo, devidos possivelmente ao esvaziamento do reservatório do compressor de ar. Este fenômeno é favorecido pela alta vazão mássica exigida.
 
-\begin{table*}[t]
-  \caption{Resultados experimentais para as propriedades de flexão dos materiais MAT1 and
-  MAT2. Valores médios de obtidos em 20 ensaios.}
-  \label{tab:large}
+Apesar dos problemas descritos, foi possível validar um grande número de hipóteses uteis para aplicações de controle. Por exemplo, verifica-se na Fig.~\ref{fig:data} a linearidade das forças produzidas até aproximadamente \(15\;\mathrm{^\circ}\) de deflexão, o que permite o cálculo das derivadas de controle em relação ao eixo da balança como \(F_{x\delta} = (3,57 \pm 0,05)\times10^{-2} \mathrm{N} / \mathrm{^\circ}\) e \(M_\delta = (-2,29 \pm 0,02)\times10^{-2} \mathrm{N}\;\mathrm{cm} / \mathrm{^\circ}\).
+
+\begin{figure}[htbp]
   \centering
-  \begin{tabular}{ccc}
-    \toprule
-    Propriedades do compósito & CFRC-TWILL & CFRC-4HS \\
-    \midrule
-    Resistência à Flexão (MPa) & $209\pm10$ & $180\pm15$ \\
-    Módulo de Flexão (GPa) & $57\pm3$ & $18\pm1$ \\
-    \bottomrule
-  \end{tabular}
-\end{table*}
+  \includegraphics[width=.7\linewidth]{../report/img/results/exp10_5bar_110_a_70.png}
+  \caption{Dados experimentais de forças e momento em função da deflexão da lâmina defletora.}\label{fig:data}
+\end{figure}
 
-As tabelas devem ser centralizadas e referidas por Tab. \ref{tab:example} no meio da
-frase, ou por Tabela \ref{tab:example} no início de uma sentença. Os títulos das tabelas
-devem ser localizados imediatamente acima da tabela. Anotações e valores numéricos nela
-incluídos devem ter tamanhos compatíveis com o da fonte usada no texto do trabalho, e
-todas as unidades devem ser expressas no S.I. (Sistema Internacional). As unidades são
-incluídas apenas na primeira linha/coluna, conforme for apropriado. As tabelas devem ser
-colocadas tão perto, o quanto possível, de sua primeira citação no texto. O estilo de
-borda da tabela é livre. Exemplos são apresentados na Tab. \ref{tab:example} e na Tab.
-\ref{tab:large}.
+Por fim, foram identificados \textit{trade-offs} de engenharia associados ao sistema. Citam-se, por exemplo, a espessura da lâmina, que afeta o arrasto de onda gerado~\cite{anderson}, reduzindo a eficiência, bem como a distância da tubeira à lâmina, que afeta as derivadas de controle do sistema.
 
-\begin{table}[h]
-  \caption{Propriedades após o processamento.}
-  \label{tab:example}
-  \centering
-  \begin{tabular}{ccc}
-    \toprule
-    Experimento & Prop. 1 (\%) & Prop. 2 (m)\\
-    \midrule
-    Ensaio 1 & $40.0$ & $22.7$ \\
-    Ensaio 2 & $48.4$ & $13.9$ \\
-    \bottomrule
-  \end{tabular}
-\end{table}
+\section{Conclusões e Recomendações}
 
-Referências aceitáveis incluem: artigos de periódicos, dissertações, teses, artigos
-publicados em anais de congressos, ``preprints'', livros e artigos submetidos e aceitos em
-revistas (identificar a fonte). Não citar páginas web, material didáticos, artigos em
-blogs, vídeos ou similares.
+A proposta deste trabalho, de desenvolver um sistema de vetorização de empuxo e caracterizar seu desempenho, foi executada. Desenvolveu-se um istema de vetorização de empuxo com lâmina defletora de gás frio de \(2\;\mathrm{N} \). Este sistema foi caracterizado em relação à perda de empuxo causada pela adição da lâmina defletora e suas derivadas de controle foram obtidas. Apesar do objetivo ter sido atingido, foram encontradas várias dificuldades e fontes de erros experimentais que devem ser abordadas em trabalhos futuros.
 
 \section{Agradecimentos}
 
-Se bolsista, não esquecer de agradecimento à agência de fomento.
-
+Ao professor Leonardo Gouvea pela oportunidade, ao professor Tiago Barbosa por disponibilizar a balança, e aos técnicos Wilson e Newton por sua dedicação, bem como ao João Baldo e Arthur Zoppi pelo auxílio com as impressões 3D.
 % ----------------------------------------------------------
 % Referências bibliográficas
 % ----------------------------------------------------------
