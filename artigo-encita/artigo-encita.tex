@@ -195,6 +195,18 @@ Sendo assim, este trabalho tem por objetivo final caracterizar as derivadas de c
 
 \section{Materiais e métodos}
 
+O sistema propulsivo foi projetado de maneira programática com o auxílio do CEA NASA~\cite{ceanasa} e sua interface programática RocketCEA~\cite{rocketcea}. Foram levantados como requisitos empuxo \(F = 2\;\mathrm{N}\), pressão de câmara \(p_c = 500\;\mathrm{kPa}\), temperatura do propelente \(T_{\mathrm{prop}} = 298,15\;\mathrm{K}\). Estes dados foram inseridos no código desenvolvido para cálculo das áreas das seções transversais de garganta e tubeira. A área da seção transversal da câmara foi escolhida empiricamente.
+
+O motor a gás frio e o sistema de vetorização foram manufaturados em ABS por impressão 3D. Para as medidas de força em função da deflexão da lâmina, foi utilizada a balança de três componentes Plint \& Partners disponível no Laboratório de Engenharia Aeronáutica. Esta balança é capaz de medir \(F_x\), uma força horizontal, \(F_y\), uma força vertical, e \(M\), um momento, através da leitura de três extensômetros visíveis na Fig.~\ref{fig:diag_three_axis_scale}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\linewidth]{../report/img/three_axis_scale_diagram.png}
+  \caption{Diagrama da balança de três componentes.}
+  \label{fig:diag_three_axis_scale}
+\end{figure}
+
+A saída da balança, as forças \(F_A\) (\textit{aft}), \(F_F\) (\textit{fore}) e \(F_D\) (\textit{drag}) em cada extensômetro, podem ser convertidas nas forças horizontal, vertical e no momento atuante com o conhecimento da distância \(d\) entre as componentes \textit{aft} e \textit{fore}~\cite{lab}.
 
 \section{Seções do artigo}
 
